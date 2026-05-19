@@ -253,23 +253,8 @@ function Hero() {
           {heroTiles.map((t, i) => (
             <FloatingTile key={t.label} tile={t} index={i} />
           ))}
-          {/* Mobile fallback: single drifting tile grid */}
-          <div className="md:hidden grid grid-cols-2 gap-3 px-4 pt-8 opacity-70">
-            {heroTiles.slice(0, 4).map((t, i) => (
-              <motion.div
-                key={t.label}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: [0, -8, 0] }}
-                transition={{
-                  opacity: { duration: 0.8, delay: i * 0.1 },
-                  y: { duration: 6 + i, repeat: Infinity, ease: "easeInOut" },
-                }}
-                className="aspect-[4/5] rounded-2xl gradient-mist border border-white/60 flex items-center justify-center"
-              >
-                <ImageIcon className="h-5 w-5 text-primary/50" strokeWidth={1.4} />
-              </motion.div>
-            ))}
-          </div>
+          {/* Mobile: vertical scrolling collage */}
+          <MobileScrollingCollage />
         </div>
 
         {/* Centered focal content — compact, not the giant headline anymore */}
