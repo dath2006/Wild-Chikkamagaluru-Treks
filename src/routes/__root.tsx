@@ -7,6 +7,10 @@ import {
   HeadContent,
   Scripts,
 } from "@tanstack/react-router";
+import { ReactLenis, type LenisRef } from "lenis/react";
+import { cancelFrame, frame } from "motion/react";
+import { useEffect, useRef } from "react";
+import "lenis/dist/lenis.css";
 
 import appCss from "../styles.css?url";
 
@@ -72,17 +76,18 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Chikkamagaluru Mountain Trek — Soulful Treks in the Western Ghats" },
+      { title: "Wild Chikkamagaluru Treks — Soulful Treks in the Western Ghats" },
       {
         name: "description",
         content:
           "Soulful, affordable treks across Chikkamagaluru's misty peaks — Mullayanagiri, Kudremukh, Netravati and more. Led by Sushanth Gowda.",
       },
-      { name: "author", content: "Chikkamagaluru Mountain Trek" },
-      { property: "og:title", content: "Chikkamagaluru Mountain Trek" },
+      { name: "author", content: "Wild Chikkamagaluru Treks" },
+      { property: "og:title", content: "Wild Chikkamagaluru Treks" },
       {
         property: "og:description",
-        content: "Explore. Trek. Discover. Feel Alive. Authentic guided treks in the Western Ghats.",
+        content:
+          "Explore. Trek. Discover. Feel Alive. Authentic guided treks in the Western Ghats.",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
@@ -117,12 +122,33 @@ function RootShell({ children }: { children: React.ReactNode }) {
   );
 }
 
+function SmoothScroll({ children }: { children: React.ReactNode }) {
+  const lenisRef = useRef<LenisRef>(null);
+
+  useEffect(() => {
+    function update(data: { timestamp: number }) {
+      lenisRef.current?.lenis?.raf(data.timestamp);
+    }
+
+    frame.update(update, true);
+    return () => cancelFrame(update);
+  }, []);
+
+  return (
+    <ReactLenis root options={{ autoRaf: false }} ref={lenisRef}>
+      {children}
+    </ReactLenis>
+  );
+}
+
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
 
   return (
     <QueryClientProvider client={queryClient}>
-      <Outlet />
+      <SmoothScroll>
+        <Outlet />
+      </SmoothScroll>
     </QueryClientProvider>
   );
 }

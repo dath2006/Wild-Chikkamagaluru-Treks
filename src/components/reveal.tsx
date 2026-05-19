@@ -51,12 +51,14 @@ export function RevealText({
   className,
   delay = 0,
   stagger = 0.05,
+  gradient = false,
 }: {
   text: string;
   as?: keyof React.JSX.IntrinsicElements;
   className?: string;
   delay?: number;
   stagger?: number;
+  gradient?: boolean;
 }) {
   const reduce = useReducedMotion();
   const words = text.split(" ");
@@ -86,7 +88,22 @@ export function RevealText({
     >
       {words.map((w, i) => (
         <span key={i} className="inline-block overflow-hidden align-bottom pb-[0.05em]">
-          <motion.span variants={child} className="inline-block will-change-transform">
+          <motion.span
+            variants={child}
+            className="inline-block will-change-transform"
+            style={
+              gradient
+                ? {
+                    background:
+                      "linear-gradient(135deg, oklch(0.42 0.09 155), oklch(0.55 0.12 175), oklch(0.62 0.15 55))",
+                    WebkitBackgroundClip: "text",
+                    backgroundClip: "text",
+                    WebkitTextFillColor: "transparent",
+                    color: "transparent",
+                  }
+                : undefined
+            }
+          >
             {w}
             {i < words.length - 1 ? "\u00A0" : ""}
           </motion.span>
