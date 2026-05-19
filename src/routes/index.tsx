@@ -374,17 +374,21 @@ function Hero() {
 
 function About() {
   return (
-    <section id="about" className="relative py-28 px-4">
+    <SectionReveal id="about" className="relative py-28 px-4">
       <div className="mx-auto max-w-6xl">
-        <motion.div {...fadeUp} className="max-w-3xl">
-          <span className="text-xs uppercase tracking-[0.2em] text-primary/70">Our Story</span>
-          <h2 className="mt-3 font-serif text-4xl sm:text-5xl text-primary leading-tight">
-            Not just another trekking group — a way of life.
-          </h2>
-        </motion.div>
+        <div className="max-w-3xl">
+          <RevealBlock>
+            <span className="text-xs uppercase tracking-[0.2em] text-primary/70">Our Story</span>
+          </RevealBlock>
+          <RevealText
+            as="h2"
+            text="Not just another trekking group — a way of life."
+            className="mt-3 font-serif text-4xl sm:text-5xl text-primary leading-tight"
+          />
+        </div>
 
         <div className="mt-14 grid gap-10 md:grid-cols-2 md:gap-16 items-center">
-          <motion.div {...fadeUp} className="space-y-5 text-foreground/80 leading-relaxed">
+          <RevealBlock className="space-y-5 text-foreground/80 leading-relaxed" delay={0.1}>
             <p>
               Chikkamagaluru Mountain Trek is a journey into the heart of the Western Ghats, where
               misty mountains, lush green forests, and hidden waterfalls await those who seek real
@@ -401,13 +405,15 @@ function About() {
               Every trek is carefully planned and guided — from the mighty peaks of Kudremukh and
               Netravati to serene forests and secret trails known only to locals.
             </p>
-          </motion.div>
+          </RevealBlock>
 
-          <MediaPlaceholder
-            aspect="portrait"
-            label="Forest trail photograph"
-            hint="A vertical image of a misty forest path or canopy"
-          />
+          <RevealImage>
+            <MediaPlaceholder
+              aspect="portrait"
+              label="Forest trail photograph"
+              hint="A vertical image of a misty forest path or canopy"
+            />
+          </RevealImage>
         </div>
 
         <div className="mt-20 grid gap-6 md:grid-cols-3">
@@ -428,20 +434,15 @@ function About() {
               body: "We protect the forests and peaks we love. Respect is part of every trek.",
             },
           ].map((f, i) => (
-            <motion.div
-              key={f.title}
-              {...fadeUp}
-              transition={{ duration: 0.7, delay: i * 0.1 }}
-              className="glass rounded-3xl p-7"
-            >
+            <RevealBlock key={f.title} delay={i * 0.12} className="glass rounded-3xl p-7">
               <f.icon className="h-6 w-6 text-primary" strokeWidth={1.6} />
               <h3 className="mt-4 font-serif text-xl text-primary">{f.title}</h3>
               <p className="mt-2 text-sm text-muted-foreground leading-relaxed">{f.body}</p>
-            </motion.div>
+            </RevealBlock>
           ))}
         </div>
       </div>
-    </section>
+    </SectionReveal>
   );
 }
 
