@@ -280,8 +280,13 @@ function WordMarquee() {
 }
 
 function Hero() {
+  const heroRef = useRef<HTMLElement | null>(null);
+  const { scrollYProgress } = useScroll({
+    target: heroRef,
+    offset: ["start start", "end start"],
+  });
   return (
-    <section id="top" className="relative overflow-hidden">
+    <section id="top" ref={heroRef} className="relative overflow-hidden">
       {/* Stage with floating photo/video tiles */}
       <div className="relative h-[100vh] min-h-[680px] w-full pt-24">
         {/* ambient blobs */}
@@ -293,10 +298,10 @@ function Hero() {
         {/* Floating tiles layer */}
         <div className="absolute inset-0 overflow-hidden">
           {heroTiles.map((t, i) => (
-            <FloatingTile key={t.label} tile={t} index={i} />
+            <FloatingTile key={t.label} tile={t} index={i} scrollY={scrollYProgress} />
           ))}
           {/* Mobile: vertical scrolling collage */}
-          <MobileScrollingCollage />
+          <MobileScrollingCollage scrollY={scrollYProgress} />
         </div>
 
         {/* Centered focal content — compact, not the giant headline anymore */}
