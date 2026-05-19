@@ -578,46 +578,71 @@ function Treks() {
 }
 
 function Gallery() {
+  const items: {
+    aspect: "square" | "video";
+    variant?: "image" | "video";
+    className: string;
+    label: string;
+    hint?: string;
+  }[] = [
+    { aspect: "square", className: "sm:col-span-2", label: "Landscape photo" },
+    { aspect: "video", variant: "video", className: "sm:col-span-4", label: "Trek video", hint: "Short cinematic clip of a trail or summit" },
+    { aspect: "video", className: "sm:col-span-3", label: "Sunrise / sunset photo" },
+    { aspect: "video", className: "sm:col-span-3", label: "Group at summit" },
+  ];
   return (
-    <section id="gallery" className="relative py-28 px-4">
+    <SectionReveal id="gallery" className="relative py-28 px-4">
       <div className="mx-auto max-w-6xl">
-        <motion.div {...fadeUp} className="max-w-3xl">
-          <span className="text-xs uppercase tracking-[0.2em] text-primary/70">Gallery</span>
-          <h2 className="mt-3 font-serif text-4xl sm:text-5xl text-primary leading-tight">
-            Moments from the mountains.
-          </h2>
-          <p className="mt-4 text-muted-foreground">
-            Photos and videos coming soon — replace the placeholders below with shots from your
-            own treks.
-          </p>
-        </motion.div>
+        <div className="max-w-3xl">
+          <RevealBlock>
+            <span className="text-xs uppercase tracking-[0.2em] text-primary/70">Gallery</span>
+          </RevealBlock>
+          <RevealText
+            as="h2"
+            text="Moments from the mountains."
+            className="mt-3 font-serif text-4xl sm:text-5xl text-primary leading-tight"
+          />
+          <RevealBlock delay={0.15}>
+            <p className="mt-4 text-muted-foreground">
+              Photos and videos coming soon — replace the placeholders below with shots from your
+              own treks.
+            </p>
+          </RevealBlock>
+        </div>
 
         <div className="mt-12 grid gap-4 sm:grid-cols-6 grid-rows-2">
-          <MediaPlaceholder aspect="square" className="sm:col-span-2" label="Landscape photo" />
-          <MediaPlaceholder aspect="video" variant="video" className="sm:col-span-4" label="Trek video" hint="Short cinematic clip of a trail or summit" />
-          <MediaPlaceholder aspect="video" className="sm:col-span-3" label="Sunrise / sunset photo" />
-          <MediaPlaceholder aspect="video" className="sm:col-span-3" label="Group at summit" />
+          {items.map((it, i) => (
+            <RevealImage key={i} className={it.className}>
+              <MediaPlaceholder aspect={it.aspect} variant={it.variant} label={it.label} hint={it.hint} />
+            </RevealImage>
+          ))}
         </div>
       </div>
-    </section>
+    </SectionReveal>
   );
 }
 
 function Stay() {
   return (
-    <section id="stay" className="relative py-28 px-4">
+    <SectionReveal id="stay" className="relative py-28 px-4">
       <div className="mx-auto max-w-6xl">
-        <motion.div {...fadeUp} className="max-w-3xl">
-          <span className="text-xs uppercase tracking-[0.2em] text-primary/70">Where to stay</span>
-          <h2 className="mt-3 font-serif text-4xl sm:text-5xl text-primary leading-tight">
-            Rest where the hills sing.
-          </h2>
-          <p className="mt-4 text-muted-foreground">
-            Chikkamagaluru welcomes every budget — from high-end resorts to warm, family-run
-            homestays. The most memorable way to stay is with a local family, sharing meals and
-            stories of the land.
-          </p>
-        </motion.div>
+        <div className="max-w-3xl">
+          <RevealBlock>
+            <span className="text-xs uppercase tracking-[0.2em] text-primary/70">Where to stay</span>
+          </RevealBlock>
+          <RevealText
+            as="h2"
+            text="Rest where the hills sing."
+            className="mt-3 font-serif text-4xl sm:text-5xl text-primary leading-tight"
+          />
+          <RevealBlock delay={0.15}>
+            <p className="mt-4 text-muted-foreground">
+              Chikkamagaluru welcomes every budget — from high-end resorts to warm, family-run
+              homestays. The most memorable way to stay is with a local family, sharing meals and
+              stories of the land.
+            </p>
+          </RevealBlock>
+        </div>
 
         <div className="mt-12 grid gap-6 md:grid-cols-3">
           {[
@@ -638,12 +663,7 @@ function Stay() {
               body: "Comfortable mid-range and luxury options for those who prefer modern amenities.",
             },
           ].map((s, i) => (
-            <motion.div
-              key={s.title}
-              {...fadeUp}
-              transition={{ duration: 0.7, delay: i * 0.1 }}
-              className="glass rounded-3xl p-7 relative"
-            >
+            <RevealBlock key={s.title} delay={i * 0.12} className="glass rounded-3xl p-7 relative">
               {s.tag && (
                 <span className="absolute top-5 right-5 rounded-full bg-accent/40 px-3 py-1 text-[10px] uppercase tracking-wider text-primary">
                   {s.tag}
@@ -652,31 +672,30 @@ function Stay() {
               <s.icon className="h-6 w-6 text-primary" strokeWidth={1.6} />
               <h3 className="mt-4 font-serif text-xl text-primary">{s.title}</h3>
               <p className="mt-2 text-sm text-muted-foreground leading-relaxed">{s.body}</p>
-            </motion.div>
+            </RevealBlock>
           ))}
         </div>
       </div>
-    </section>
+    </SectionReveal>
   );
 }
 
 function Contact() {
   return (
-    <section id="contact" className="relative py-28 px-4">
+    <SectionReveal id="contact" className="relative py-28 px-4">
       <div className="mx-auto max-w-5xl">
-        <motion.div
-          {...fadeUp}
-          className="relative overflow-hidden rounded-[2.5rem] p-10 sm:p-16 text-center"
-        >
+        <RevealBlock className="relative overflow-hidden rounded-[2.5rem] p-10 sm:p-16 text-center">
           <div className="absolute inset-0 -z-10 bg-gradient-to-br from-[oklch(0.42_0.08_155)] via-[oklch(0.45_0.07_175)] to-[oklch(0.5_0.09_140)]" />
           <div className="absolute inset-0 -z-10 opacity-30 bg-[radial-gradient(circle_at_20%_20%,white,transparent_40%),radial-gradient(circle_at_80%_80%,white,transparent_40%)]" />
 
           <span className="text-xs uppercase tracking-[0.25em] text-white/70">
             Your call to adventure
           </span>
-          <h2 className="mt-4 font-serif text-4xl sm:text-6xl text-white leading-tight">
-            Ready to feel alive?
-          </h2>
+          <RevealText
+            as="h2"
+            text="Ready to feel alive?"
+            className="mt-4 font-serif text-4xl sm:text-6xl text-white leading-tight"
+          />
           <p className="mt-5 max-w-xl mx-auto text-white/80">
             Let's plan your escape into the wild. Reach out — we'll craft a journey that fits you.
           </p>
@@ -703,9 +722,9 @@ function Contact() {
           <p className="mt-10 font-serif italic text-white/80 text-lg">
             🌿 Explore. Trek. Discover. Feel Alive.
           </p>
-        </motion.div>
+        </RevealBlock>
       </div>
-    </section>
+    </SectionReveal>
   );
 }
 
