@@ -448,37 +448,45 @@ function About() {
 
 function Founder() {
   return (
-    <section className="relative py-28 px-4">
+    <SectionReveal className="relative py-28 px-4">
       <div className="mx-auto max-w-6xl grid gap-12 md:grid-cols-[1fr_1.2fr] items-center">
-        <MediaPlaceholder
-          aspect="portrait"
-          label="Portrait of Sushanth Gowda"
-          hint="A warm portrait of the founder on a trail"
-        />
-        <motion.div {...fadeUp}>
-          <span className="text-xs uppercase tracking-[0.2em] text-primary/70">Led by passion</span>
-          <h2 className="mt-3 font-serif text-4xl sm:text-5xl text-primary leading-tight">
-            Sushanth Gowda
-          </h2>
-          <p className="mt-2 text-sm text-muted-foreground">Founder & Lead Guide</p>
-          <p className="mt-6 text-foreground/80 leading-relaxed">
-            A passionate trekker with years of experience in the Chikkamagaluru region, Sushanth
-            personally leads most treks. His goal isn't only to guide — it's to build a community
-            of nature lovers who respect and preserve our forests and mountains.
-          </p>
-          <p className="mt-4 text-foreground/80 leading-relaxed">
-            Every visitor leaves with more than photographs — they leave with a deeper connection
-            to the land.
-          </p>
-          <div className="mt-6 flex items-center gap-2 text-sm text-primary">
-            <Sparkles className="h-4 w-4" />
-            <span className="italic font-serif text-base">
-              "Nature is not a destination — it's a way of life."
-            </span>
-          </div>
-        </motion.div>
+        <RevealImage>
+          <MediaPlaceholder
+            aspect="portrait"
+            label="Portrait of Sushanth Gowda"
+            hint="A warm portrait of the founder on a trail"
+          />
+        </RevealImage>
+        <div>
+          <RevealBlock>
+            <span className="text-xs uppercase tracking-[0.2em] text-primary/70">Led by passion</span>
+          </RevealBlock>
+          <RevealText
+            as="h2"
+            text="Sushanth Gowda"
+            className="mt-3 font-serif text-4xl sm:text-5xl text-primary leading-tight"
+          />
+          <RevealBlock delay={0.1}>
+            <p className="mt-2 text-sm text-muted-foreground">Founder & Lead Guide</p>
+            <p className="mt-6 text-foreground/80 leading-relaxed">
+              A passionate trekker with years of experience in the Chikkamagaluru region, Sushanth
+              personally leads most treks. His goal isn't only to guide — it's to build a community
+              of nature lovers who respect and preserve our forests and mountains.
+            </p>
+            <p className="mt-4 text-foreground/80 leading-relaxed">
+              Every visitor leaves with more than photographs — they leave with a deeper connection
+              to the land.
+            </p>
+            <div className="mt-6 flex items-center gap-2 text-sm text-primary">
+              <Sparkles className="h-4 w-4" />
+              <span className="italic font-serif text-base">
+                "Nature is not a destination — it's a way of life."
+              </span>
+            </div>
+          </RevealBlock>
+        </div>
       </div>
-    </section>
+    </SectionReveal>
   );
 }
 
