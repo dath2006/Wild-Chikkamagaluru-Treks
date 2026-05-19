@@ -189,16 +189,26 @@ function FloatingTile({
 }
 
 // Mobile: two vertical scrolling columns of tiles, opposite directions
-function MobileScrollingCollage() {
+function MobileScrollingCollage({ scrollY }: { scrollY: MotionValue<number> }) {
+  const reduce = useReducedMotion();
   const colA = [...mediaPool, ...mediaPool];
   const colB = [...mediaPool.slice(3), ...mediaPool, ...mediaPool.slice(0, 3)];
+  // Subtle scroll-driven parallax on the whole collage
+  const parallax = useTransform(scrollY, [0, 1], [0, 80]);
   return (
-    <div className="md:hidden absolute inset-0 grid grid-cols-2 gap-3 px-4 pt-6 overflow-hidden [mask-image:linear-gradient(to_bottom,transparent,black_15%,black_85%,transparent)]">
+    <motion.div
+      style={{ y: reduce ? 0 : parallax }}
+      className="md:hidden absolute inset-0 grid grid-cols-2 gap-3 px-4 pt-6 overflow-hidden [mask-image:linear-gradient(to_bottom,transparent,black_15%,black_85%,transparent)]"
+    >
       {[colA, colB].map((col, ci) => (
         <div key={ci} className="relative overflow-hidden">
           <motion.div
-            animate={{ y: ci === 0 ? ["0%", "-50%"] : ["-50%", "0%"] }}
-            transition={{ duration: 28 + ci * 6, repeat: Infinity, ease: "linear" }}
+            animate={reduce ? undefined : { y: ci === 0 ? ["0%", "-50%"] : ["-50%", "0%"] }}
+            transition={
+              reduce
+                ? undefined
+                : { duration: 28 + ci * 6, repeat: Infinity, ease: "linear" }
+            }
             className="flex flex-col gap-3"
           >
             {col.map((item, i) => {
@@ -230,7 +240,7 @@ function MobileScrollingCollage() {
           </motion.div>
         </div>
       ))}
-    </div>
+    </motion.div>
   );
 }
 
