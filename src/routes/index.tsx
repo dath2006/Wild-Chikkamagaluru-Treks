@@ -246,6 +246,7 @@ function MobileScrollingCollage({ scrollY }: { scrollY: MotionValue<number> }) {
 
 // Marquee word ticker
 function WordMarquee() {
+  const reduce = useReducedMotion();
   const words = [
     "Mullayanagiri",
     "Kudremukh",
@@ -260,8 +261,8 @@ function WordMarquee() {
   return (
     <div className="relative overflow-hidden py-3 border-y border-primary/10 bg-white/30 backdrop-blur-sm">
       <motion.div
-        animate={{ x: ["0%", "-50%"] }}
-        transition={{ duration: 40, repeat: Infinity, ease: "linear" }}
+        animate={reduce ? undefined : { x: ["0%", "-50%"] }}
+        transition={reduce ? undefined : { duration: 40, repeat: Infinity, ease: "linear" }}
         className="flex gap-10 whitespace-nowrap"
       >
         {loop.map((w, i) => (
