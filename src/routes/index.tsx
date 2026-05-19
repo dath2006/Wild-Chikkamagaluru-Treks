@@ -270,13 +270,8 @@ function Hero() {
               Western Ghats · Karnataka
             </div>
 
-            {/* Stamp-style focal mark instead of giant H1 */}
+            {/* Stamp-style focal mark */}
             <div className="relative mt-8 flex items-center justify-center">
-              <motion.div
-                animate={{ rotate: 360 }}
-                transition={{ duration: 40, repeat: Infinity, ease: "linear" }}
-                className="absolute inset-0 -m-6 rounded-full border border-dashed border-primary/30"
-              />
               <div className="glass rounded-full px-6 py-3 flex items-center gap-3 shadow-[0_15px_50px_-20px_oklch(0.42_0.07_155_/_0.5)]">
                 <Mountain className="h-5 w-5 text-primary" strokeWidth={1.6} />
                 <span className="font-serif text-lg sm:text-xl text-primary">
