@@ -85,26 +85,30 @@ const heroTiles: Tile[] = [
 ];
 
 function TileContent({ seed }: { seed: number }) {
+  const reduce = useReducedMotion();
   const [idx, setIdx] = useState(seed % mediaPool.length);
   useEffect(() => {
+    if (reduce) return;
     const t = setInterval(() => {
       setIdx((i) => (i + 1 + Math.floor(Math.random() * (mediaPool.length - 1))) % mediaPool.length);
-    }, 3200 + seed * 450);
+    }, 3600 + seed * 450);
     return () => clearInterval(t);
-  }, [seed]);
+  }, [seed, reduce]);
   const item = mediaPool[idx];
   const Icon = item.variant === "video" ? PlayCircle : ImageIcon;
-  // Vary the gradient subtly based on idx
   const hue1 = 150 + (idx * 7) % 40;
   const hue2 = 170 + (idx * 11) % 30;
   return (
-    <AnimatePresence mode="wait">
+    <AnimatePresence mode="sync" initial={false}>
       <motion.div
         key={idx}
-        initial={{ opacity: 0, scale: 1.05 }}
+        initial={{ opacity: 0, scale: reduce ? 1 : 1.04 }}
         animate={{ opacity: 1, scale: 1 }}
-        exit={{ opacity: 0, scale: 0.97 }}
-        transition={{ duration: 1.1, ease: [0.22, 1, 0.36, 1] }}
+        exit={{ opacity: 0, scale: reduce ? 1 : 0.98 }}
+        transition={{
+          opacity: { duration: reduce ? 0 : 1.6, ease: [0.4, 0, 0.2, 1] },
+          scale: { duration: reduce ? 0 : 1.8, ease: [0.22, 1, 0.36, 1] },
+        }}
         className="absolute inset-0"
       >
         <div
@@ -126,37 +130,57 @@ function TileContent({ seed }: { seed: number }) {
   );
 }
 
-function FloatingTile({ tile, index }: { tile: Tile; index: number }) {
+function FloatingTile({
+  tile,
+  index,
+  scrollY,
+}: {
+  tile: Tile;
+  index: number;
+  scrollY: MotionValue<number>;
+}) {
+  const reduce = useReducedMotion();
+  // Parallax depth varies by z and index — deeper tiles move slower
+  const depth = tile.z === 2 ? 120 : 200;
+  const direction = index % 2 === 0 ? 1 : -1;
+  const parallaxY = useTransform(scrollY, [0, 1], [0, depth * direction]);
   return (
     <motion.div
       initial={{ opacity: 0, scale: 0.85, y: 30, rotate: tile.rotate }}
-      animate={{
-        opacity: 1,
-        scale: 1,
-        y: [0, -tile.yRange, 0],
-        x: [0, tile.xRange, 0],
-        rotate: [tile.rotate, tile.rotate + 1.5, tile.rotate],
-      }}
-      transition={{
-        opacity: { duration: 1.2, delay: tile.delay },
-        scale: { duration: 1.2, delay: tile.delay, ease: [0.22, 1, 0.36, 1] },
-        y: { duration: tile.duration, repeat: Infinity, ease: "easeInOut", delay: tile.delay },
-        x: { duration: tile.duration * 1.3, repeat: Infinity, ease: "easeInOut", delay: tile.delay },
-        rotate: { duration: tile.duration * 1.5, repeat: Infinity, ease: "easeInOut", delay: tile.delay },
-      }}
+      animate={
+        reduce
+          ? { opacity: 1, scale: 1, y: 0, rotate: tile.rotate }
+          : {
+              opacity: 1,
+              scale: 1,
+              y: [0, -tile.yRange, 0],
+              x: [0, tile.xRange, 0],
+              rotate: [tile.rotate, tile.rotate + 1.5, tile.rotate],
+            }
+      }
+      transition={
+        reduce
+          ? { duration: 0.6, delay: tile.delay }
+          : {
+              opacity: { duration: 1.2, delay: tile.delay },
+              scale: { duration: 1.2, delay: tile.delay, ease: [0.22, 1, 0.36, 1] },
+              y: { duration: tile.duration, repeat: Infinity, ease: "easeInOut", delay: tile.delay },
+              x: { duration: tile.duration * 1.3, repeat: Infinity, ease: "easeInOut", delay: tile.delay },
+              rotate: { duration: tile.duration * 1.5, repeat: Infinity, ease: "easeInOut", delay: tile.delay },
+            }
+      }
       style={{
         top: tile.top,
         left: tile.left,
         width: tile.w,
         height: tile.h,
         zIndex: tile.z,
+        translateY: reduce ? 0 : parallaxY,
       }}
       className="absolute hidden md:block rounded-3xl overflow-hidden border border-white/60 shadow-[0_20px_60px_-25px_oklch(0.42_0.07_155_/_0.45)] gradient-mist"
     >
       <TileContent seed={index} />
-      {/* soft inner ring */}
       <div className="pointer-events-none absolute inset-0 rounded-3xl ring-1 ring-inset ring-white/50" />
-      {/* tiny index marker */}
       <span className="absolute top-3 left-3 text-[9px] font-mono text-primary/50 z-10">
         0{index + 1}
       </span>
