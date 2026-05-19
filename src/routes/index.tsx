@@ -492,36 +492,44 @@ function Founder() {
 
 function Treks() {
   return (
-    <section id="treks" className="relative py-28 px-4">
+    <SectionReveal id="treks" className="relative py-28 px-4">
       <div className="mx-auto max-w-6xl">
-        <motion.div {...fadeUp} className="max-w-3xl">
-          <span className="text-xs uppercase tracking-[0.2em] text-primary/70">Trek highlights</span>
-          <h2 className="mt-3 font-serif text-4xl sm:text-5xl text-primary leading-tight">
-            Chikkamagaluru's most beautiful trails.
-          </h2>
-          <p className="mt-4 text-muted-foreground">
-            From iconic summits to hidden waterfalls — each route is crafted for safety, wonder,
-            and a deep connection with the wild.
-          </p>
-        </motion.div>
+        <div className="max-w-3xl">
+          <RevealBlock>
+            <span className="text-xs uppercase tracking-[0.2em] text-primary/70">Trek highlights</span>
+          </RevealBlock>
+          <RevealText
+            as="h2"
+            text="Chikkamagaluru's most beautiful trails."
+            className="mt-3 font-serif text-4xl sm:text-5xl text-primary leading-tight"
+          />
+          <RevealBlock delay={0.15}>
+            <p className="mt-4 text-muted-foreground">
+              From iconic summits to hidden waterfalls — each route is crafted for safety, wonder,
+              and a deep connection with the wild.
+            </p>
+          </RevealBlock>
+        </div>
 
         <div className="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {treks.map((t, i) => (
             <motion.article
               key={t.name}
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
+              initial={{ opacity: 0, y: 40, scale: 0.96 }}
+              whileInView={{ opacity: 1, y: 0, scale: 1 }}
               viewport={{ once: true, margin: "-60px" }}
-              transition={{ duration: 0.6, delay: (i % 3) * 0.1, ease: [0.22, 1, 0.36, 1] }}
-              whileHover={{ y: -6 }}
+              transition={{ duration: 0.7, delay: (i % 3) * 0.12, ease: [0.22, 1, 0.36, 1] }}
+              whileHover={{ y: -8 }}
               className="group glass rounded-3xl overflow-hidden flex flex-col"
             >
-              <MediaPlaceholder
-                aspect="video"
-                label={`${t.name} photo`}
-                hint="Trek summit, trail or landscape image"
-                className="rounded-none rounded-t-3xl border-0"
-              />
+              <RevealImage>
+                <MediaPlaceholder
+                  aspect="video"
+                  label={`${t.name} photo`}
+                  hint="Trek summit, trail or landscape image"
+                  className="rounded-none rounded-t-3xl border-0"
+                />
+              </RevealImage>
               <div className="p-6 flex-1 flex flex-col">
                 <div className="flex items-start justify-between gap-3">
                   <h3 className="font-serif text-2xl text-primary">{t.name}</h3>
@@ -549,10 +557,7 @@ function Treks() {
           ))}
         </div>
 
-        <motion.div
-          {...fadeUp}
-          className="mt-14 glass rounded-3xl p-8 sm:p-10 flex flex-col md:flex-row items-start md:items-center justify-between gap-6"
-        >
+        <RevealBlock className="mt-14 glass rounded-3xl p-8 sm:p-10 flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
           <div>
             <h3 className="font-serif text-2xl sm:text-3xl text-primary">Custom treks, your way.</h3>
             <p className="mt-2 text-muted-foreground max-w-xl">
@@ -566,9 +571,9 @@ function Treks() {
           >
             Plan with us <ArrowRight className="h-4 w-4" />
           </a>
-        </motion.div>
+        </RevealBlock>
       </div>
-    </section>
+    </SectionReveal>
   );
 }
 
