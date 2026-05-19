@@ -1,5 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { motion } from "motion/react";
+import { motion, AnimatePresence } from "motion/react";
+import { useEffect, useState } from "react";
 import {
   Mountain,
   Leaf,
@@ -51,6 +52,22 @@ type Tile = {
   z: number;
 };
 
+// Pool of media captions the tiles cycle through
+const mediaPool: { label: string; variant: "image" | "video" }[] = [
+  { label: "Mullayanagiri sunrise", variant: "image" },
+  { label: "Kudremukh ridge", variant: "image" },
+  { label: "Hebbe falls", variant: "video" },
+  { label: "Trail through mist", variant: "image" },
+  { label: "Coffee estate", variant: "image" },
+  { label: "Summit camp", variant: "video" },
+  { label: "Baba Budangiri", variant: "image" },
+  { label: "Z-Point dusk", variant: "image" },
+  { label: "Netravati ridge", variant: "video" },
+  { label: "Shola forest", variant: "image" },
+  { label: "Bhadra backwaters", variant: "image" },
+  { label: "Kemmangundi vista", variant: "video" },
+];
+
 const heroTiles: Tile[] = [
   { label: "Mullayanagiri sunrise", variant: "image", top: "6%",  left: "4%",  w: "18rem", h: "12rem", rotate: -6, delay: 0,   duration: 9,  yRange: 18, xRange: 8,  z: 1 },
   { label: "Kudremukh ridge",       variant: "image", top: "12%", left: "72%", w: "16rem", h: "20rem", rotate: 5,  delay: 0.4, duration: 11, yRange: 22, xRange: 10, z: 2 },
@@ -60,8 +77,49 @@ const heroTiles: Tile[] = [
   { label: "Summit camp",           variant: "video", top: "78%", left: "44%", w: "13rem", h: "9rem",  rotate: 3,  delay: 0.6, duration: 10, yRange: 12, xRange: 10, z: 1 },
 ];
 
+function TileContent({ seed }: { seed: number }) {
+  const [idx, setIdx] = useState(seed % mediaPool.length);
+  useEffect(() => {
+    const t = setInterval(() => {
+      setIdx((i) => (i + 1 + Math.floor(Math.random() * (mediaPool.length - 1))) % mediaPool.length);
+    }, 3200 + seed * 450);
+    return () => clearInterval(t);
+  }, [seed]);
+  const item = mediaPool[idx];
+  const Icon = item.variant === "video" ? PlayCircle : ImageIcon;
+  // Vary the gradient subtly based on idx
+  const hue1 = 150 + (idx * 7) % 40;
+  const hue2 = 170 + (idx * 11) % 30;
+  return (
+    <AnimatePresence mode="wait">
+      <motion.div
+        key={idx}
+        initial={{ opacity: 0, scale: 1.05 }}
+        animate={{ opacity: 1, scale: 1 }}
+        exit={{ opacity: 0, scale: 0.97 }}
+        transition={{ duration: 1.1, ease: [0.22, 1, 0.36, 1] }}
+        className="absolute inset-0"
+      >
+        <div
+          className="absolute inset-0"
+          style={{
+            background: `radial-gradient(circle at 30% 20%, oklch(0.85 0.09 ${hue1} / 0.6), transparent 60%), radial-gradient(circle at 80% 80%, oklch(0.85 0.07 ${hue2} / 0.55), transparent 60%)`,
+          }}
+        />
+        <div className="absolute inset-0 flex flex-col items-center justify-center gap-2 text-primary/70">
+          <div className="rounded-full bg-white/70 p-2.5 backdrop-blur shadow-sm">
+            <Icon className="h-5 w-5" strokeWidth={1.4} />
+          </div>
+          <p className="text-[10px] uppercase tracking-[0.18em] text-primary/60 px-3 text-center">
+            {item.label}
+          </p>
+        </div>
+      </motion.div>
+    </AnimatePresence>
+  );
+}
+
 function FloatingTile({ tile, index }: { tile: Tile; index: number }) {
-  const Icon = tile.variant === "video" ? PlayCircle : ImageIcon;
   return (
     <motion.div
       initial={{ opacity: 0, scale: 0.85, y: 30, rotate: tile.rotate }}
@@ -88,22 +146,60 @@ function FloatingTile({ tile, index }: { tile: Tile; index: number }) {
       }}
       className="absolute hidden md:block rounded-3xl overflow-hidden border border-white/60 shadow-[0_20px_60px_-25px_oklch(0.42_0.07_155_/_0.45)] gradient-mist"
     >
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_20%,oklch(0.85_0.09_160_/_0.55),transparent_60%),radial-gradient(circle_at_80%_80%,oklch(0.85_0.07_180_/_0.5),transparent_60%)]" />
-      <div className="absolute inset-0 flex flex-col items-center justify-center gap-2 text-primary/70">
-        <div className="rounded-full bg-white/70 p-2.5 backdrop-blur shadow-sm">
-          <Icon className="h-5 w-5" strokeWidth={1.4} />
-        </div>
-        <p className="text-[10px] uppercase tracking-[0.18em] text-primary/60 px-3 text-center">
-          {tile.label}
-        </p>
-      </div>
+      <TileContent seed={index} />
       {/* soft inner ring */}
       <div className="pointer-events-none absolute inset-0 rounded-3xl ring-1 ring-inset ring-white/50" />
       {/* tiny index marker */}
-      <span className="absolute top-3 left-3 text-[9px] font-mono text-primary/50">
+      <span className="absolute top-3 left-3 text-[9px] font-mono text-primary/50 z-10">
         0{index + 1}
       </span>
     </motion.div>
+  );
+}
+
+// Mobile: two vertical scrolling columns of tiles, opposite directions
+function MobileScrollingCollage() {
+  const colA = [...mediaPool, ...mediaPool];
+  const colB = [...mediaPool.slice(3), ...mediaPool, ...mediaPool.slice(0, 3)];
+  return (
+    <div className="md:hidden absolute inset-0 grid grid-cols-2 gap-3 px-4 pt-6 overflow-hidden [mask-image:linear-gradient(to_bottom,transparent,black_15%,black_85%,transparent)]">
+      {[colA, colB].map((col, ci) => (
+        <div key={ci} className="relative overflow-hidden">
+          <motion.div
+            animate={{ y: ci === 0 ? ["0%", "-50%"] : ["-50%", "0%"] }}
+            transition={{ duration: 28 + ci * 6, repeat: Infinity, ease: "linear" }}
+            className="flex flex-col gap-3"
+          >
+            {col.map((item, i) => {
+              const Icon = item.variant === "video" ? PlayCircle : ImageIcon;
+              const hue1 = 150 + (i * 9) % 40;
+              const hue2 = 170 + (i * 13) % 30;
+              return (
+                <div
+                  key={`${ci}-${i}`}
+                  className="relative aspect-[4/5] rounded-2xl overflow-hidden border border-white/60 gradient-mist shadow-[0_15px_40px_-20px_oklch(0.42_0.07_155_/_0.4)]"
+                >
+                  <div
+                    className="absolute inset-0"
+                    style={{
+                      background: `radial-gradient(circle at 30% 20%, oklch(0.85 0.09 ${hue1} / 0.6), transparent 60%), radial-gradient(circle at 80% 80%, oklch(0.85 0.07 ${hue2} / 0.55), transparent 60%)`,
+                    }}
+                  />
+                  <div className="absolute inset-0 flex flex-col items-center justify-center gap-1.5 text-primary/70">
+                    <div className="rounded-full bg-white/70 p-2 backdrop-blur shadow-sm">
+                      <Icon className="h-4 w-4" strokeWidth={1.4} />
+                    </div>
+                    <p className="text-[9px] uppercase tracking-[0.18em] text-primary/60 px-2 text-center leading-tight">
+                      {item.label}
+                    </p>
+                  </div>
+                </div>
+              );
+            })}
+          </motion.div>
+        </div>
+      ))}
+    </div>
   );
 }
 
@@ -157,23 +253,8 @@ function Hero() {
           {heroTiles.map((t, i) => (
             <FloatingTile key={t.label} tile={t} index={i} />
           ))}
-          {/* Mobile fallback: single drifting tile grid */}
-          <div className="md:hidden grid grid-cols-2 gap-3 px-4 pt-8 opacity-70">
-            {heroTiles.slice(0, 4).map((t, i) => (
-              <motion.div
-                key={t.label}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: [0, -8, 0] }}
-                transition={{
-                  opacity: { duration: 0.8, delay: i * 0.1 },
-                  y: { duration: 6 + i, repeat: Infinity, ease: "easeInOut" },
-                }}
-                className="aspect-[4/5] rounded-2xl gradient-mist border border-white/60 flex items-center justify-center"
-              >
-                <ImageIcon className="h-5 w-5 text-primary/50" strokeWidth={1.4} />
-              </motion.div>
-            ))}
-          </div>
+          {/* Mobile: vertical scrolling collage */}
+          <MobileScrollingCollage />
         </div>
 
         {/* Centered focal content — compact, not the giant headline anymore */}
@@ -189,13 +270,8 @@ function Hero() {
               Western Ghats · Karnataka
             </div>
 
-            {/* Stamp-style focal mark instead of giant H1 */}
+            {/* Stamp-style focal mark */}
             <div className="relative mt-8 flex items-center justify-center">
-              <motion.div
-                animate={{ rotate: 360 }}
-                transition={{ duration: 40, repeat: Infinity, ease: "linear" }}
-                className="absolute inset-0 -m-6 rounded-full border border-dashed border-primary/30"
-              />
               <div className="glass rounded-full px-6 py-3 flex items-center gap-3 shadow-[0_15px_50px_-20px_oklch(0.42_0.07_155_/_0.5)]">
                 <Mountain className="h-5 w-5 text-primary" strokeWidth={1.6} />
                 <span className="font-serif text-lg sm:text-xl text-primary">
