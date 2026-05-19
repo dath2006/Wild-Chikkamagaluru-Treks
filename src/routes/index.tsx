@@ -27,6 +27,7 @@ import {
 } from "lucide-react";
 import { SiteNav } from "@/components/site-nav";
 import { MediaPlaceholder } from "@/components/media-placeholder";
+import { SectionReveal, RevealText, RevealBlock, RevealImage } from "@/components/reveal";
 import { treks } from "@/lib/treks";
 
 export const Route = createFileRoute("/")({
