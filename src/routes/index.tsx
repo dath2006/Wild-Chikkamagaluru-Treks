@@ -157,23 +157,37 @@ function Hero() {
           {heroTiles.map((t, i) => (
             <FloatingTile key={t.label} tile={t} index={i} />
           ))}
-          {/* Mobile fallback: single drifting tile grid */}
-          <div className="md:hidden grid grid-cols-2 gap-3 px-4 pt-8 opacity-70">
-            {heroTiles.slice(0, 4).map((t, i) => (
-              <motion.div
-                key={t.label}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: [0, -8, 0] }}
-                transition={{
-                  opacity: { duration: 0.8, delay: i * 0.1 },
-                  y: { duration: 6 + i, repeat: Infinity, ease: "easeInOut" },
-                }}
-                className="aspect-[4/5] rounded-2xl gradient-mist border border-white/60 flex items-center justify-center"
-              >
-                <ImageIcon className="h-5 w-5 text-primary/50" strokeWidth={1.4} />
-              </motion.div>
-            ))}
-          </div>
+          {/* Mobile: a few small floating tiles scattered behind content */}
+          {[
+            { top: "8%",  left: "6%",  w: "7rem", h: "9rem",  rot: -6, dur: 8,  delay: 0 },
+            { top: "14%", left: "62%", w: "8rem", h: "6rem",  rot: 5,  dur: 10, delay: 0.3 },
+            { top: "62%", left: "4%",  w: "7rem", h: "6rem",  rot: 4,  dur: 9,  delay: 0.6 },
+            { top: "68%", left: "60%", w: "8rem", h: "9rem",  rot: -4, dur: 11, delay: 0.2 },
+          ].map((t, i) => (
+            <motion.div
+              key={`m-${i}`}
+              initial={{ opacity: 0, scale: 0.9, rotate: t.rot }}
+              animate={{
+                opacity: 0.85,
+                scale: 1,
+                y: [0, -10, 0],
+                rotate: [t.rot, t.rot + 1.5, t.rot],
+              }}
+              transition={{
+                opacity: { duration: 1, delay: t.delay },
+                scale: { duration: 1, delay: t.delay },
+                y: { duration: t.dur, repeat: Infinity, ease: "easeInOut", delay: t.delay },
+                rotate: { duration: t.dur * 1.4, repeat: Infinity, ease: "easeInOut", delay: t.delay },
+              }}
+              style={{ top: t.top, left: t.left, width: t.w, height: t.h }}
+              className="absolute md:hidden rounded-2xl overflow-hidden border border-white/60 shadow-[0_15px_40px_-20px_oklch(0.42_0.07_155_/_0.45)] gradient-mist"
+            >
+              <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_20%,oklch(0.85_0.09_160_/_0.55),transparent_60%),radial-gradient(circle_at_80%_80%,oklch(0.85_0.07_180_/_0.5),transparent_60%)]" />
+              <div className="absolute inset-0 flex items-center justify-center text-primary/60">
+                <ImageIcon className="h-4 w-4" strokeWidth={1.4} />
+              </div>
+            </motion.div>
+          ))}
         </div>
 
         {/* Centered focal content — compact, not the giant headline anymore */}
@@ -191,11 +205,6 @@ function Hero() {
 
             {/* Stamp-style focal mark instead of giant H1 */}
             <div className="relative mt-8 flex items-center justify-center">
-              <motion.div
-                animate={{ rotate: 360 }}
-                transition={{ duration: 40, repeat: Infinity, ease: "linear" }}
-                className="absolute inset-0 -m-6 rounded-full border border-dashed border-primary/30"
-              />
               <div className="glass rounded-full px-6 py-3 flex items-center gap-3 shadow-[0_15px_50px_-20px_oklch(0.42_0.07_155_/_0.5)]">
                 <Mountain className="h-5 w-5 text-primary" strokeWidth={1.6} />
                 <span className="font-serif text-lg sm:text-xl text-primary">
