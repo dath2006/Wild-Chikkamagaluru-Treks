@@ -1,10 +1,4 @@
-import {
-  motion,
-  useReducedMotion,
-  useScroll,
-  useTransform,
-  type Variants,
-} from "motion/react";
+import { motion, useReducedMotion, useScroll, useTransform, type Variants } from "motion/react";
 import { useRef, type ReactNode } from "react";
 
 const ease = [0.22, 1, 0.36, 1] as const;
@@ -39,7 +33,7 @@ export function SectionReveal({
       className={className}
       initial={{ opacity: 0 }}
       whileInView={{ opacity: 1 }}
-      viewport={{ once: true, margin: "-15% 0px" }}
+      viewport={{ once: true, margin: "0px" }}
       transition={{ duration: 0.9, ease }}
     >
       <motion.div style={{ y: reduce ? 0 : y }}>{children}</motion.div>
@@ -73,9 +67,7 @@ export function RevealText({
     },
   };
   const child: Variants = {
-    hidden: reduce
-      ? { opacity: 0 }
-      : { opacity: 0, y: "0.6em", filter: "blur(8px)" },
+    hidden: reduce ? { opacity: 0 } : { opacity: 0, y: "0.6em", filter: "blur(8px)" },
     show: {
       opacity: 1,
       y: 0,
@@ -90,7 +82,7 @@ export function RevealText({
       variants={container}
       initial="hidden"
       whileInView="show"
-      viewport={{ once: true, margin: "-80px" }}
+      viewport={{ once: true, margin: "0px" }}
     >
       {words.map((w, i) => (
         <span key={i} className="inline-block overflow-hidden align-bottom pb-[0.05em]">
@@ -122,7 +114,7 @@ export function RevealBlock({
       className={className}
       initial={reduce ? { opacity: 0 } : { opacity: 0, y }}
       whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "-80px" }}
+      viewport={{ once: true, margin: "0px" }}
       transition={{ duration: 0.8, delay, ease }}
     >
       {children}
@@ -157,19 +149,15 @@ export function RevealImage({
       ref={ref}
       className={className}
       initial={reduce ? { opacity: 0 } : { clipPath: "inset(100% 0 0 0)", opacity: 0 }}
-      whileInView={
-        reduce
-          ? { opacity: 1 }
-          : { clipPath: "inset(0% 0 0 0)", opacity: 1 }
-      }
-      viewport={{ once: true, margin: "-80px" }}
+      whileInView={reduce ? { opacity: 1 } : { clipPath: "inset(0% 0 0 0)", opacity: 1 }}
+      viewport={{ once: true, margin: "0px" }}
       transition={{ duration: 1.1, ease }}
       style={{ willChange: "clip-path, transform" }}
     >
       <motion.div
         initial={reduce ? false : { scale: 1.12 }}
         whileInView={{ scale: 1 }}
-        viewport={{ once: true, margin: "-80px" }}
+        viewport={{ once: true, margin: "0px" }}
         transition={{ duration: 1.4, ease }}
         style={{ y: reduce ? 0 : y }}
       >
