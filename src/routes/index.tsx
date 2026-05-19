@@ -32,83 +32,218 @@ const fadeUp = {
   transition: { duration: 0.8, ease: [0.22, 1, 0.36, 1] as const },
 };
 
+// Floating media tile used as animated background piece
+type Tile = {
+  label: string;
+  variant: "image" | "video";
+  // position (% of container)
+  top: string;
+  left: string;
+  // size
+  w: string;
+  h: string;
+  rotate: number;
+  // animation
+  delay: number;
+  duration: number;
+  yRange: number;
+  xRange: number;
+  z: number;
+};
+
+const heroTiles: Tile[] = [
+  { label: "Mullayanagiri sunrise", variant: "image", top: "6%",  left: "4%",  w: "18rem", h: "12rem", rotate: -6, delay: 0,   duration: 9,  yRange: 18, xRange: 8,  z: 1 },
+  { label: "Kudremukh ridge",       variant: "image", top: "12%", left: "72%", w: "16rem", h: "20rem", rotate: 5,  delay: 0.4, duration: 11, yRange: 22, xRange: 10, z: 2 },
+  { label: "Hebbe falls",           variant: "video", top: "55%", left: "2%",  w: "15rem", h: "18rem", rotate: 4,  delay: 0.8, duration: 10, yRange: 16, xRange: 12, z: 1 },
+  { label: "Trail through mist",    variant: "image", top: "60%", left: "78%", w: "17rem", h: "13rem", rotate: -4, delay: 0.2, duration: 12, yRange: 20, xRange: 9,  z: 2 },
+  { label: "Coffee estate",         variant: "image", top: "32%", left: "38%", w: "14rem", h: "10rem", rotate: -2, delay: 1.0, duration: 13, yRange: 14, xRange: 14, z: 1 },
+  { label: "Summit camp",           variant: "video", top: "78%", left: "44%", w: "13rem", h: "9rem",  rotate: 3,  delay: 0.6, duration: 10, yRange: 12, xRange: 10, z: 1 },
+];
+
+function FloatingTile({ tile, index }: { tile: Tile; index: number }) {
+  const Icon = tile.variant === "video" ? PlayCircle : ImageIcon;
+  return (
+    <motion.div
+      initial={{ opacity: 0, scale: 0.85, y: 30, rotate: tile.rotate }}
+      animate={{
+        opacity: 1,
+        scale: 1,
+        y: [0, -tile.yRange, 0],
+        x: [0, tile.xRange, 0],
+        rotate: [tile.rotate, tile.rotate + 1.5, tile.rotate],
+      }}
+      transition={{
+        opacity: { duration: 1.2, delay: tile.delay },
+        scale: { duration: 1.2, delay: tile.delay, ease: [0.22, 1, 0.36, 1] },
+        y: { duration: tile.duration, repeat: Infinity, ease: "easeInOut", delay: tile.delay },
+        x: { duration: tile.duration * 1.3, repeat: Infinity, ease: "easeInOut", delay: tile.delay },
+        rotate: { duration: tile.duration * 1.5, repeat: Infinity, ease: "easeInOut", delay: tile.delay },
+      }}
+      style={{
+        top: tile.top,
+        left: tile.left,
+        width: tile.w,
+        height: tile.h,
+        zIndex: tile.z,
+      }}
+      className="absolute hidden md:block rounded-3xl overflow-hidden border border-white/60 shadow-[0_20px_60px_-25px_oklch(0.42_0.07_155_/_0.45)] gradient-mist"
+    >
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_20%,oklch(0.85_0.09_160_/_0.55),transparent_60%),radial-gradient(circle_at_80%_80%,oklch(0.85_0.07_180_/_0.5),transparent_60%)]" />
+      <div className="absolute inset-0 flex flex-col items-center justify-center gap-2 text-primary/70">
+        <div className="rounded-full bg-white/70 p-2.5 backdrop-blur shadow-sm">
+          <Icon className="h-5 w-5" strokeWidth={1.4} />
+        </div>
+        <p className="text-[10px] uppercase tracking-[0.18em] text-primary/60 px-3 text-center">
+          {tile.label}
+        </p>
+      </div>
+      {/* soft inner ring */}
+      <div className="pointer-events-none absolute inset-0 rounded-3xl ring-1 ring-inset ring-white/50" />
+      {/* tiny index marker */}
+      <span className="absolute top-3 left-3 text-[9px] font-mono text-primary/50">
+        0{index + 1}
+      </span>
+    </motion.div>
+  );
+}
+
+// Marquee word ticker
+function WordMarquee() {
+  const words = [
+    "Mullayanagiri",
+    "Kudremukh",
+    "Netravati",
+    "Baba Budangiri",
+    "Hebbe Falls",
+    "Kemmangundi",
+    "Z-Point",
+    "Bhadra",
+  ];
+  const loop = [...words, ...words];
+  return (
+    <div className="relative overflow-hidden py-3 border-y border-primary/10 bg-white/30 backdrop-blur-sm">
+      <motion.div
+        animate={{ x: ["0%", "-50%"] }}
+        transition={{ duration: 40, repeat: Infinity, ease: "linear" }}
+        className="flex gap-10 whitespace-nowrap"
+      >
+        {loop.map((w, i) => (
+          <span
+            key={i}
+            className="font-serif italic text-2xl sm:text-3xl text-primary/70 flex items-center gap-10"
+          >
+            {w}
+            <span className="text-accent">✦</span>
+          </span>
+        ))}
+      </motion.div>
+    </div>
+  );
+}
+
 function Hero() {
   return (
-    <section id="top" className="relative min-h-screen pt-28 pb-20 px-4 overflow-hidden">
-      <div className="absolute inset-0 -z-10">
-        <div className="absolute top-20 -left-32 h-96 w-96 rounded-full bg-[oklch(0.85_0.09_165_/_0.5)] blur-3xl" />
-        <div className="absolute bottom-10 -right-32 h-[28rem] w-[28rem] rounded-full bg-[oklch(0.85_0.07_180_/_0.45)] blur-3xl" />
-      </div>
+    <section id="top" className="relative overflow-hidden">
+      {/* Stage with floating photo/video tiles */}
+      <div className="relative h-[100vh] min-h-[680px] w-full pt-24">
+        {/* ambient blobs */}
+        <div className="absolute inset-0 -z-10">
+          <div className="absolute top-10 -left-32 h-96 w-96 rounded-full bg-[oklch(0.85_0.09_165_/_0.5)] blur-3xl" />
+          <div className="absolute bottom-0 -right-32 h-[28rem] w-[28rem] rounded-full bg-[oklch(0.85_0.07_180_/_0.45)] blur-3xl" />
+        </div>
 
-      <div className="mx-auto max-w-6xl">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.1 }}
-          className="flex flex-col items-center text-center"
-        >
-          <span className="inline-flex items-center gap-2 rounded-full glass px-4 py-1.5 text-xs text-primary/80">
-            <Leaf className="h-3.5 w-3.5" /> Western Ghats · Karnataka
-          </span>
-          <h1 className="mt-6 font-serif text-5xl sm:text-6xl md:text-7xl lg:text-8xl leading-[1.05] text-primary">
-            Where the <span className="text-gradient-nature italic">mist</span>
-            <br /> meets the mountain.
-          </h1>
-          <p className="mt-6 max-w-2xl text-base sm:text-lg text-muted-foreground leading-relaxed">
-            Chikkamagaluru Mountain Trek is a soulful journey into the heart of the Western Ghats —
-            misty peaks, hidden waterfalls, and trails known only to locals. Authentic.
-            Affordable. Unforgettable.
-          </p>
-          <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
-            <a
-              href="#treks"
-              className="group inline-flex items-center gap-2 rounded-full bg-primary px-6 py-3 text-sm font-medium text-primary-foreground shadow-lg shadow-primary/20 transition hover:shadow-primary/30"
-            >
-              Explore Treks
-              <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
-            </a>
-            <a
-              href="#about"
-              className="inline-flex items-center gap-2 rounded-full border border-primary/20 bg-white/50 px-6 py-3 text-sm font-medium text-primary backdrop-blur hover:bg-white/80 transition"
-            >
-              Our Story
-            </a>
-          </div>
-        </motion.div>
-
-        <motion.div
-          initial={{ opacity: 0, y: 60 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1, delay: 0.3 }}
-          className="mt-16"
-        >
-          <MediaPlaceholder
-            aspect="wide"
-            variant="image"
-            label="Hero photograph"
-            hint="A wide, atmospheric shot of misty peaks at sunrise"
-          />
-        </motion.div>
-
-        <div className="mt-10 grid grid-cols-3 gap-4 text-center">
-          {[
-            { k: "10+", v: "Curated trails" },
-            { k: "6,330 ft", v: "Highest peak" },
-            { k: "All", v: "Skill levels welcome" },
-          ].map((s, i) => (
-            <motion.div
-              key={s.v}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.5 + i * 0.1 }}
-              className="glass rounded-2xl p-5"
-            >
-              <div className="font-serif text-2xl sm:text-3xl text-primary">{s.k}</div>
-              <div className="mt-1 text-xs sm:text-sm text-muted-foreground">{s.v}</div>
-            </motion.div>
+        {/* Floating tiles layer */}
+        <div className="absolute inset-0 overflow-hidden">
+          {heroTiles.map((t, i) => (
+            <FloatingTile key={t.label} tile={t} index={i} />
           ))}
+          {/* Mobile fallback: single drifting tile grid */}
+          <div className="md:hidden grid grid-cols-2 gap-3 px-4 pt-8 opacity-70">
+            {heroTiles.slice(0, 4).map((t, i) => (
+              <motion.div
+                key={t.label}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: [0, -8, 0] }}
+                transition={{
+                  opacity: { duration: 0.8, delay: i * 0.1 },
+                  y: { duration: 6 + i, repeat: Infinity, ease: "easeInOut" },
+                }}
+                className="aspect-[4/5] rounded-2xl gradient-mist border border-white/60 flex items-center justify-center"
+              >
+                <ImageIcon className="h-5 w-5 text-primary/50" strokeWidth={1.4} />
+              </motion.div>
+            ))}
+          </div>
+        </div>
+
+        {/* Centered focal content — compact, not the giant headline anymore */}
+        <div className="relative z-10 flex h-full flex-col items-center justify-center px-4 pointer-events-none">
+          <motion.div
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 1, ease: [0.22, 1, 0.36, 1] }}
+            className="pointer-events-auto flex flex-col items-center text-center"
+          >
+            <div className="inline-flex items-center gap-2 rounded-full glass px-4 py-1.5 text-[11px] uppercase tracking-[0.22em] text-primary/80">
+              <Leaf className="h-3.5 w-3.5" />
+              Western Ghats · Karnataka
+            </div>
+
+            {/* Stamp-style focal mark instead of giant H1 */}
+            <div className="relative mt-8 flex items-center justify-center">
+              <motion.div
+                animate={{ rotate: 360 }}
+                transition={{ duration: 40, repeat: Infinity, ease: "linear" }}
+                className="absolute inset-0 -m-6 rounded-full border border-dashed border-primary/30"
+              />
+              <div className="glass rounded-full px-6 py-3 flex items-center gap-3 shadow-[0_15px_50px_-20px_oklch(0.42_0.07_155_/_0.5)]">
+                <Mountain className="h-5 w-5 text-primary" strokeWidth={1.6} />
+                <span className="font-serif text-lg sm:text-xl text-primary">
+                  Chikkamagaluru Mountain Trek
+                </span>
+              </div>
+            </div>
+
+            {/* One short line — not a paragraph */}
+            <h1 className="mt-10 font-serif text-3xl sm:text-5xl text-primary leading-tight max-w-2xl">
+              A living film of <em className="text-gradient-nature not-italic">misty trails</em>,
+              <br className="hidden sm:block" /> waterfalls & quiet summits.
+            </h1>
+
+            <div className="mt-8 flex items-center gap-3">
+              <a
+                href="#treks"
+                className="group inline-flex items-center gap-2 rounded-full bg-primary px-5 py-2.5 text-sm font-medium text-primary-foreground shadow-lg shadow-primary/20 transition hover:shadow-primary/30"
+              >
+                Explore Treks
+                <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
+              </a>
+              <a
+                href="#gallery"
+                className="inline-flex items-center gap-2 rounded-full border border-primary/20 bg-white/60 px-5 py-2.5 text-sm font-medium text-primary backdrop-blur hover:bg-white/80 transition"
+              >
+                Watch the journey
+              </a>
+            </div>
+          </motion.div>
+
+          {/* scroll cue */}
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1, y: [0, 6, 0] }}
+            transition={{
+              opacity: { duration: 1, delay: 1.4 },
+              y: { duration: 2.4, repeat: Infinity, ease: "easeInOut" },
+            }}
+            className="absolute bottom-8 inline-flex items-center gap-2 text-[10px] uppercase tracking-[0.25em] text-primary/60"
+          >
+            <ArrowDown className="h-3 w-3" /> Scroll
+          </motion.div>
         </div>
       </div>
+
+      {/* Marquee strip below stage */}
+      <WordMarquee />
     </section>
   );
 }
