@@ -24,6 +24,7 @@ import {
   ImageIcon,
   PlayCircle,
   ArrowDown,
+  Check,
 } from "lucide-react";
 import { SiteNav } from "@/components/site-nav";
 import { MediaPlaceholder } from "@/components/media-placeholder";
@@ -978,13 +979,71 @@ function Stay() {
   );
 }
 
+function CertifiedSticker() {
+  const text = "CERTIFIED • LEAD GUIDE • CERTIFIED • LEAD GUIDE • ";
+  return (
+    <motion.div
+      initial={{ opacity: 0, scale: 0.6, rotate: -25 }}
+      whileInView={{ opacity: 1, scale: 1, rotate: -12 }}
+      viewport={{ once: true, margin: "-80px" }}
+      transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
+      className="absolute -top-6 -left-4 sm:-top-8 sm:-left-8 z-20 h-24 w-24 sm:h-32 sm:w-32 pointer-events-none"
+    >
+      {/* Spinning text ring */}
+      <motion.svg
+        viewBox="0 0 200 200"
+        className="absolute inset-0 h-full w-full drop-shadow-[0_6px_18px_oklch(0.35_0.08_155_/_0.45)]"
+        animate={{ rotate: 360 }}
+        transition={{ duration: 22, repeat: Infinity, ease: "linear" }}
+      >
+        <defs>
+          <path
+            id="certified-circle"
+            d="M 100,100 m -78,0 a 78,78 0 1,1 156,0 a 78,78 0 1,1 -156,0"
+          />
+        </defs>
+        <circle cx="100" cy="100" r="92" fill="oklch(0.96 0.02 155)" />
+        <circle
+          cx="100"
+          cy="100"
+          r="86"
+          fill="none"
+          stroke="oklch(0.42 0.08 155)"
+          strokeWidth="1.5"
+          strokeDasharray="2 4"
+        />
+        <text
+          fill="oklch(0.35 0.08 155)"
+          fontSize="18"
+          fontWeight="700"
+          letterSpacing="3"
+          fontFamily="ui-sans-serif, system-ui"
+        >
+          <textPath href="#certified-circle" startOffset="0">
+            {text}
+          </textPath>
+        </text>
+      </motion.svg>
+      {/* Center tick */}
+      <div className="absolute inset-0 flex items-center justify-center">
+        <div className="h-9 w-9 sm:h-12 sm:w-12 rounded-full bg-gradient-to-br from-[oklch(0.55_0.13_155)] to-[oklch(0.42_0.10_165)] flex items-center justify-center shadow-inner ring-2 ring-white">
+          <Check className="h-5 w-5 sm:h-7 sm:w-7 text-white" strokeWidth={3} />
+        </div>
+      </div>
+    </motion.div>
+  );
+}
+
 function Contact() {
   return (
     <SectionReveal id="contact" className="relative py-28 px-4">
       <div className="mx-auto max-w-5xl">
-        <RevealBlock className="relative overflow-hidden rounded-[2.5rem]">
-          <div className="absolute inset-0 -z-10 bg-gradient-to-br from-[oklch(0.42_0.08_155)] via-[oklch(0.44_0.08_130)] to-[oklch(0.48_0.12_48)]" />
-          <div className="absolute inset-0 -z-10 opacity-30 bg-[radial-gradient(circle_at_20%_20%,white,transparent_40%),radial-gradient(circle_at_80%_80%,white,transparent_40%)]" />
+        <div className="relative">
+          <CertifiedSticker />
+          <RevealBlock className="relative overflow-hidden rounded-[2.5rem]">
+            <div className="absolute inset-0 -z-10 bg-gradient-to-br from-[oklch(0.42_0.08_155)] via-[oklch(0.44_0.08_130)] to-[oklch(0.48_0.12_48)]" />
+            <div className="absolute inset-0 -z-10 opacity-30 bg-[radial-gradient(circle_at_20%_20%,white,transparent_40%),radial-gradient(circle_at_80%_80%,white,transparent_40%)]" />
+
 
           <div className="p-10 sm:p-14 text-center md:text-left">
             <div className="flex flex-wrap items-center justify-center md:justify-start gap-3">
@@ -1005,14 +1064,8 @@ function Contact() {
                 </span>
               </div>
 
-              {/* Trust badge — Certified · Lead Guide */}
-              <div className="inline-flex items-center gap-2 rounded-full bg-accent/90 text-accent-foreground px-4 py-2 shadow-md ring-1 ring-white/30">
-                <Sparkles className="h-3.5 w-3.5" strokeWidth={2} />
-                <span className="text-[10px] font-semibold uppercase tracking-[0.22em]">
-                  Certified · Lead Guide
-                </span>
-              </div>
             </div>
+
 
             <span className="mt-8 inline-block text-xs uppercase tracking-[0.25em] text-white/70">
               Your call to adventure
@@ -1050,7 +1103,8 @@ function Contact() {
               🌿 Explore. Trek. Discover. Feel Alive.
             </p>
           </div>
-        </RevealBlock>
+          </RevealBlock>
+        </div>
       </div>
     </SectionReveal>
   );
