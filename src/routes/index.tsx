@@ -1005,14 +1005,8 @@ function Contact() {
                 </span>
               </div>
 
-              {/* Trust badge — Certified · Lead Guide */}
-              <div className="inline-flex items-center gap-2 rounded-full bg-accent/90 text-accent-foreground px-4 py-2 shadow-md ring-1 ring-white/30">
-                <Sparkles className="h-3.5 w-3.5" strokeWidth={2} />
-                <span className="text-[10px] font-semibold uppercase tracking-[0.22em]">
-                  Certified · Lead Guide
-                </span>
-              </div>
             </div>
+
 
             <span className="mt-8 inline-block text-xs uppercase tracking-[0.25em] text-white/70">
               Your call to adventure
