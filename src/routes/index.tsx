@@ -31,7 +31,7 @@ import { SectionReveal, RevealText, RevealBlock, RevealImage } from "@/component
 import CircularGallery from "@/components/circular-gallery";
 import { TrekModal } from "@/components/trek-modal";
 import { GalleryLightbox, GalleryTile, type GalleryItem } from "@/components/gallery-lightbox";
-import TiltedCard from "@/components/tilted-card";
+
 import BorderGlow from "@/components/border-glow";
 import { Logo } from "@/components/logo";
 import { treks, type Trek } from "@/lib/treks";
