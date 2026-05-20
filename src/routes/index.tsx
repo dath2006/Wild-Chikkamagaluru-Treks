@@ -38,7 +38,13 @@ import BorderGlow from "@/components/border-glow";
 import TiltedCard from "@/components/tilted-card";
 import { TrekCardStack, type TrekCard } from "@/components/trek-card-stack";
 import { treks, type Trek } from "@/lib/treks";
-import { HERO_TILE_IMAGES, TREK_COVER_IMAGES, TREK_MEDIA_IMAGES, SITE_IMAGES } from "@/lib/media";
+import {
+  HERO_TILE_IMAGES,
+  TREK_COVER_IMAGES,
+  TREK_MEDIA_IMAGES,
+  SITE_IMAGES,
+  MOBILE_CAROUSEL_IMAGES,
+} from "@/lib/media";
 import { useIsMobile } from "@/hooks/use-mobile";
 
 export const Route = createFileRoute("/")({
@@ -309,8 +315,9 @@ const heroTrekCards: TrekCard[] = treks.map((t) => ({
   id: t.name,
   name: t.name,
   tag: t.tag,
-  // Portrait images from picsum — seed matches trek coverSeed for visual consistency
-  imageUrl: `https://picsum.photos/seed/${t.coverSeed + 200}/360/640`,
+  // Use actual images from media registry, fallback to picsum placeholder
+  imageUrl:
+    MOBILE_CAROUSEL_IMAGES[t.name] || `https://picsum.photos/seed/${t.coverSeed + 200}/360/640`,
 }));
 
 // Mobile hero: open portrait deck (top 70%) + frosted text zone (bottom)
