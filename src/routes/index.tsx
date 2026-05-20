@@ -286,57 +286,81 @@ function FloatingTile({
   );
 }
 
-// Mobile: two vertical scrolling columns of tiles, opposite directions
-function MobileScrollingCollage({ scrollY }: { scrollY: MotionValue<number> }) {
-  const reduce = useReducedMotion();
-  const colA = [...mediaPool, ...mediaPool];
-  const colB = [...mediaPool.slice(3), ...mediaPool, ...mediaPool.slice(0, 3)];
-  // Subtle scroll-driven parallax on the whole collage
-  const parallax = useTransform(scrollY, [0, 1], [0, 80]);
+// Mobile hero: split layout — top half solid bg with text, bottom half full-width video placeholder
+function MobileHero() {
   return (
-    <motion.div
-      style={{ y: reduce ? 0 : parallax }}
-      className="md:hidden absolute inset-0 grid grid-cols-2 gap-3 px-4 pt-6 overflow-hidden [mask-image:linear-gradient(to_bottom,transparent,black_15%,black_85%,transparent)]"
-    >
-      {[colA, colB].map((col, ci) => (
-        <div key={ci} className="relative overflow-hidden">
-          <motion.div
-            animate={reduce ? undefined : { y: ci === 0 ? ["0%", "-50%"] : ["-50%", "0%"] }}
-            transition={
-              reduce ? undefined : { duration: 28 + ci * 6, repeat: Infinity, ease: "linear" }
-            }
-            className="flex flex-col gap-3"
-          >
-            {col.map((item, i) => {
-              const Icon = item.variant === "video" ? PlayCircle : ImageIcon;
-              const hue1 = 150 + ((i * 9) % 40);
-              const hue2 = 170 + ((i * 13) % 30);
-              return (
-                <div
-                  key={`${ci}-${i}`}
-                  className="relative aspect-[4/5] rounded-2xl overflow-hidden border border-white/60 gradient-mist shadow-[0_15px_40px_-20px_oklch(0.42_0.07_155_/_0.4)]"
-                >
-                  <div
-                    className="absolute inset-0"
-                    style={{
-                      background: `radial-gradient(circle at 30% 20%, oklch(0.85 0.09 ${hue1} / 0.6), transparent 60%), radial-gradient(circle at 80% 80%, oklch(0.85 0.07 ${hue2} / 0.55), transparent 60%)`,
-                    }}
-                  />
-                  <div className="absolute inset-0 flex flex-col items-center justify-center gap-1.5 text-primary/70">
-                    <div className="rounded-full bg-white/70 p-2 backdrop-blur shadow-sm">
-                      <Icon className="h-4 w-4" strokeWidth={1.4} />
-                    </div>
-                    <p className="text-[9px] uppercase tracking-[0.18em] text-primary/60 px-2 text-center leading-tight">
-                      {item.label}
-                    </p>
-                  </div>
-                </div>
-              );
-            })}
-          </motion.div>
+    <div className="md:hidden relative flex flex-col h-[100svh] min-h-[640px] w-full pt-20">
+      {/* Top half — solid calm background with text overlay */}
+      <div className="relative flex-1 flex items-center justify-center px-6 gradient-mist overflow-hidden">
+        <div className="absolute inset-0 -z-10">
+          <div className="absolute -top-20 -left-20 h-72 w-72 rounded-full bg-[oklch(0.85_0.09_165_/_0.5)] blur-3xl" />
+          <div className="absolute -bottom-16 -right-16 h-72 w-72 rounded-full bg-[oklch(0.90_0.12_48_/_0.35)] blur-3xl" />
         </div>
-      ))}
-    </motion.div>
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
+          className="flex flex-col items-center text-center"
+        >
+          <div className="inline-flex items-center gap-2 rounded-full glass px-3.5 py-1.5 text-[10px] uppercase tracking-[0.22em] text-primary/80">
+            <Leaf className="h-3 w-3" />
+            Western Ghats · Karnataka
+          </div>
+          <div className="mt-5 glass rounded-full px-5 py-2.5 inline-flex items-center gap-2 shadow-[0_15px_50px_-20px_oklch(0.42_0.07_155_/_0.5)]">
+            <Mountain className="h-4 w-4 text-primary" strokeWidth={1.6} />
+            <span className="font-serif text-base text-primary">Wild Chikkamagaluru Treks</span>
+          </div>
+          <h1 className="mt-5 font-serif text-[1.6rem] leading-snug text-primary max-w-xs">
+            Go hiking before your knees{" "}
+            <em className="text-gradient-nature not-italic">file for early retirement</em>
+          </h1>
+          <div className="mt-5 flex items-center gap-2.5">
+            <a
+              href="#treks"
+              className="group inline-flex items-center gap-1.5 rounded-full bg-primary px-4 py-2 text-xs font-medium text-primary-foreground shadow-lg shadow-primary/20"
+            >
+              Explore Treks
+              <ArrowRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-0.5" />
+            </a>
+            <a
+              href="#gallery"
+              className="inline-flex items-center gap-1.5 rounded-full border border-primary/20 bg-white/60 px-4 py-2 text-xs font-medium text-primary backdrop-blur"
+            >
+              Watch journey
+            </a>
+          </div>
+        </motion.div>
+      </div>
+
+      {/* Bottom half — full-width video placeholder */}
+      <motion.div
+        initial={{ opacity: 0, scale: 1.02 }}
+        animate={{ opacity: 1, scale: 1 }}
+        transition={{ duration: 1, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
+        className="relative flex-1 w-full overflow-hidden"
+      >
+        <div
+          className="absolute inset-0"
+          style={{
+            background:
+              "radial-gradient(circle at 30% 30%, oklch(0.75 0.10 165 / 0.85), transparent 60%), radial-gradient(circle at 75% 70%, oklch(0.70 0.09 180 / 0.8), transparent 60%), linear-gradient(180deg, oklch(0.55 0.08 165), oklch(0.42 0.07 175))",
+          }}
+        />
+        <div className="absolute inset-0 flex flex-col items-center justify-center gap-3 text-white/90">
+          <motion.div
+            animate={{ scale: [1, 1.08, 1] }}
+            transition={{ duration: 2.6, repeat: Infinity, ease: "easeInOut" }}
+            className="rounded-full bg-white/20 backdrop-blur p-5 ring-1 ring-white/40 shadow-2xl"
+          >
+            <PlayCircle className="h-10 w-10" strokeWidth={1.4} />
+          </motion.div>
+          <p className="text-[10px] uppercase tracking-[0.25em] text-white/80">
+            Place hero video here
+          </p>
+        </div>
+        <div className="absolute inset-x-0 top-0 h-12 bg-gradient-to-b from-background/40 to-transparent pointer-events-none" />
+      </motion.div>
+    </div>
   );
 }
 
@@ -383,8 +407,11 @@ function Hero() {
   });
   return (
     <section id="top" ref={heroRef} className="relative overflow-hidden">
-      {/* Stage with floating photo/video tiles */}
-      <div className="relative h-[100vh] min-h-[680px] w-full pt-24">
+      {/* Mobile-specific split hero */}
+      <MobileHero />
+
+      {/* Desktop stage with floating photo/video tiles */}
+      <div className="relative hidden md:block h-[100vh] min-h-[680px] w-full pt-24">
         {/* ambient blobs */}
         <div className="absolute inset-0 -z-10">
           <div className="absolute top-10 -left-32 h-96 w-96 rounded-full bg-[oklch(0.85_0.09_165_/_0.5)] blur-3xl" />
@@ -397,11 +424,9 @@ function Hero() {
           {heroTiles.map((t, i) => (
             <FloatingTile key={t.label} tile={t} index={i} scrollY={scrollYProgress} />
           ))}
-          {/* Mobile: vertical scrolling collage */}
-          <MobileScrollingCollage scrollY={scrollYProgress} />
         </div>
 
-        {/* Centered focal content — compact, not the giant headline anymore */}
+        {/* Centered focal content */}
         <div className="relative z-10 flex h-full flex-col items-center justify-center px-4 pointer-events-none">
           <motion.div
             initial={{ opacity: 0, scale: 0.9 }}
