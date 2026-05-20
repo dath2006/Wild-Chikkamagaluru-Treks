@@ -1047,7 +1047,8 @@ function Contact() {
               🌿 Explore. Trek. Discover. Feel Alive.
             </p>
           </div>
-        </RevealBlock>
+          </RevealBlock>
+        </div>
       </div>
     </SectionReveal>
   );
