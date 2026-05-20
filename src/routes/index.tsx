@@ -1301,11 +1301,11 @@ function MobileNav() {
 
   return (
     <nav
-      className={`fixed bottom-5 left-1/2 -translate-x-1/2 z-50 md:hidden transition-all duration-300 w-[92vw] max-w-sm ${
+      className={`fixed bottom-4 left-1/2 -translate-x-1/2 z-50 md:hidden transition-all duration-300 w-[85vw] max-w-[260px] ${
         isVisible ? "translate-y-0 opacity-100" : "translate-y-24 opacity-0"
       }`}
     >
-      <div className="flex items-center justify-between rounded-2xl bg-white/88 backdrop-blur-2xl px-3 py-2 shadow-[0_8px_32px_-8px_oklch(0.25_0.08_155/0.35),0_2px_8px_-2px_oklch(0.3_0.06_155/0.15)] ring-1 ring-white/70">
+      <div className="flex items-center justify-between rounded-xl bg-white/88 backdrop-blur-2xl px-2 py-1.5 shadow-[0_6px_24px_-6px_oklch(0.25_0.08_155/0.35),0_2px_6px_-2px_oklch(0.3_0.06_155/0.15)] ring-1 ring-white/70">
         {navItems.map((item) => {
           const Icon = item.icon;
           const isActive = activeSection === item.href.slice(1);
@@ -1313,20 +1313,20 @@ function MobileNav() {
             <a
               key={item.href}
               href={item.href}
-              className={`relative flex flex-col items-center justify-center gap-0.5 rounded-xl px-3 py-1.5 transition-all duration-200 ${
+              className={`relative flex flex-col items-center justify-center gap-0 rounded-lg px-2 py-1 transition-all duration-200 ${
                 isActive ? "text-primary" : "text-foreground/45 hover:text-foreground/70"
               }`}
               aria-label={item.label}
             >
-              {isActive && <span className="absolute inset-0 rounded-xl bg-primary/10" />}
+              {isActive && <span className="absolute inset-0 rounded-lg bg-primary/10" />}
               <Icon
-                className={`relative h-[18px] w-[18px] transition-transform duration-200 ${
+                className={`relative h-[16px] w-[16px] transition-transform duration-200 ${
                   isActive ? "scale-110" : ""
                 }`}
-                strokeWidth={isActive ? 2.2 : 1.8}
+                strokeWidth={isActive ? 2 : 1.6}
               />
               <span
-                className={`relative text-[9.5px] font-medium tracking-wide transition-all duration-200 ${
+                className={`relative text-[8.5px] font-medium tracking-wide transition-all duration-200 ${
                   isActive ? "text-primary" : "text-foreground/40"
                 }`}
               >
