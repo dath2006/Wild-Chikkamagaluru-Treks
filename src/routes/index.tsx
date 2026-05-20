@@ -13,7 +13,6 @@ import {
   Leaf,
   Heart,
   Compass,
-  MapPin,
   Phone,
   Instagram,
   ArrowRight,
@@ -25,7 +24,9 @@ import {
   PlayCircle,
   ArrowDown,
   Check,
+  Info,
 } from "lucide-react";
+
 import { SiteNav } from "@/components/site-nav";
 import { MediaPlaceholder } from "@/components/media-placeholder";
 import { SectionReveal, RevealText, RevealBlock, RevealImage } from "@/components/reveal";
@@ -34,8 +35,10 @@ import { TrekModal } from "@/components/trek-modal";
 import { GalleryLightbox, GalleryTile, type GalleryItem } from "@/components/gallery-lightbox";
 
 import BorderGlow from "@/components/border-glow";
+import TiltedCard from "@/components/tilted-card";
 import { Logo } from "@/components/logo";
 import { treks, type Trek } from "@/lib/treks";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 export const Route = createFileRoute("/")({
   component: Index,
@@ -378,14 +381,30 @@ function WordMarquee() {
     "Z-Point",
     "Bhadra",
   ];
+  // Duplicate once for seamless infinite scroll (2x total)
   const loop = [...words, ...words];
+
+  if (reduce) {
+    return (
+      <div className="relative overflow-hidden py-3 border-y border-primary/10 bg-white/30 backdrop-blur-sm">
+        <div className="flex gap-10 whitespace-nowrap">
+          {words.map((w, i) => (
+            <span
+              key={i}
+              className="font-serif italic text-2xl sm:text-3xl text-primary/70 flex items-center gap-10"
+            >
+              {w}
+              <span className="text-accent">✦</span>
+            </span>
+          ))}
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="relative overflow-hidden py-3 border-y border-primary/10 bg-white/30 backdrop-blur-sm">
-      <motion.div
-        animate={reduce ? undefined : { x: ["0%", "-50%"] }}
-        transition={reduce ? undefined : { duration: 40, repeat: Infinity, ease: "linear" }}
-        className="flex gap-10 whitespace-nowrap"
-      >
+      <div className="marquee-container flex gap-10 whitespace-nowrap w-max">
         {loop.map((w, i) => (
           <span
             key={i}
@@ -395,7 +414,7 @@ function WordMarquee() {
             <span className="text-accent">✦</span>
           </span>
         ))}
-      </motion.div>
+      </div>
     </div>
   );
 }
@@ -566,6 +585,7 @@ function About() {
                 glowColor="155 40 60"
                 glowIntensity={0.85}
                 backgroundColor="oklch(0.99 0.008 130 / 0.55)"
+                animated
               >
                 <f.icon className="h-6 w-6 text-primary" strokeWidth={1.6} />
                 <h3 className="mt-4 font-serif text-xl text-primary">{f.title}</h3>
@@ -708,10 +728,10 @@ const Treks = memo(function Treks({ onTrekClick }: { onTrekClick: (t: Trek) => v
         </div>
       </div>
 
-      {/* Mobile: circular WebGL gallery — full viewport width, breaks out of px-4 */}
-      <div className="md:hidden mt-8 -mx-4 overflow-hidden">
+      {/* Circular WebGL gallery — full viewport width, breaks out of px-4 */}
+      <div className="mt-8 md:mt-12 -mx-4 overflow-hidden">
         <RevealBlock>
-          <div style={{ height: "480px", position: "relative", overflow: "hidden" }}>
+          <div className="h-[480px] md:h-[620px] relative overflow-hidden">
             <CircularGallery
               items={galleryItems}
               bend={1.5}
@@ -727,65 +747,6 @@ const Treks = memo(function Treks({ onTrekClick }: { onTrekClick: (t: Trek) => v
       </div>
 
       <div className="mx-auto max-w-6xl">
-        {/* Desktop: grid cards */}
-        <div className="hidden md:grid mt-14 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {treks.map((t, i) => (
-            <motion.div
-              key={t.name}
-              initial={{ opacity: 0, y: 40, scale: 0.96 }}
-              whileInView={{ opacity: 1, y: 0, scale: 1 }}
-              viewport={{ once: true, margin: "0px" }}
-              transition={{ duration: 0.7, delay: (i % 3) * 0.12, ease: [0.22, 1, 0.36, 1] }}
-              whileHover={{ y: -8 }}
-              onClick={() => onTrekClick(t)}
-              className="cursor-pointer"
-            >
-              <BorderGlow
-                className="group overflow-hidden flex flex-col h-full"
-                borderRadius={24}
-                colors={["#6ee7b7", "#fbbf24", "#86efac"]}
-                glowColor="155 40 60"
-                glowIntensity={0.85}
-                backgroundColor="oklch(0.99 0.008 130 / 0.55)"
-              >
-                <RevealImage>
-                  <MediaPlaceholder
-                    aspect="video"
-                    label={`${t.name} photo`}
-                    hint="Trek summit, trail or landscape image"
-                    className="rounded-none rounded-t-3xl border-0 photo-halo"
-                  />
-                </RevealImage>
-                <div className="p-6 flex-1 flex flex-col">
-                  <div className="flex items-start justify-between gap-3">
-                    <h3 className="font-serif text-2xl text-primary">{t.name}</h3>
-                    {t.tag && (
-                      <span className="shrink-0 rounded-full bg-accent/40 px-3 py-1 text-[10px] uppercase tracking-wider text-primary">
-                        {t.tag}
-                      </span>
-                    )}
-                  </div>
-                  <div className="mt-2 flex flex-wrap gap-x-4 gap-y-1 text-xs text-muted-foreground">
-                    {t.altitude && (
-                      <span className="inline-flex items-center gap-1">
-                        <Mountain className="h-3 w-3" /> {t.altitude}
-                      </span>
-                    )}
-                    {t.start && (
-                      <span className="inline-flex items-center gap-1">
-                        <MapPin className="h-3 w-3" /> {t.start}
-                      </span>
-                    )}
-                  </div>
-                  <p className="mt-4 text-sm text-foreground/75 leading-relaxed flex-1">
-                    {t.blurb}
-                  </p>
-                </div>
-              </BorderGlow>
-            </motion.div>
-          ))}
-        </div>
-
         <RevealBlock className="mt-14">
           <BorderGlow
             className="p-8 sm:p-10 flex flex-col md:flex-row items-start md:items-center justify-between gap-6"
@@ -794,6 +755,7 @@ const Treks = memo(function Treks({ onTrekClick }: { onTrekClick: (t: Trek) => v
             glowColor="155 40 60"
             glowIntensity={0.85}
             backgroundColor="oklch(0.99 0.008 130 / 0.55)"
+            animated
           >
             <div>
               <h3 className="font-serif text-2xl sm:text-3xl text-primary">
@@ -961,6 +923,7 @@ function Stay() {
                 glowColor="155 40 60"
                 glowIntensity={0.85}
                 backgroundColor="oklch(0.99 0.008 130 / 0.55)"
+                animated
               >
                 {s.tag && (
                   <span className="absolute top-5 right-5 rounded-full bg-accent/40 px-3 py-1 text-[10px] uppercase tracking-wider text-primary">
@@ -980,7 +943,6 @@ function Stay() {
 }
 
 function CertifiedSticker() {
-  const text = "CERTIFIED • LEAD GUIDE • CERTIFIED • LEAD GUIDE • ";
   return (
     <motion.div
       initial={{ opacity: 0, scale: 0.6, rotate: -25 }}
@@ -989,45 +951,67 @@ function CertifiedSticker() {
       transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
       className="absolute -top-6 -left-4 sm:-top-8 sm:-left-8 z-20 h-24 w-24 sm:h-32 sm:w-32 pointer-events-none"
     >
-      {/* Spinning text ring */}
-      <motion.svg
+      {/* Static text design */}
+      <svg
         viewBox="0 0 200 200"
         className="absolute inset-0 h-full w-full drop-shadow-[0_6px_18px_oklch(0.35_0.08_155_/_0.45)]"
-        animate={{ rotate: 360 }}
-        transition={{ duration: 22, repeat: Infinity, ease: "linear" }}
       >
         <defs>
-          <path
-            id="certified-circle"
-            d="M 100,100 m -78,0 a 78,78 0 1,1 156,0 a 78,78 0 1,1 -156,0"
-          />
+          {/* Top arc for CERTIFIED - proper semi-circle */}
+          <path id="top-arc" d="M 32,100 A 68,68 0 0,1 168,100" fill="none" />
+          {/* Bottom arc for LEAD GUIDE - proper semi-circle */}
+          <path id="bottom-arc" d="M 18,100 A 82,82 0 0,0 182,100" fill="none" />
         </defs>
+
+        {/* Background circle */}
         <circle cx="100" cy="100" r="92" fill="oklch(0.96 0.02 155)" />
+
+        {/* Decorative border */}
         <circle
           cx="100"
           cy="100"
-          r="86"
+          r="88"
           fill="none"
           stroke="oklch(0.42 0.08 155)"
           strokeWidth="1.5"
           strokeDasharray="2 4"
         />
+
+        {/* CERTIFIED text at top - using circular path */}
         <text
           fill="oklch(0.35 0.08 155)"
-          fontSize="18"
-          fontWeight="700"
-          letterSpacing="3"
+          fontSize="17"
+          fontWeight="800"
+          letterSpacing="2.6"
           fontFamily="ui-sans-serif, system-ui"
         >
-          <textPath href="#certified-circle" startOffset="0">
-            {text}
+          <textPath href="#top-arc" startOffset="50%" textAnchor="middle">
+            CERTIFIED
           </textPath>
         </text>
-      </motion.svg>
-      {/* Center tick */}
+
+        {/* LEAD GUIDE text at bottom - using circular path */}
+        <text
+          fill="oklch(0.35 0.08 155)"
+          fontSize="17"
+          fontWeight="800"
+          letterSpacing="2.6"
+          fontFamily="ui-sans-serif, system-ui"
+        >
+          <textPath href="#bottom-arc" startOffset="50%" textAnchor="middle">
+            LEAD GUIDE
+          </textPath>
+        </text>
+      </svg>
+
+      {/* Large center tick mark */}
       <div className="absolute inset-0 flex items-center justify-center">
-        <div className="h-9 w-9 sm:h-12 sm:w-12 rounded-full bg-gradient-to-br from-[oklch(0.55_0.13_155)] to-[oklch(0.42_0.10_165)] flex items-center justify-center shadow-inner ring-2 ring-white">
-          <Check className="h-5 w-5 sm:h-7 sm:w-7 text-white" strokeWidth={3} />
+        <div className="relative h-14 w-14 sm:h-16 sm:w-16 rounded-full bg-linear-to-br from-white via-[oklch(0.98_0.015_155)] to-[oklch(0.88_0.035_155)] p-1.5 shadow-[inset_0_1px_0_white,0_12px_28px_-14px_oklch(0.18_0.08_155/0.85)]">
+          <div className="absolute inset-1 rounded-full border border-[oklch(0.78_0.06_155/0.65)]" />
+          <div className="relative h-full w-full rounded-full bg-linear-to-br from-[oklch(0.68_0.15_155)] via-[oklch(0.50_0.12_158)] to-[oklch(0.32_0.08_168)] flex items-center justify-center shadow-[inset_0_1px_2px_oklch(1_0_0/0.35),inset_0_-6px_12px_oklch(0.18_0.06_165/0.28)]">
+            <div className="absolute inset-1.5 rounded-full bg-linear-to-br from-white/22 to-transparent" />
+            <Check className="relative h-9 w-9 sm:h-10 sm:w-10 text-white drop-shadow-[0_2px_2px_oklch(0.18_0.06_165/0.45)]" />
+          </div>
         </div>
       </div>
     </motion.div>
@@ -1041,68 +1025,90 @@ function Contact() {
         <div className="relative">
           <CertifiedSticker />
           <RevealBlock className="relative overflow-hidden rounded-[2.5rem]">
-            <div className="absolute inset-0 -z-10 bg-gradient-to-br from-[oklch(0.42_0.08_155)] via-[oklch(0.44_0.08_130)] to-[oklch(0.48_0.12_48)]" />
+            <div className="absolute inset-0 -z-10 bg-linear-to-br from-[oklch(0.42_0.08_155)] via-[oklch(0.44_0.08_130)] to-[oklch(0.48_0.12_48)]" />
             <div className="absolute inset-0 -z-10 opacity-30 bg-[radial-gradient(circle_at_20%_20%,white,transparent_40%),radial-gradient(circle_at_80%_80%,white,transparent_40%)]" />
 
-
-          <div className="p-10 sm:p-14 text-center md:text-left">
-            <div className="flex flex-wrap items-center justify-center md:justify-start gap-3">
-              {/* Lead guide pill with circular avatar + name */}
-              <div className="inline-flex items-center gap-3 rounded-full bg-white/15 backdrop-blur border border-white/25 pl-1.5 pr-5 py-1.5 shadow-lg">
-                <span className="relative inline-block h-10 w-10 rounded-full overflow-hidden ring-2 ring-white/60">
-                  <img
-                    src="https://picsum.photos/seed/sushanth/120/120"
-                    alt="Sushanth Gowda"
-                    className="h-full w-full object-cover"
-                  />
-                </span>
-                <span className="flex flex-col leading-tight text-left">
-                  <span className="font-serif text-white text-sm">Sushanth Gowda</span>
-                  <span className="text-[10px] uppercase tracking-[0.18em] text-white/70">
-                    Lead Guide
+            <div className="relative p-10 sm:p-14 text-center md:text-left md:pr-96">
+              <div className="absolute right-10 top-1/2 hidden -translate-y-1/2 md:block">
+                <TiltedCard
+                  imageSrc="https://picsum.photos/seed/contact-guide-card/520/680"
+                  altText="Mountain guide on a Chikkamagaluru trail"
+                  captionText="Guided by local trail experts"
+                  containerHeight="310px"
+                  containerWidth="250px"
+                  imageHeight="310px"
+                  imageWidth="250px"
+                  rotateAmplitude={9}
+                  scaleOnHover={1.04}
+                  showTooltip={false}
+                  displayOverlayContent
+                  overlayContent={
+                    <div className="flex h-full w-full flex-col justify-end rounded-[15px] bg-linear-to-t from-black/65 via-black/10 to-transparent p-5 text-left">
+                      <span className="text-[10px] uppercase tracking-[0.24em] text-white/75">
+                        Local expertise
+                      </span>
+                      <span className="mt-1 font-serif text-2xl leading-tight text-white">
+                        Trails made safer.
+                      </span>
+                    </div>
+                  }
+                />
+              </div>
+              <div className="flex flex-wrap items-center justify-center md:justify-start gap-3 md:ml-20 lg:ml-24">
+                {/* Lead guide pill with circular avatar + name */}
+                <div className="inline-flex items-center gap-3 rounded-full bg-white/15 backdrop-blur border border-white/25 pl-1.5 pr-5 py-1.5 shadow-lg">
+                  <span className="relative inline-block h-10 w-10 rounded-full overflow-hidden ring-2 ring-white/60">
+                    <img
+                      src="https://picsum.photos/seed/sushanth/120/120"
+                      alt="Sushanth Gowda"
+                      className="h-full w-full object-cover"
+                    />
                   </span>
-                </span>
+                  <span className="flex flex-col leading-tight text-left">
+                    <span className="font-serif text-white text-sm">Sushanth Gowda</span>
+                    <span className="text-[10px] uppercase tracking-[0.18em] text-white/70">
+                      Lead Guide
+                    </span>
+                  </span>
+                </div>
               </div>
 
+              <span className="mt-8 inline-block text-xs uppercase tracking-[0.25em] text-white/70">
+                Your call to adventure
+              </span>
+              <RevealText
+                as="h2"
+                text="Ready to feel alive?"
+                className="mt-4 font-serif text-4xl sm:text-5xl text-white leading-tight"
+              />
+              <p className="mt-5 text-white/80 max-w-md mx-auto md:mx-0">
+                Let's plan your escape into the wild. Reach out — we'll craft a journey that fits
+                you.
+              </p>
+
+              <div className="mt-8 flex flex-wrap items-center justify-center md:justify-start gap-3">
+                <a
+                  href="https://wa.me/919448817562"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="inline-flex items-center gap-2 rounded-full bg-white px-6 py-3 text-sm font-medium text-primary shadow-lg hover:shadow-xl transition"
+                >
+                  <Phone className="h-4 w-4" /> 94488 17562
+                </a>
+                <a
+                  href="https://instagram.com/sushanth_ckm"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="inline-flex items-center gap-2 rounded-full border border-white/30 bg-white/10 px-6 py-3 text-sm font-medium text-white backdrop-blur hover:bg-white/20 transition"
+                >
+                  <Instagram className="h-4 w-4" /> @sushanth_ckm
+                </a>
+              </div>
+
+              <p className="mt-8 font-serif italic text-white/70 text-base text-center md:text-left">
+                🌿 Explore. Trek. Discover. Feel Alive.
+              </p>
             </div>
-
-
-            <span className="mt-8 inline-block text-xs uppercase tracking-[0.25em] text-white/70">
-              Your call to adventure
-            </span>
-            <RevealText
-              as="h2"
-              text="Ready to feel alive?"
-              className="mt-4 font-serif text-4xl sm:text-5xl text-white leading-tight"
-            />
-            <p className="mt-5 text-white/80 max-w-md mx-auto md:mx-0">
-              Let's plan your escape into the wild. Reach out — we'll craft a journey that fits
-              you.
-            </p>
-
-            <div className="mt-8 flex flex-wrap items-center justify-center md:justify-start gap-3">
-              <a
-                href="https://wa.me/919448817562"
-                target="_blank"
-                rel="noreferrer"
-                className="inline-flex items-center gap-2 rounded-full bg-white px-6 py-3 text-sm font-medium text-primary shadow-lg hover:shadow-xl transition"
-              >
-                <Phone className="h-4 w-4" /> 94488 17562
-              </a>
-              <a
-                href="https://instagram.com/sushanth_ckm"
-                target="_blank"
-                rel="noreferrer"
-                className="inline-flex items-center gap-2 rounded-full border border-white/30 bg-white/10 px-6 py-3 text-sm font-medium text-white backdrop-blur hover:bg-white/20 transition"
-              >
-                <Instagram className="h-4 w-4" /> @sushanth_ckm
-              </a>
-            </div>
-
-            <p className="mt-8 font-serif italic text-white/70 text-base text-center md:text-left">
-              🌿 Explore. Trek. Discover. Feel Alive.
-            </p>
-          </div>
           </RevealBlock>
         </div>
       </div>
@@ -1140,6 +1146,7 @@ function Index() {
       <Contact />
       <Gallery onLightboxOpen={handleLightboxOpen} />
       <Footer />
+      <MobileNav />
       <TrekModal trek={activeTrek} onClose={() => setActiveTrek(null)} />
       <GalleryLightbox
         items={ALL_GALLERY_ITEMS}
@@ -1148,5 +1155,93 @@ function Index() {
         onNavigate={setLightboxIndex}
       />
     </main>
+  );
+}
+
+// Mobile bottom navigation bar
+const navItems = [
+  { href: "#about", label: "About", icon: Info },
+  { href: "#treks", label: "Treks", icon: Mountain },
+  { href: "#stay", label: "Stay", icon: Home },
+  { href: "#contact", label: "Contact", icon: Phone },
+  { href: "#gallery", label: "Gallery", icon: ImageIcon },
+];
+
+function MobileNav() {
+  const [activeSection, setActiveSection] = useState("");
+  const [isVisible, setIsVisible] = useState(true);
+  const lastScrollY = useRef(0);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const currentScrollY = window.scrollY;
+      if (currentScrollY > lastScrollY.current && currentScrollY > 100) {
+        setIsVisible(false);
+      } else {
+        setIsVisible(true);
+      }
+      lastScrollY.current = currentScrollY;
+    };
+
+    const observerCallback: IntersectionObserverCallback = (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          setActiveSection(entry.target.id);
+        }
+      });
+    };
+
+    const observer = new IntersectionObserver(observerCallback, {
+      rootMargin: "-40% 0px -40% 0px",
+      threshold: 0,
+    });
+
+    navItems.forEach((item) => {
+      const section = document.querySelector(item.href);
+      if (section) observer.observe(section);
+    });
+
+    window.addEventListener("scroll", handleScroll, { passive: true });
+
+    return () => {
+      observer.disconnect();
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
+
+  return (
+    <motion.nav
+      initial={{ y: 80, opacity: 0 }}
+      animate={{ y: isVisible ? 0 : 80, opacity: isVisible ? 1 : 0 }}
+      transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
+      className="fixed bottom-6 left-1/2 -translate-x-1/2 z-50 md:hidden"
+    >
+      <div className="flex items-center gap-1 rounded-full bg-white/85 backdrop-blur-xl px-2 py-1.5 shadow-[0_4px_20px_-6px_oklch(0.25_0.08_155/0.4)] ring-1 ring-white/60">
+        {navItems.map((item) => {
+          const Icon = item.icon;
+          const isActive = activeSection === item.href.slice(1);
+          return (
+            <a
+              key={item.href}
+              href={item.href}
+              className={`group relative flex items-center justify-center rounded-full p-2 transition-all duration-200 ${
+                isActive
+                  ? "bg-primary text-white shadow-sm"
+                  : "text-foreground/50 hover:text-foreground/80 hover:bg-black/5"
+              }`}
+              aria-label={item.label}
+            >
+              <Icon className="h-4 w-4" strokeWidth={2} />
+              {/* Tooltip */}
+              <span className="absolute -top-8 left-1/2 -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none">
+                <span className="bg-foreground/90 text-white text-[10px] font-medium px-2 py-1 rounded-full whitespace-nowrap">
+                  {item.label}
+                </span>
+              </span>
+            </a>
+          );
+        })}
+      </div>
+    </motion.nav>
   );
 }

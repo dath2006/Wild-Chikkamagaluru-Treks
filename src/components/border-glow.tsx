@@ -126,6 +126,7 @@ export default function BorderGlow({
   const [cursorAngle, setCursorAngle] = useState(45);
   const [edgeProximity, setEdgeProximity] = useState(0);
   const [sweepActive, setSweepActive] = useState(false);
+  const [hasSwept, setHasSwept] = useState(false);
 
   const getCenterOfElement = useCallback((el: HTMLElement) => {
     const { width, height } = el.getBoundingClientRect();
@@ -173,34 +174,58 @@ export default function BorderGlow({
   );
 
   useEffect(() => {
-    if (!animated) return;
-    setSweepActive(true);
-    setCursorAngle(110);
-    animateValue({ duration: 500, onUpdate: (v) => setEdgeProximity(v / 100) });
-    animateValue({
-      ease: easeInCubic,
-      duration: 1500,
-      end: 50,
-      onUpdate: (v) => setCursorAngle((465 - 110) * (v / 100) + 110),
-    });
-    animateValue({
-      ease: easeOutCubic,
-      delay: 1500,
-      duration: 2250,
-      start: 50,
-      end: 100,
-      onUpdate: (v) => setCursorAngle((465 - 110) * (v / 100) + 110),
-    });
-    animateValue({
-      ease: easeInCubic,
-      delay: 2500,
-      duration: 1500,
-      start: 100,
-      end: 0,
-      onUpdate: (v) => setEdgeProximity(v / 100),
-      onEnd: () => setSweepActive(false),
-    });
-  }, [animated]);
+    if (!animated || hasSwept) return;
+    const card = cardRef.current;
+    if (!card) return;
+
+    const startSweep = () => {
+      setHasSwept(true);
+      setSweepActive(true);
+      setCursorAngle(110);
+      animateValue({ duration: 500, onUpdate: (v) => setEdgeProximity(v / 100) });
+      animateValue({
+        ease: easeInCubic,
+        duration: 1500,
+        end: 50,
+        onUpdate: (v) => setCursorAngle((465 - 110) * (v / 100) + 110),
+      });
+      animateValue({
+        ease: easeOutCubic,
+        delay: 1500,
+        duration: 2250,
+        start: 50,
+        end: 100,
+        onUpdate: (v) => setCursorAngle((465 - 110) * (v / 100) + 110),
+      });
+      animateValue({
+        ease: easeInCubic,
+        delay: 2500,
+        duration: 1500,
+        start: 100,
+        end: 0,
+        onUpdate: (v) => setEdgeProximity(v / 100),
+        onEnd: () => setSweepActive(false),
+      });
+    };
+
+    if (!("IntersectionObserver" in window)) {
+      startSweep();
+      return;
+    }
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry?.isIntersecting) {
+          startSweep();
+          observer.disconnect();
+        }
+      },
+      { threshold: 0.35 },
+    );
+
+    observer.observe(card);
+    return () => observer.disconnect();
+  }, [animated, hasSwept]);
 
   const colorSensitivity = edgeSensitivity + 20;
   const isVisible = isHovered || sweepActive;
