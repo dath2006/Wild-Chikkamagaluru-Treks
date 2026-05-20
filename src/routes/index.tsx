@@ -986,71 +986,69 @@ function Contact() {
           <div className="absolute inset-0 -z-10 bg-gradient-to-br from-[oklch(0.42_0.08_155)] via-[oklch(0.44_0.08_130)] to-[oklch(0.48_0.12_48)]" />
           <div className="absolute inset-0 -z-10 opacity-30 bg-[radial-gradient(circle_at_20%_20%,white,transparent_40%),radial-gradient(circle_at_80%_80%,white,transparent_40%)]" />
 
-          <div className="flex flex-col md:flex-row items-center gap-0">
-            {/* Left — Tilted founder photo */}
-            <div className="relative md:w-[340px] shrink-0 flex items-end justify-center pt-10 pb-0 md:pb-10 px-8 md:px-10">
-              <TiltedCard
-                imageSrc="https://picsum.photos/seed/sushanth/400/500"
-                altText="Sushanth Gowda — Founder & Lead Guide"
-                captionText="Sushanth Gowda · Lead Guide"
-                containerHeight="360px"
-                containerWidth="260px"
-                imageHeight="360px"
-                imageWidth="260px"
-                rotateAmplitude={12}
-                scaleOnHover={1.05}
-                showMobileWarning={false}
-                showTooltip
-                displayOverlayContent
-                overlayContent={
-                  <div className="absolute bottom-0 left-0 right-0 rounded-b-[15px] bg-linear-to-t from-black/60 via-black/20 to-transparent px-4 py-5">
-                    <p className="font-serif text-white text-base leading-tight">Sushanth Gowda</p>
-                    <p className="text-white/70 text-[11px] uppercase tracking-[0.15em] mt-0.5">
-                      Founder · Lead Guide
-                    </p>
-                  </div>
-                }
-              />
-            </div>
-
-            {/* Right — CTA content */}
-            <div className="flex-1 p-10 sm:p-14 md:pl-4 text-center md:text-left">
-              <span className="text-xs uppercase tracking-[0.25em] text-white/70">
-                Your call to adventure
-              </span>
-              <RevealText
-                as="h2"
-                text="Ready to feel alive?"
-                className="mt-4 font-serif text-4xl sm:text-5xl text-white leading-tight"
-              />
-              <p className="mt-5 text-white/80 max-w-md">
-                Let's plan your escape into the wild. Reach out — we'll craft a journey that fits
-                you.
-              </p>
-
-              <div className="mt-8 flex flex-wrap items-center justify-center md:justify-start gap-3">
-                <a
-                  href="https://wa.me/919448817562"
-                  target="_blank"
-                  rel="noreferrer"
-                  className="inline-flex items-center gap-2 rounded-full bg-white px-6 py-3 text-sm font-medium text-primary shadow-lg hover:shadow-xl transition"
-                >
-                  <Phone className="h-4 w-4" /> 94488 17562
-                </a>
-                <a
-                  href="https://instagram.com/sushanth_ckm"
-                  target="_blank"
-                  rel="noreferrer"
-                  className="inline-flex items-center gap-2 rounded-full border border-white/30 bg-white/10 px-6 py-3 text-sm font-medium text-white backdrop-blur hover:bg-white/20 transition"
-                >
-                  <Instagram className="h-4 w-4" /> @sushanth_ckm
-                </a>
+          <div className="p-10 sm:p-14 text-center md:text-left">
+            <div className="flex flex-wrap items-center justify-center md:justify-start gap-3">
+              {/* Lead guide pill with circular avatar + name */}
+              <div className="inline-flex items-center gap-3 rounded-full bg-white/15 backdrop-blur border border-white/25 pl-1.5 pr-5 py-1.5 shadow-lg">
+                <span className="relative inline-block h-10 w-10 rounded-full overflow-hidden ring-2 ring-white/60">
+                  <img
+                    src="https://picsum.photos/seed/sushanth/120/120"
+                    alt="Sushanth Gowda"
+                    className="h-full w-full object-cover"
+                  />
+                </span>
+                <span className="flex flex-col leading-tight text-left">
+                  <span className="font-serif text-white text-sm">Sushanth Gowda</span>
+                  <span className="text-[10px] uppercase tracking-[0.18em] text-white/70">
+                    Lead Guide
+                  </span>
+                </span>
               </div>
 
-              <p className="mt-8 font-serif italic text-white/70 text-base">
-                🌿 Explore. Trek. Discover. Feel Alive.
-              </p>
+              {/* Trust badge — Certified · Lead Guide */}
+              <div className="inline-flex items-center gap-2 rounded-full bg-accent/90 text-accent-foreground px-4 py-2 shadow-md ring-1 ring-white/30">
+                <Sparkles className="h-3.5 w-3.5" strokeWidth={2} />
+                <span className="text-[10px] font-semibold uppercase tracking-[0.22em]">
+                  Certified · Lead Guide
+                </span>
+              </div>
             </div>
+
+            <span className="mt-8 inline-block text-xs uppercase tracking-[0.25em] text-white/70">
+              Your call to adventure
+            </span>
+            <RevealText
+              as="h2"
+              text="Ready to feel alive?"
+              className="mt-4 font-serif text-4xl sm:text-5xl text-white leading-tight"
+            />
+            <p className="mt-5 text-white/80 max-w-md mx-auto md:mx-0">
+              Let's plan your escape into the wild. Reach out — we'll craft a journey that fits
+              you.
+            </p>
+
+            <div className="mt-8 flex flex-wrap items-center justify-center md:justify-start gap-3">
+              <a
+                href="https://wa.me/919448817562"
+                target="_blank"
+                rel="noreferrer"
+                className="inline-flex items-center gap-2 rounded-full bg-white px-6 py-3 text-sm font-medium text-primary shadow-lg hover:shadow-xl transition"
+              >
+                <Phone className="h-4 w-4" /> 94488 17562
+              </a>
+              <a
+                href="https://instagram.com/sushanth_ckm"
+                target="_blank"
+                rel="noreferrer"
+                className="inline-flex items-center gap-2 rounded-full border border-white/30 bg-white/10 px-6 py-3 text-sm font-medium text-white backdrop-blur hover:bg-white/20 transition"
+              >
+                <Instagram className="h-4 w-4" /> @sushanth_ckm
+              </a>
+            </div>
+
+            <p className="mt-8 font-serif italic text-white/70 text-base text-center md:text-left">
+              🌿 Explore. Trek. Discover. Feel Alive.
+            </p>
           </div>
         </RevealBlock>
       </div>
