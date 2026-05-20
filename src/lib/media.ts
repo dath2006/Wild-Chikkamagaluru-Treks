@@ -2,11 +2,12 @@
  * ─── SITE MEDIA REGISTRY ────────────────────────────────────────────────────
  *
  * This is the single place to set every image/video URL used on the site.
- * All three display areas pull from here:
+ * All display areas pull from here:
  *
- *   1. HERO_TILES       — floating photo tiles on the desktop hero
- *   2. CIRCULAR_GALLERY — the WebGL scrolling carousel in the Treks section
- *   3. TREK_MEDIA       — per-trek media for the masonry gallery + lightbox
+ *   1. HERO_TILES          — floating photo tiles on the desktop hero
+ *   2. CIRCULAR_GALLERY   — the WebGL scrolling carousel in the Treks section
+ *   3. TREK_MEDIA         — per-trek media for the masonry gallery + lightbox
+ *   4. MOBILE_CAROUSEL    — portrait images for the mobile hero carousel
  *
  * How to add a real image: replace the placeholder string with your R2 URL.
  * Example:
@@ -115,7 +116,31 @@ export const TREK_MEDIA_IMAGES: Record<string, string> = {
   "Sunset loop": "",
 };
 
-// ─── 4. OTHER SITE IMAGES ─────────────────────────────────────────────────────
+// ─── 4. MOBILE CAROUSEL IMAGES (portrait-oriented, hero section mobile) ──────
+// Key = trek name (must match treks.ts exactly)
+export const MOBILE_CAROUSEL_IMAGES: Record<string, string> = {
+  Mullayanagiri:
+    "https://pub-18631e686c464661a4c7ffbf0ced64ef.r2.dev/Places/mullayanagiri/WhatsApp%20Image%202026-05-20%20at%2011.13.58%20PM.jpeg",
+  "Kudremukh Peak":
+    "https://pub-18631e686c464661a4c7ffbf0ced64ef.r2.dev/Places/kudremukha/WhatsApp%20Image%202026-05-19%20at%2010.23.36%20PM.jpeg",
+  "Netravati Peak":
+    "https://pub-18631e686c464661a4c7ffbf0ced64ef.r2.dev/Places/netravathi_peak/WhatsApp%20Image%202026-05-19%20at%2010.23.35%20PM.jpeg",
+  "Kurinjal Peak":
+    "https://pub-18631e686c464661a4c7ffbf0ced64ef.r2.dev/Places/kurinjal_peak/WhatsApp%20Image%202026-05-20%20at%2011.06.28%20PM.jpeg",
+  "Ettina Bhuja":
+    "https://pub-18631e686c464661a4c7ffbf0ced64ef.r2.dev/Places/ethin_bhuja/WhatsApp%20Image%202026-05-20%20at%2011.12.48%20PM.jpeg",
+  "Gangadikkal Peak": "",
+  "Narasimha Parvatha": "",
+  "Bandaje Falls": "",
+  "Ukkada Falls": "",
+  "Hebbe Falls":
+    "https://pub-18631e686c464661a4c7ffbf0ced64ef.r2.dev/Falls/hebbe_falls/WhatsApp%20Image%202026-05-20%20at%2011.16.32%20PM.jpeg",
+  "Jari Falls":
+    "https://pub-18631e686c464661a4c7ffbf0ced64ef.r2.dev/Falls/jhari_falls/WhatsApp%20Image%202026-05-20%20at%2011.17.54%20PM.jpeg",
+  Bandekallu: "",
+};
+
+// ─── 5. OTHER SITE IMAGES ─────────────────────────────────────────────────────
 export const SITE_IMAGES = {
   founderPortrait: "https://pub-18631e686c464661a4c7ffbf0ced64ef.r2.dev/sushanth/10003.jpg",
   founderAvatar: "https://pub-18631e686c464661a4c7ffbf0ced64ef.r2.dev/sushanth/10001.jpg",
