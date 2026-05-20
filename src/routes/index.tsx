@@ -982,9 +982,12 @@ function Contact() {
   return (
     <SectionReveal id="contact" className="relative py-28 px-4">
       <div className="mx-auto max-w-5xl">
-        <RevealBlock className="relative overflow-hidden rounded-[2.5rem]">
-          <div className="absolute inset-0 -z-10 bg-gradient-to-br from-[oklch(0.42_0.08_155)] via-[oklch(0.44_0.08_130)] to-[oklch(0.48_0.12_48)]" />
-          <div className="absolute inset-0 -z-10 opacity-30 bg-[radial-gradient(circle_at_20%_20%,white,transparent_40%),radial-gradient(circle_at_80%_80%,white,transparent_40%)]" />
+        <div className="relative">
+          <CertifiedSticker />
+          <RevealBlock className="relative overflow-hidden rounded-[2.5rem]">
+            <div className="absolute inset-0 -z-10 bg-gradient-to-br from-[oklch(0.42_0.08_155)] via-[oklch(0.44_0.08_130)] to-[oklch(0.48_0.12_48)]" />
+            <div className="absolute inset-0 -z-10 opacity-30 bg-[radial-gradient(circle_at_20%_20%,white,transparent_40%),radial-gradient(circle_at_80%_80%,white,transparent_40%)]" />
+
 
           <div className="p-10 sm:p-14 text-center md:text-left">
             <div className="flex flex-wrap items-center justify-center md:justify-start gap-3">
