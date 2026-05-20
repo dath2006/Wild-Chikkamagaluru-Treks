@@ -182,6 +182,7 @@ class Media {
   speed: number = 0;
   isBefore: boolean = false;
   isAfter: boolean = false;
+  fallbackImage: string = "";
 
   constructor({
     geometry,
@@ -204,6 +205,7 @@ class Media {
     this.gl = gl;
     this.image = image;
     this.index = index;
+    this.fallbackImage = `https://picsum.photos/seed/${index + 10}/800/600`;
     this.length = length;
     this.renderer = renderer;
     this.scene = scene;
@@ -278,13 +280,40 @@ class Media {
       },
       transparent: true,
     });
-    const img = new Image();
-    img.crossOrigin = "anonymous";
-    img.src = this.image;
-    img.onload = () => {
-      texture.image = img;
-      this.program.uniforms.uImageSizes.value = [img.naturalWidth, img.naturalHeight];
+
+    const loadImage = (src: string, attemptFallback = true) => {
+      const img = new Image();
+
+      // Use anonymous CORS mode for cross-origin images
+      img.crossOrigin = "anonymous";
+
+      const cleanup = () => {
+        img.onload = null;
+        img.onerror = null;
+      };
+
+      img.onload = () => {
+        cleanup();
+        texture.image = img;
+        this.program.uniforms.uImageSizes.value = [img.naturalWidth, img.naturalHeight];
+      };
+
+      img.onerror = () => {
+        cleanup();
+        if (attemptFallback && src !== this.fallbackImage) {
+          console.warn(`Failed to load image: ${src}. Falling back to placeholder.`);
+          loadImage(this.fallbackImage, false);
+        }
+      };
+
+      // Add cache-busting parameter to avoid cached CORS issues
+      const cacheBustedSrc = src.includes("?")
+        ? `${src}&_cb=${Date.now()}`
+        : `${src}?_cb=${Date.now()}`;
+      img.src = cacheBustedSrc;
     };
+
+    loadImage(this.image);
   }
 
   createMesh() {
@@ -387,6 +416,8 @@ class App {
   screen!: { width: number; height: number };
   viewport!: { width: number; height: number };
   raf: number = 0;
+  isVisible: boolean = true;
+  visibilityObserver!: IntersectionObserver;
   boundOnResize!: () => void;
   boundOnWheel!: (e: Event) => void;
   boundOnTouchDown!: (e: MouseEvent | TouchEvent) => void;
@@ -423,6 +454,7 @@ class App {
     this.createMedias(items, bend, textColor, borderRadius, font);
     this.update();
     this.addEventListeners();
+    this.addVisibilityObserver();
   }
 
   createRenderer() {
@@ -563,7 +595,22 @@ class App {
       );
   }
 
+  addVisibilityObserver() {
+    this.visibilityObserver = new IntersectionObserver(
+      ([entry]) => {
+        this.isVisible = entry?.isIntersecting ?? true;
+        if (this.isVisible && this.raf === 0) {
+          this.raf = window.requestAnimationFrame(this.update.bind(this));
+        }
+      },
+      { rootMargin: "200px" },
+    );
+    this.visibilityObserver.observe(this.container);
+  }
+
   update() {
+    this.raf = 0;
+    if (!this.isVisible) return;
     this.scroll.current = lerp(this.scroll.current, this.scroll.target, this.scroll.ease);
     const direction = this.scroll.current > this.scroll.last ? "right" : "left";
     if (this.medias) this.medias.forEach((media) => media.update(this.scroll, direction));
@@ -593,6 +640,7 @@ class App {
 
   destroy() {
     window.cancelAnimationFrame(this.raf);
+    this.visibilityObserver?.disconnect();
     window.removeEventListener("resize", this.boundOnResize);
     this.container.removeEventListener("wheel", this.boundOnWheel as any);
     this.container.removeEventListener("mousedown", this.boundOnTouchDown as any);

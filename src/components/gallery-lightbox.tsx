@@ -8,6 +8,7 @@ export type GalleryItem = {
   variant: "image" | "video";
   seed: number;
   trekName?: string;
+  url?: string;
 };
 
 interface GalleryLightboxProps {
@@ -94,10 +95,18 @@ export function GalleryLightbox({ items, activeIndex, onClose, onNavigate }: Gal
                 >
                   <div
                     className="absolute inset-0"
-                    style={{
-                      background: `radial-gradient(circle at 25% 25%, oklch(0.85 0.09 ${hue1} / 0.75), transparent 55%), radial-gradient(circle at 80% 75%, oklch(0.82 0.07 ${hue2} / 0.65), transparent 55%), linear-gradient(160deg, oklch(0.96 0.02 145) 0%, oklch(0.90 0.05 170) 50%, oklch(0.93 0.03 130) 100%)`,
-                    }}
-                  />
+                    style={
+                      item.url
+                        ? undefined
+                        : {
+                            background: `radial-gradient(circle at 25% 25%, oklch(0.85 0.09 ${hue1} / 0.75), transparent 55%), radial-gradient(circle at 80% 75%, oklch(0.82 0.07 ${hue2} / 0.65), transparent 55%), linear-gradient(160deg, oklch(0.96 0.02 145) 0%, oklch(0.90 0.05 170) 50%, oklch(0.93 0.03 130) 100%)`,
+                          }
+                    }
+                  >
+                    {item.url && (
+                      <img src={item.url} alt={item.label} className="w-full h-full object-cover" />
+                    )}
+                  </div>
                   <div className="absolute inset-0 flex flex-col items-center justify-center gap-3 text-primary/60">
                     <div className="rounded-full bg-white/60 p-5 backdrop-blur shadow-sm">
                       {item.variant === "video" ? (
@@ -191,10 +200,23 @@ export function GalleryTile({ item, index, onClick }: GalleryTileProps) {
       whileHover={reduce ? undefined : { scale: 1.02 }}
       onClick={() => onClick(index)}
       className={`group relative w-full overflow-hidden rounded-2xl border border-white/50 shadow-[0_8px_30px_-12px_oklch(0.42_0.07_155/0.4)] cursor-zoom-in focus:outline-none focus-visible:ring-2 focus-visible:ring-primary ${heightClass}`}
-      style={{
-        background: `radial-gradient(circle at 30% 20%, oklch(0.88 0.08 ${hue1} / 0.65), transparent 55%), radial-gradient(circle at 80% 80%, oklch(0.86 0.06 ${hue2} / 0.55), transparent 60%), oklch(0.95 0.03 155)`,
-      }}
+      style={
+        item.url
+          ? undefined
+          : {
+              background: `radial-gradient(circle at 30% 20%, oklch(0.88 0.08 ${hue1} / 0.65), transparent 55%), radial-gradient(circle at 80% 80%, oklch(0.86 0.06 ${hue2} / 0.55), transparent 60%), oklch(0.95 0.03 155)`,
+            }
+      }
     >
+      {/* Real image if available */}
+      {item.url && (
+        <img
+          src={item.url}
+          alt={item.label}
+          className="absolute inset-0 w-full h-full object-cover"
+        />
+      )}
+
       {/* Inner icon */}
       <div className="absolute inset-0 flex flex-col items-center justify-center gap-2 text-primary/60 transition-opacity duration-300 group-hover:opacity-0">
         <div className="rounded-full bg-white/60 p-3 backdrop-blur shadow-sm">

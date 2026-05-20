@@ -1,3 +1,5 @@
+import { useState, useEffect } from "react";
+
 const links = [
   { href: "#about", label: "About" },
   { href: "#treks", label: "Treks" },
@@ -7,38 +9,88 @@ const links = [
 ];
 
 export function SiteNav() {
+  const [scrolled, setScrolled] = useState(false);
+  const [active, setActive] = useState("");
+
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 40);
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((e) => {
+          if (e.isIntersecting) setActive(e.target.id);
+        });
+      },
+      { rootMargin: "-40% 0px -50% 0px", threshold: 0 },
+    );
+    links.forEach(({ href }) => {
+      const el = document.querySelector(href);
+      if (el) observer.observe(el);
+    });
+    return () => observer.disconnect();
+  }, []);
+
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 px-4 pt-4">
-      <nav className="mx-auto flex max-w-6xl items-center justify-between rounded-full px-5 py-3 glass border border-white/70 shadow-[0_4px_24px_-8px_oklch(0.42_0.07_155/0.18),inset_0_1px_0_oklch(1_0_0/0.7)]">
-        <a href="#top" className="flex items-center gap-2.5">
-          <img
-            src="/icon.png"
-            alt="Wild Chikkamagaluru Treks"
-            className="h-9 w-9 rounded-full object-cover"
-          />
+    <header className="fixed top-0 left-0 right-0 z-50 px-4 pt-3.5">
+      <nav
+        className={`mx-auto flex max-w-6xl items-center justify-between rounded-2xl px-4 py-2.5 transition-all duration-500 ${
+          scrolled
+            ? "glass border border-white/60 shadow-[0_8px_32px_-8px_oklch(0.3_0.08_155/0.22),inset_0_1px_0_oklch(1_0_0/0.65)]"
+            : "bg-white/40 backdrop-blur border border-white/50 shadow-[0_2px_12px_-4px_oklch(0.4_0.07_155/0.12),inset_0_1px_0_oklch(1_0_0/0.5)]"
+        }`}
+      >
+        {/* Logo */}
+        <a href="#top" className="flex items-center gap-2.5 group">
+          <div className="relative">
+            <img
+              src="/icon.png"
+              alt="Wild Chikkamagaluru Treks"
+              className="h-9 w-9 rounded-xl object-cover shadow-sm ring-1 ring-white/60 transition-transform duration-300 group-hover:scale-105"
+            />
+            <span className="absolute -bottom-0.5 -right-0.5 h-2.5 w-2.5 rounded-full bg-primary border-2 border-white shadow-sm" />
+          </div>
           <span className="flex flex-col leading-none">
-            <span className="font-serif text-[14px] sm:text-[16px] tracking-tight text-foreground">
+            <span className="font-serif text-[14px] sm:text-[15px] tracking-tight text-foreground">
               Wild Chikkamagaluru
             </span>
-            <span className="uppercase tracking-[0.18em] text-[9px] sm:text-[10px] text-muted-foreground">
-              Treks
+            <span className="uppercase tracking-[0.2em] text-[8.5px] text-primary/70 font-medium">
+              Western Ghats Treks
             </span>
           </span>
         </a>
-        <ul className="hidden md:flex items-center gap-7 text-sm text-foreground/80">
-          {links.map((l) => (
-            <li key={l.href}>
-              <a href={l.href} className="hover:text-primary transition-colors">
-                {l.label}
-              </a>
-            </li>
-          ))}
+
+        {/* Desktop links */}
+        <ul className="hidden md:flex items-center gap-1 text-sm">
+          {links.map((l) => {
+            const isActive = active === l.href.slice(1);
+            return (
+              <li key={l.href}>
+                <a
+                  href={l.href}
+                  className={`relative px-3.5 py-1.5 rounded-lg font-medium transition-all duration-200 ${
+                    isActive
+                      ? "text-primary bg-primary/8"
+                      : "text-foreground/65 hover:text-foreground hover:bg-black/5"
+                  }`}
+                >
+                  {l.label}
+                </a>
+              </li>
+            );
+          })}
         </ul>
+
+        {/* CTA */}
         <a
           href="#contact"
-          className="rounded-full bg-primary px-4 py-2 text-xs font-medium text-primary-foreground shadow-sm hover:opacity-90 transition"
+          className="group relative overflow-hidden rounded-xl bg-primary px-4 py-2 text-xs font-semibold text-primary-foreground shadow-[0_2px_12px_-2px_oklch(0.42_0.12_155/0.4)] transition-all duration-200 hover:shadow-[0_4px_20px_-2px_oklch(0.42_0.12_155/0.55)] hover:-translate-y-px active:translate-y-0"
         >
-          Plan a Trek
+          <span className="relative z-10">Plan a Trek</span>
+          <span className="absolute inset-0 bg-linear-to-br from-white/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-200" />
         </a>
       </nav>
     </header>

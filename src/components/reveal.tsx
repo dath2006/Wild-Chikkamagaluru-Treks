@@ -1,5 +1,5 @@
 import { motion, useReducedMotion, useScroll, useTransform, type Variants } from "motion/react";
-import { useRef, type ReactNode } from "react";
+import { useRef, useState, type ReactNode } from "react";
 import { useIsMobile } from "@/hooks/use-mobile";
 
 const ease = [0.22, 1, 0.36, 1] as const;
@@ -166,6 +166,8 @@ export function RevealImage({
   const y = useTransform(scrollYProgress, [0, 1], [parallax, -parallax]);
   const disableParallax = reduce || isMobile;
 
+  const [animDone, setAnimDone] = useState(false);
+
   return (
     <motion.div
       ref={ref}
@@ -174,7 +176,8 @@ export function RevealImage({
       whileInView={reduce ? { opacity: 1 } : { clipPath: "inset(0% 0 0 0)", opacity: 1 }}
       viewport={{ once: true, margin: "0px" }}
       transition={{ duration: 1.1, ease }}
-      style={{ willChange: "clip-path, transform" }}
+      onAnimationComplete={() => setAnimDone(true)}
+      style={{ willChange: animDone ? "auto" : "clip-path, transform" }}
     >
       <motion.div
         initial={reduce ? false : { scale: 1.12 }}

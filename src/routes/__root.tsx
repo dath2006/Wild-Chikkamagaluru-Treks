@@ -132,7 +132,6 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
         rel: "preload",
         as: "style",
         href: "https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap",
-        onload: "this.onload=null;this.rel='stylesheet'",
       },
       { rel: "icon", type: "image/png", href: "/icon.png" },
       { rel: "icon", type: "image/x-icon", href: "/icon_32.ico", sizes: "32x32" },

@@ -38,6 +38,7 @@ import BorderGlow from "@/components/border-glow";
 import TiltedCard from "@/components/tilted-card";
 import { TrekCardStack, type TrekCard } from "@/components/trek-card-stack";
 import { treks, type Trek } from "@/lib/treks";
+import { HERO_TILE_IMAGES, TREK_COVER_IMAGES, TREK_MEDIA_IMAGES, SITE_IMAGES } from "@/lib/media";
 import { useIsMobile } from "@/hooks/use-mobile";
 
 export const Route = createFileRoute("/")({
@@ -166,11 +167,11 @@ const heroTiles: Tile[] = [
   },
 ];
 
-function TileContent({ seed }: { seed: number }) {
+function TileContent({ seed, visible }: { seed: number; visible: boolean }) {
   const reduce = useReducedMotion();
   const [idx, setIdx] = useState(seed % mediaPool.length);
   useEffect(() => {
-    if (reduce) return;
+    if (reduce || !visible) return;
     const t = setInterval(
       () => {
         setIdx(
@@ -180,7 +181,7 @@ function TileContent({ seed }: { seed: number }) {
       3600 + seed * 450,
     );
     return () => clearInterval(t);
-  }, [seed, reduce]);
+  }, [seed, reduce, visible]);
   const item = mediaPool[idx];
   const Icon = item.variant === "video" ? PlayCircle : ImageIcon;
   const hue1 = 150 + ((idx * 7) % 40);
@@ -198,17 +199,27 @@ function TileContent({ seed }: { seed: number }) {
         }}
         className="absolute inset-0"
       >
-        <div
-          className="absolute inset-0"
-          style={{
-            background: `radial-gradient(circle at 30% 20%, oklch(0.85 0.09 ${hue1} / 0.6), transparent 60%), radial-gradient(circle at 80% 80%, oklch(0.85 0.07 ${hue2} / 0.55), transparent 60%)`,
-          }}
-        />
-        <div className="absolute inset-0 flex flex-col items-center justify-center gap-2 text-primary/70">
-          <div className="rounded-full bg-white/70 p-2.5 backdrop-blur shadow-sm">
-            <Icon className="h-5 w-5" strokeWidth={1.4} />
-          </div>
-          <p className="text-[10px] uppercase tracking-[0.18em] text-primary/60 px-3 text-center">
+        {HERO_TILE_IMAGES[item.label] ? (
+          <img
+            src={HERO_TILE_IMAGES[item.label]}
+            alt={item.label}
+            className="absolute inset-0 w-full h-full object-cover"
+          />
+        ) : (
+          <div
+            className="absolute inset-0"
+            style={{
+              background: `radial-gradient(circle at 30% 20%, oklch(0.85 0.09 ${hue1} / 0.6), transparent 60%), radial-gradient(circle at 80% 80%, oklch(0.85 0.07 ${hue2} / 0.55), transparent 60%)`,
+            }}
+          />
+        )}
+        <div className="absolute inset-0 flex flex-col items-center justify-center gap-2 text-primary/70 pointer-events-none">
+          {!HERO_TILE_IMAGES[item.label] && (
+            <div className="rounded-full bg-white/70 p-2.5 backdrop-blur shadow-sm">
+              <Icon className="h-5 w-5" strokeWidth={1.4} />
+            </div>
+          )}
+          <p className="text-[10px] uppercase tracking-[0.18em] text-primary/60 px-3 text-center drop-shadow">
             {item.label}
           </p>
         </div>
@@ -221,10 +232,12 @@ function FloatingTile({
   tile,
   index,
   scrollY,
+  visible,
 }: {
   tile: Tile;
   index: number;
   scrollY: MotionValue<number>;
+  visible: boolean;
 }) {
   const reduce = useReducedMotion();
   const isMobile = useIsMobile();
@@ -282,7 +295,7 @@ function FloatingTile({
       }}
       className="absolute hidden md:block rounded-3xl overflow-hidden border border-white/60 shadow-[0_20px_60px_-25px_oklch(0.42_0.07_155_/_0.45)] gradient-mist"
     >
-      <TileContent seed={index} />
+      <TileContent seed={index} visible={visible} />
       <div className="pointer-events-none absolute inset-0 rounded-3xl ring-1 ring-inset ring-white/50" />
       <span className="absolute top-3 left-3 text-[9px] font-mono text-primary/50 z-10">
         0{index + 1}
@@ -447,96 +460,107 @@ function WordMarquee() {
 }
 
 function Hero() {
-  const heroRef = useRef<HTMLElement | null>(null);
-  const { scrollYProgress } = useScroll({
-    target: heroRef,
-    offset: ["start start", "end start"],
-  });
+  const { scrollY } = useScroll();
+  const scrollYProgress = useTransform(scrollY, [0, 900], [0, 1]);
+  const [heroVisible, setHeroVisible] = useState(true);
+  useEffect(() => {
+    const unsub = scrollY.on("change", (v) => {
+      setHeroVisible(v < window.innerHeight * 0.9);
+    });
+    return unsub;
+  }, [scrollY]);
   return (
-    <section id="top" ref={heroRef} className="relative overflow-hidden">
-      {/* Mobile-specific split hero */}
-      <MobileHero />
+    <>
+      <section id="top" className="fixed inset-x-0 top-0 h-svh overflow-hidden z-0">
+        {/* Mobile-specific split hero */}
+        <MobileHero />
 
-      {/* Desktop stage with floating photo/video tiles */}
-      <div className="relative hidden md:block h-[100vh] min-h-[680px] w-full pt-24">
-        {/* ambient blobs */}
-        <div className="absolute inset-0 -z-10">
-          <div className="absolute top-10 -left-32 h-96 w-96 rounded-full bg-[oklch(0.85_0.09_165_/_0.5)] blur-3xl" />
-          <div className="absolute bottom-0 -right-32 h-[28rem] w-[28rem] rounded-full bg-[oklch(0.90_0.12_48_/_0.4)] blur-3xl" />
-          <div className="absolute top-1/2 -right-16 h-64 w-64 rounded-full bg-[oklch(0.92_0.10_38_/_0.25)] blur-2xl" />
-        </div>
+        {/* Desktop stage with floating photo/video tiles */}
+        <div className="relative hidden md:block h-full min-h-[680px] w-full pt-24">
+          {/* ambient blobs */}
+          <div className="absolute inset-0 -z-10">
+            <div className="absolute top-10 -left-32 h-96 w-96 rounded-full bg-[oklch(0.85_0.09_165_/_0.5)] blur-3xl" />
+            <div className="absolute bottom-0 -right-32 h-[28rem] w-[28rem] rounded-full bg-[oklch(0.90_0.12_48_/_0.4)] blur-3xl" />
+            <div className="absolute top-1/2 -right-16 h-64 w-64 rounded-full bg-[oklch(0.92_0.10_38_/_0.25)] blur-2xl" />
+          </div>
 
-        {/* Floating tiles layer */}
-        <div className="absolute inset-0 overflow-hidden">
-          {heroTiles.map((t, i) => (
-            <FloatingTile key={t.label} tile={t} index={i} scrollY={scrollYProgress} />
-          ))}
-        </div>
+          {/* Floating tiles layer */}
+          <div className="absolute inset-0 overflow-hidden">
+            {heroTiles.map((t, i) => (
+              <FloatingTile
+                key={t.label}
+                tile={t}
+                index={i}
+                scrollY={scrollYProgress}
+                visible={heroVisible}
+              />
+            ))}
+          </div>
 
-        {/* Centered focal content */}
-        <div className="relative z-10 flex h-full flex-col items-center justify-center px-4 pointer-events-none">
-          <motion.div
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 1, ease: [0.22, 1, 0.36, 1] }}
-            className="pointer-events-auto flex flex-col items-center text-center"
-          >
-            <div className="inline-flex items-center gap-2 rounded-full glass px-4 py-1.5 text-[11px] uppercase tracking-[0.22em] text-primary/80">
-              <Leaf className="h-3.5 w-3.5" />
-              Western Ghats · Karnataka
-            </div>
-
-            {/* Stamp-style focal mark */}
-            <div className="relative mt-8 flex items-center justify-center">
-              <div className="glass rounded-full px-6 py-3 flex items-center gap-3 shadow-[0_15px_50px_-20px_oklch(0.42_0.07_155_/_0.5)]">
-                <img src="/icon.png" alt="" className="h-8 w-8 rounded-full object-cover" />
-                <span className="font-serif text-lg sm:text-xl text-primary">
-                  Wild Chikkamagaluru Treks
-                </span>
+          {/* Centered focal content */}
+          <div className="relative z-10 flex h-full flex-col items-center justify-center px-4 pointer-events-none">
+            <motion.div
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 1, ease: [0.22, 1, 0.36, 1] }}
+              className="pointer-events-auto flex flex-col items-center text-center"
+            >
+              <div className="inline-flex items-center gap-2 rounded-full glass px-4 py-1.5 text-[11px] uppercase tracking-[0.22em] text-primary/80">
+                <Leaf className="h-3.5 w-3.5" />
+                Western Ghats · Karnataka
               </div>
-            </div>
 
-            {/* Tagline */}
-            <h1 className="mt-6 sm:mt-10 font-serif text-xl sm:text-5xl text-primary leading-tight max-w-2xl px-2 sm:px-0">
-              Go hiking before your knees{" "}
-              <em className="text-gradient-nature not-italic">file for early retirement</em>
-            </h1>
+              {/* Stamp-style focal mark */}
+              <div className="relative mt-8 flex items-center justify-center">
+                <div className="glass rounded-full px-6 py-3 flex items-center gap-3 shadow-[0_15px_50px_-20px_oklch(0.42_0.07_155_/_0.5)]">
+                  <img src="/icon.png" alt="" className="h-8 w-8 rounded-full object-cover" />
+                  <span className="font-serif text-lg sm:text-xl text-primary">
+                    Wild Chikkamagaluru Treks
+                  </span>
+                </div>
+              </div>
 
-            <div className="mt-5 sm:mt-8 flex items-center gap-3">
-              <a
-                href="#treks"
-                className="group inline-flex items-center gap-2 rounded-full bg-primary px-5 py-2.5 text-sm font-medium text-primary-foreground shadow-lg shadow-primary/20 transition hover:shadow-primary/30"
-              >
-                Explore Treks
-                <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
-              </a>
-              <a
-                href="#gallery"
-                className="inline-flex items-center gap-2 rounded-full border border-primary/20 bg-white/60 px-5 py-2.5 text-sm font-medium text-primary backdrop-blur hover:bg-white/80 transition"
-              >
-                Watch the journey
-              </a>
-            </div>
-          </motion.div>
+              {/* Tagline */}
+              <h1 className="mt-6 sm:mt-10 font-serif text-xl sm:text-5xl text-primary leading-tight max-w-2xl px-2 sm:px-0">
+                Go hiking before your knees{" "}
+                <em className="text-gradient-nature not-italic">file for early retirement</em>
+              </h1>
 
-          {/* scroll cue */}
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1, y: [0, 6, 0] }}
-            transition={{
-              opacity: { duration: 1, delay: 1.4 },
-              y: { duration: 2.4, repeat: Infinity, ease: "easeInOut" },
-            }}
-            className="absolute bottom-8 inline-flex items-center gap-2 text-[10px] uppercase tracking-[0.25em] text-primary/60"
-          >
-            <ArrowDown className="h-3 w-3" /> Scroll
-          </motion.div>
+              <div className="mt-5 sm:mt-8 flex items-center gap-3">
+                <a
+                  href="#treks"
+                  className="group inline-flex items-center gap-2 rounded-full bg-primary px-5 py-2.5 text-sm font-medium text-primary-foreground shadow-lg shadow-primary/20 transition hover:shadow-primary/30"
+                >
+                  Explore Treks
+                  <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
+                </a>
+                <a
+                  href="#gallery"
+                  className="inline-flex items-center gap-2 rounded-full border border-primary/20 bg-white/60 px-5 py-2.5 text-sm font-medium text-primary backdrop-blur hover:bg-white/80 transition"
+                >
+                  Watch the journey
+                </a>
+              </div>
+            </motion.div>
+
+            {/* scroll cue */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1, y: [0, 6, 0] }}
+              transition={{
+                opacity: { duration: 1, delay: 1.4 },
+                y: { duration: 2.4, repeat: Infinity, ease: "easeInOut" },
+              }}
+              className="absolute bottom-8 inline-flex items-center gap-2 text-[10px] uppercase tracking-[0.25em] text-primary/60"
+            >
+              <ArrowDown className="h-3 w-3" /> Scroll
+            </motion.div>
+          </div>
         </div>
-      </div>
-
-      {/* Marquee strip below stage */}
-      <WordMarquee />
-    </section>
+      </section>
+      {/* Spacer — keeps document flow height so scroll-over content starts below the hero */}
+      <div className="h-svh pointer-events-none" aria-hidden="true" />
+    </>
   );
 }
 
@@ -582,11 +606,10 @@ function About() {
           </RevealBlock>
 
           <RevealImage>
-            <MediaPlaceholder
-              aspect="portrait"
-              label="Forest trail photograph"
-              hint="A vertical image of a misty forest path or canopy"
-              className="photo-halo"
+            <img
+              src="https://pub-18631e686c464661a4c7ffbf0ced64ef.r2.dev/Additionals/WhatsApp%20Image%202026-05-19%20at%2010.23.44%20PM%20(2).jpeg"
+              alt="Forest trail photograph"
+              className="photo-halo w-full object-cover rounded-3xl max-h-[420px] md:max-h-[640px]"
             />
           </RevealImage>
         </div>
@@ -636,11 +659,10 @@ function Founder() {
     <SectionReveal className="relative py-16 md:py-28 px-4 section-blobs">
       <div className="mx-auto max-w-6xl grid gap-12 md:grid-cols-[1fr_1.2fr] items-center">
         <RevealImage>
-          <MediaPlaceholder
-            aspect="portrait"
-            label="Portrait of Sushanth Gowda"
-            hint="A warm portrait of the founder on a trail"
-            className="photo-halo"
+          <img
+            src={SITE_IMAGES.founderPortrait}
+            alt="Portrait of Sushanth Gowda"
+            className="photo-halo w-full object-cover rounded-3xl max-h-[420px] md:max-h-[640px]"
           />
         </RevealImage>
         <div>
@@ -657,6 +679,15 @@ function Founder() {
           />
           <RevealBlock delay={0.1}>
             <p className="mt-2 text-sm text-muted-foreground">Founder & Lead Guide</p>
+            <a
+              href="https://www.instagram.com/sushanth_ckm"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="mt-2 inline-flex items-center gap-1.5 text-xs font-medium text-pink-500/80 hover:text-pink-500 transition-colors"
+            >
+              <Instagram className="h-3.5 w-3.5" />
+              @sushanth_ckm
+            </a>
             <p className="mt-6 text-foreground/80 leading-relaxed">
               A passionate trekker with <span className="highlight">years of experience</span> in
               the Chikkamagaluru region, Sushanth personally leads most treks. His goal isn't only
@@ -733,7 +764,7 @@ function GalleryHint() {
 }
 
 const galleryItems = treks.map((t) => ({
-  image: `https://picsum.photos/seed/${t.coverSeed}/800/600`,
+  image: TREK_COVER_IMAGES[t.name] || `https://picsum.photos/seed/${t.coverSeed}/800/600`,
   text: t.name,
 }));
 
@@ -818,6 +849,7 @@ const ALL_GALLERY_ITEMS: GalleryItem[] = treks.flatMap((t) =>
   t.media.map((m) => ({
     label: m.label,
     variant: m.type,
+    url: TREK_MEDIA_IMAGES[m.label] || undefined,
     seed: m.seed,
     trekName: t.name,
   })),
@@ -1065,7 +1097,7 @@ function Contact() {
             <div className="relative p-10 sm:p-14 text-center md:text-left md:pr-96">
               <div className="absolute right-10 top-1/2 hidden -translate-y-1/2 md:block">
                 <TiltedCard
-                  imageSrc="https://picsum.photos/seed/contact-guide-card/520/680"
+                  imageSrc="https://pub-18631e686c464661a4c7ffbf0ced64ef.r2.dev/sushanth/10001%20(1).jpg"
                   altText="Mountain guide on a Chikkamagaluru trail"
                   captionText="Guided by local trail experts"
                   containerHeight="310px"
@@ -1088,12 +1120,12 @@ function Contact() {
                   }
                 />
               </div>
-              <div className="flex flex-wrap items-center justify-center md:justify-start gap-3 md:ml-20 lg:ml-24">
+              <div className="flex flex-wrap items-center justify-center md:justify-start gap-3 md:ml-5 lg:ml-10">
                 {/* Lead guide pill with circular avatar + name */}
                 <div className="inline-flex items-center gap-3 rounded-full bg-white/15 backdrop-blur border border-white/25 pl-1.5 pr-5 py-1.5 shadow-lg">
                   <span className="relative inline-block h-10 w-10 rounded-full overflow-hidden ring-2 ring-white/60">
                     <img
-                      src="https://picsum.photos/seed/sushanth/120/120"
+                      src="https://pub-18631e686c464661a4c7ffbf0ced64ef.r2.dev/sushanth/10001.jpg"
                       alt="Sushanth Gowda"
                       className="h-full w-full object-cover"
                     />
@@ -1184,16 +1216,19 @@ function Index() {
   const handleLightboxClose = useCallback(() => setLightboxIndex(null), []);
 
   return (
-    <main className="relative overflow-x-hidden">
+    <main className="relative overflow-x-clip">
       <SiteNav />
       <Hero />
-      <About />
-      <Founder />
-      <Treks onTrekClick={handleTrekClick} />
-      <Stay />
-      <Contact />
-      <Gallery onLightboxOpen={handleLightboxOpen} />
-      <Footer />
+      <div className="relative z-10 scroll-over-content">
+        <WordMarquee />
+        <About />
+        <Founder />
+        <Treks onTrekClick={handleTrekClick} />
+        <Stay />
+        <Contact />
+        <Gallery onLightboxOpen={handleLightboxOpen} />
+        <Footer />
+      </div>
       <MobileNav />
       <TrekModal trek={activeTrek} onClose={() => setActiveTrek(null)} />
       <GalleryLightbox
@@ -1259,9 +1294,11 @@ function MobileNav() {
 
   return (
     <nav
-      className={`fixed bottom-6 left-1/2 -translate-x-1/2 z-50 md:hidden transition-all duration-300 ${isVisible ? "translate-y-0 opacity-100" : "translate-y-20 opacity-0"}`}
+      className={`fixed bottom-5 left-1/2 -translate-x-1/2 z-50 md:hidden transition-all duration-300 w-[92vw] max-w-sm ${
+        isVisible ? "translate-y-0 opacity-100" : "translate-y-24 opacity-0"
+      }`}
     >
-      <div className="flex items-center gap-1 rounded-full bg-white/85 backdrop-blur-xl px-2 py-1.5 shadow-[0_4px_20px_-6px_oklch(0.25_0.08_155/0.4)] ring-1 ring-white/60">
+      <div className="flex items-center justify-between rounded-2xl bg-white/88 backdrop-blur-2xl px-3 py-2 shadow-[0_8px_32px_-8px_oklch(0.25_0.08_155/0.35),0_2px_8px_-2px_oklch(0.3_0.06_155/0.15)] ring-1 ring-white/70">
         {navItems.map((item) => {
           const Icon = item.icon;
           const isActive = activeSection === item.href.slice(1);
@@ -1269,19 +1306,24 @@ function MobileNav() {
             <a
               key={item.href}
               href={item.href}
-              className={`group relative flex items-center justify-center rounded-full p-2 transition-all duration-200 ${
-                isActive
-                  ? "bg-primary text-white shadow-sm"
-                  : "text-foreground/50 hover:text-foreground/80 hover:bg-black/5"
+              className={`relative flex flex-col items-center justify-center gap-0.5 rounded-xl px-3 py-1.5 transition-all duration-200 ${
+                isActive ? "text-primary" : "text-foreground/45 hover:text-foreground/70"
               }`}
               aria-label={item.label}
             >
-              <Icon className="h-4 w-4" strokeWidth={2} />
-              {/* Tooltip */}
-              <span className="absolute -top-8 left-1/2 -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none">
-                <span className="bg-foreground/90 text-white text-[10px] font-medium px-2 py-1 rounded-full whitespace-nowrap">
-                  {item.label}
-                </span>
+              {isActive && <span className="absolute inset-0 rounded-xl bg-primary/10" />}
+              <Icon
+                className={`relative h-[18px] w-[18px] transition-transform duration-200 ${
+                  isActive ? "scale-110" : ""
+                }`}
+                strokeWidth={isActive ? 2.2 : 1.8}
+              />
+              <span
+                className={`relative text-[9.5px] font-medium tracking-wide transition-all duration-200 ${
+                  isActive ? "text-primary" : "text-foreground/40"
+                }`}
+              >
+                {item.label}
               </span>
             </a>
           );
