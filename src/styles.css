@@ -239,6 +239,20 @@
     animation: marquee 40s linear infinite;
   }
 
+  /* Subtle text highlight - sage green tint */
+  .highlight {
+    background: linear-gradient(180deg, transparent 55%, oklch(0.75 0.14 155 / 0.4) 55%);
+    padding: 0 3px;
+    border-radius: 3px;
+  }
+
+  /* Accent highlight - golden tint */
+  .highlight-accent {
+    background: linear-gradient(180deg, transparent 55%, oklch(0.78 0.16 55 / 0.35) 55%);
+    padding: 0 3px;
+    border-radius: 3px;
+  }
+
   @media (max-width: 767px) {
     .marquee-container {
       animation-duration: 33s;
@@ -301,4 +315,19 @@
   100% {
     transform: translateX(-50%);
   }
+}
+
+@keyframes hero-fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.hero-fade-in {
+  animation: hero-fade-in 0.35s ease-out both;
 }

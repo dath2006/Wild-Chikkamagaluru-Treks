@@ -637,18 +637,24 @@ export default function CircularGallery({
 
   useEffect(() => {
     if (!containerRef.current) return;
-    const app = new App(containerRef.current, {
-      items,
-      bend,
-      textColor,
-      borderRadius,
-      font,
-      scrollSpeed,
-      scrollEase,
-      onItemClick: (i: number) => onItemClickRef.current?.(i),
-    });
+    let app: App | null = null;
+    // Defer heavy WebGL init so it doesn't block hero animations on first paint
+    const timer = window.setTimeout(() => {
+      if (!containerRef.current) return;
+      app = new App(containerRef.current, {
+        items,
+        bend,
+        textColor,
+        borderRadius,
+        font,
+        scrollSpeed,
+        scrollEase,
+        onItemClick: (i: number) => onItemClickRef.current?.(i),
+      });
+    }, 500);
     return () => {
-      app.destroy();
+      clearTimeout(timer);
+      app?.destroy();
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [items, bend, textColor, borderRadius, font, scrollSpeed, scrollEase]);

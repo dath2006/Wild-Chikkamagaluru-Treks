@@ -36,7 +36,7 @@ import { GalleryLightbox, GalleryTile, type GalleryItem } from "@/components/gal
 
 import BorderGlow from "@/components/border-glow";
 import TiltedCard from "@/components/tilted-card";
-import { Logo } from "@/components/logo";
+import { TrekCardStack, type TrekCard } from "@/components/trek-card-stack";
 import { treks, type Trek } from "@/lib/treks";
 import { useIsMobile } from "@/hooks/use-mobile";
 
@@ -227,6 +227,7 @@ function FloatingTile({
   scrollY: MotionValue<number>;
 }) {
   const reduce = useReducedMotion();
+  const isMobile = useIsMobile();
   // Parallax depth varies by z and index — deeper tiles move slower
   const depth = tile.z === 2 ? 120 : 200;
   const direction = index % 2 === 0 ? 1 : -1;
@@ -277,7 +278,7 @@ function FloatingTile({
         width: tile.w,
         height: tile.h,
         zIndex: tile.z,
-        translateY: reduce ? 0 : parallaxY,
+        translateY: reduce || isMobile ? 0 : parallaxY,
       }}
       className="absolute hidden md:block rounded-3xl overflow-hidden border border-white/60 shadow-[0_20px_60px_-25px_oklch(0.42_0.07_155_/_0.45)] gradient-mist"
     >
@@ -290,80 +291,106 @@ function FloatingTile({
   );
 }
 
-// Mobile hero: split layout — top half solid bg with text, bottom half full-width video placeholder
+// Trek cards data for the mobile hero card stack
+const heroTrekCards: TrekCard[] = treks.map((t) => ({
+  id: t.name,
+  name: t.name,
+  tag: t.tag,
+  // Portrait images from picsum — seed matches trek coverSeed for visual consistency
+  imageUrl: `https://picsum.photos/seed/${t.coverSeed + 200}/360/640`,
+}));
+
+// Mobile hero: open portrait deck (top 70%) + frosted text zone (bottom)
 function MobileHero() {
+  const reduce = useReducedMotion();
   return (
-    <div className="md:hidden relative flex flex-col h-[100svh] min-h-[640px] w-full pt-20">
-      {/* Top half — solid calm background with text overlay */}
-      <div className="relative flex-1 flex items-center justify-center px-6 gradient-mist overflow-hidden">
-        <div className="absolute inset-0 -z-10">
-          <div className="absolute -top-20 -left-20 h-72 w-72 rounded-full bg-[oklch(0.85_0.09_165_/_0.5)] blur-3xl" />
-          <div className="absolute -bottom-16 -right-16 h-72 w-72 rounded-full bg-[oklch(0.90_0.12_48_/_0.35)] blur-3xl" />
-        </div>
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
-          className="flex flex-col items-center text-center"
-        >
-          <div className="inline-flex items-center gap-2 rounded-full glass px-3.5 py-1.5 text-[10px] uppercase tracking-[0.22em] text-primary/80">
-            <Leaf className="h-3 w-3" />
-            Western Ghats · Karnataka
-          </div>
-          <div className="mt-5 glass rounded-full px-5 py-2.5 inline-flex items-center gap-2 shadow-[0_15px_50px_-20px_oklch(0.42_0.07_155_/_0.5)]">
-            <Mountain className="h-4 w-4 text-primary" strokeWidth={1.6} />
-            <span className="font-serif text-base text-primary">Wild Chikkamagaluru Treks</span>
-          </div>
-          <h1 className="mt-5 font-serif text-[1.6rem] leading-snug text-primary max-w-xs">
-            Go hiking before your knees{" "}
-            <em className="text-gradient-nature not-italic">file for early retirement</em>
-          </h1>
-          <div className="mt-5 flex items-center gap-2.5">
-            <a
-              href="#treks"
-              className="group inline-flex items-center gap-1.5 rounded-full bg-primary px-4 py-2 text-xs font-medium text-primary-foreground shadow-lg shadow-primary/20"
-            >
-              Explore Treks
-              <ArrowRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-0.5" />
-            </a>
-            <a
-              href="#gallery"
-              className="inline-flex items-center gap-1.5 rounded-full border border-primary/20 bg-white/60 px-4 py-2 text-xs font-medium text-primary backdrop-blur"
-            >
-              Watch journey
-            </a>
-          </div>
-        </motion.div>
+    <div className="md:hidden relative h-svh min-h-[620px] w-full overflow-hidden">
+      {/* Preload first 3 hero images at highest browser priority */}
+      {heroTrekCards.slice(0, 3).map((c) => (
+        <link key={c.id} rel="preload" as="image" href={c.imageUrl} />
+      ))}
+      {/* ── Ambient theme background ── */}
+      <div
+        className="absolute inset-0"
+        style={{
+          background:
+            "radial-gradient(circle at 78% 18%, oklch(0.84 0.15 55/0.42), transparent 34%), radial-gradient(circle at 16% 12%, oklch(0.82 0.09 28/0.28), transparent 30%), linear-gradient(160deg, oklch(0.93 0.035 165) 0%, oklch(0.9 0.055 150) 42%, oklch(0.86 0.07 138) 72%, oklch(0.81 0.09 125) 100%)",
+        }}
+      />
+      <div className="absolute -top-20 -left-16 h-72 w-72 rounded-full bg-[oklch(0.88_0.08_165/0.45)] blur-3xl pointer-events-none" />
+      <div className="absolute top-20 -right-20 h-72 w-72 rounded-full bg-[oklch(0.82_0.15_52/0.34)] blur-3xl pointer-events-none" />
+
+      {/* ── Open moving card deck (top 70%) ── */}
+      <div className="absolute inset-x-0 top-0 h-[70%] flex items-center justify-center pt-16">
+        <TrekCardStack cards={heroTrekCards} visibleCount={5} cycleInterval={2000} />
       </div>
 
-      {/* Bottom half — full-width video placeholder */}
-      <motion.div
-        initial={{ opacity: 0, scale: 1.02 }}
-        animate={{ opacity: 1, scale: 1 }}
-        transition={{ duration: 1, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
-        className="relative flex-1 w-full overflow-hidden"
-      >
-        <div
-          className="absolute inset-0"
-          style={{
-            background:
-              "radial-gradient(circle at 30% 30%, oklch(0.75 0.10 165 / 0.85), transparent 60%), radial-gradient(circle at 75% 70%, oklch(0.70 0.09 180 / 0.8), transparent 60%), linear-gradient(180deg, oklch(0.55 0.08 165), oklch(0.42 0.07 175))",
-          }}
-        />
-        <div className="absolute inset-0 flex flex-col items-center justify-center gap-3 text-white/90">
-          <motion.div
-            animate={{ scale: [1, 1.08, 1] }}
-            transition={{ duration: 2.6, repeat: Infinity, ease: "easeInOut" }}
-            className="rounded-full bg-white/20 backdrop-blur p-5 ring-1 ring-white/40 shadow-2xl"
-          >
-            <PlayCircle className="h-10 w-10" strokeWidth={1.4} />
-          </motion.div>
-          <p className="text-[10px] uppercase tracking-[0.25em] text-white/80">
-            Place hero video here
-          </p>
+      {/* ── Fading dissolve band — theme colors bleed over card bottoms ── */}
+      <div
+        className="absolute inset-x-0 pointer-events-none"
+        style={{
+          top: "56%",
+          bottom: 0,
+          background:
+            "linear-gradient(180deg, transparent 0%, oklch(0.88 0.055 152/0.28) 22%, oklch(0.87 0.06 150/0.62) 46%, oklch(0.86 0.065 148/0.92) 72%, oklch(0.85 0.065 147) 100%)",
+        }}
+      />
+      {/* Masked blur band at the crossover point */}
+      <div
+        className="absolute inset-x-0 pointer-events-none"
+        style={{
+          top: "53%",
+          height: "18%",
+          backdropFilter: "blur(4px)",
+          WebkitBackdropFilter: "blur(4px)",
+          maskImage:
+            "linear-gradient(180deg, transparent 0%, black 35%, black 65%, transparent 100%)",
+          WebkitMaskImage:
+            "linear-gradient(180deg, transparent 0%, black 35%, black 65%, transparent 100%)",
+        }}
+      />
+
+      {/* ── Text content anchored to bottom 36% ── */}
+      <div className="absolute inset-x-0 bottom-0 h-[38%] z-10 flex flex-col items-center justify-center px-6 pb-8 gap-3">
+        {/* Location pill */}
+        <div className="hero-fade-in inline-flex items-center gap-2 rounded-full bg-white/45 backdrop-blur-sm px-3.5 py-1.5 text-[10px] uppercase tracking-[0.22em] text-primary/90 border border-white/65">
+          <Leaf className="h-3 w-3 text-primary/75" />
+          Western Ghats · Karnataka
         </div>
-        <div className="absolute inset-x-0 top-0 h-12 bg-gradient-to-b from-background/40 to-transparent pointer-events-none" />
-      </motion.div>
+
+        {/* Headline */}
+        <h1 className="hero-fade-in [animation-delay:60ms] font-serif text-[1.7rem] leading-[1.18] text-primary text-center max-w-[265px]">
+          Go hiking before your knees{" "}
+          <em className="text-gradient-nature not-italic">file for early retirement</em>
+        </h1>
+
+        {/* CTA row */}
+        <div className="hero-fade-in [animation-delay:120ms] flex items-center gap-2.5 mt-1">
+          <a
+            href="#treks"
+            className="group inline-flex items-center gap-1.5 rounded-full bg-primary px-5 py-2.5 text-xs font-semibold text-primary-foreground shadow-lg shadow-primary/25 transition-all active:scale-95"
+          >
+            Explore Treks
+            <ArrowRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-0.5" />
+          </a>
+          <a
+            href="#gallery"
+            className="inline-flex items-center gap-1.5 rounded-full border border-primary/25 bg-white/50 backdrop-blur-sm px-5 py-2.5 text-xs font-medium text-primary transition-all active:scale-95"
+          >
+            Gallery
+          </a>
+        </div>
+
+        {/* Scroll cue */}
+        <div className="hero-fade-in [animation-delay:180ms] flex flex-col items-center gap-1 text-primary/35 mt-0.5">
+          <motion.div
+            animate={reduce ? {} : { y: [0, 5, 0] }}
+            transition={{ duration: 2.2, repeat: Infinity, ease: "easeInOut" }}
+          >
+            <ArrowDown className="h-3.5 w-3.5" />
+          </motion.div>
+        </div>
+      </div>
     </div>
   );
 }
@@ -462,7 +489,7 @@ function Hero() {
             {/* Stamp-style focal mark */}
             <div className="relative mt-8 flex items-center justify-center">
               <div className="glass rounded-full px-6 py-3 flex items-center gap-3 shadow-[0_15px_50px_-20px_oklch(0.42_0.07_155_/_0.5)]">
-                <Mountain className="h-5 w-5 text-primary" strokeWidth={1.6} />
+                <img src="/icon.png" alt="" className="h-8 w-8 rounded-full object-cover" />
                 <span className="font-serif text-lg sm:text-xl text-primary">
                   Wild Chikkamagaluru Treks
                 </span>
@@ -515,7 +542,7 @@ function Hero() {
 
 function About() {
   return (
-    <SectionReveal id="about" className="relative py-28 px-4 section-blobs">
+    <SectionReveal id="about" className="relative py-16 md:py-28 px-4 section-blobs">
       <div className="mx-auto max-w-6xl">
         <div className="max-w-3xl">
           <RevealBlock>
@@ -532,20 +559,25 @@ function About() {
         <div className="mt-14 grid gap-10 md:grid-cols-2 md:gap-16 items-center">
           <RevealBlock className="space-y-5 text-foreground/80 leading-relaxed" delay={0.1}>
             <p>
-              Wild Chikkamagaluru Treks is a journey into the heart of the Western Ghats, where
-              misty mountains, lush green forests, and hidden waterfalls await those who seek real
-              adventure and inner peace. Whether you are an experienced trekker or a nature-loving
-              beginner, this is the perfect escape from the noise of city life.
+              Wild Chikkamagaluru Treks is a journey into the{" "}
+              <span className="highlight">heart of the Western Ghats</span>, where misty mountains,
+              lush green forests, and hidden waterfalls await those who seek{" "}
+              <span className="highlight-accent">real adventure and inner peace</span>. Whether you
+              are an experienced trekker or a nature-loving beginner, this is the perfect escape
+              from the noise of city life.
             </p>
             <p>
-              Unlike commercial operators who focus only on profits, our mission is to connect
-              people with nature — through soulful experiences offered at a minimal cost. We believe
-              nature should be accessible to everyone, and that time in the wild can heal, refresh,
-              and inspire your life.
+              Unlike commercial operators who focus only on profits, our mission is to{" "}
+              <span className="highlight">connect people with nature</span> — through{" "}
+              <span className="highlight-accent">soulful experiences</span> offered at a minimal
+              cost. We believe nature should be accessible to everyone, and that time in the wild
+              can heal, refresh, and inspire your life.
             </p>
             <p>
-              Every trek is carefully planned and guided — from the mighty peaks of Kudremukh and
-              Netravati to serene forests and secret trails known only to locals.
+              Every trek is <span className="highlight">carefully planned and guided</span> — from
+              the mighty peaks of Kudremukh and Netravati to{" "}
+              <span className="highlight-accent">serene forests and secret trails</span> known only
+              to locals.
             </p>
           </RevealBlock>
 
@@ -559,7 +591,7 @@ function About() {
           </RevealImage>
         </div>
 
-        <div className="mt-20 grid gap-6 md:grid-cols-3">
+        <div className="mt-10 md:mt-20 grid gap-6 md:grid-cols-3">
           {[
             {
               icon: Heart,
@@ -601,7 +633,7 @@ function About() {
 
 function Founder() {
   return (
-    <SectionReveal className="relative py-28 px-4 section-blobs">
+    <SectionReveal className="relative py-16 md:py-28 px-4 section-blobs">
       <div className="mx-auto max-w-6xl grid gap-12 md:grid-cols-[1fr_1.2fr] items-center">
         <RevealImage>
           <MediaPlaceholder
@@ -626,13 +658,15 @@ function Founder() {
           <RevealBlock delay={0.1}>
             <p className="mt-2 text-sm text-muted-foreground">Founder & Lead Guide</p>
             <p className="mt-6 text-foreground/80 leading-relaxed">
-              A passionate trekker with years of experience in the Chikkamagaluru region, Sushanth
-              personally leads most treks. His goal isn't only to guide — it's to build a community
-              of nature lovers who respect and preserve our forests and mountains.
+              A passionate trekker with <span className="highlight">years of experience</span> in
+              the Chikkamagaluru region, Sushanth personally leads most treks. His goal isn't only
+              to guide — it's to{" "}
+              <span className="highlight-accent">build a community of nature lovers</span> who
+              respect and preserve our forests and mountains.
             </p>
             <p className="mt-4 text-foreground/80 leading-relaxed">
-              Every visitor leaves with more than photographs — they leave with a deeper connection
-              to the land.
+              Every visitor leaves with more than photographs — they leave with a{" "}
+              <span className="highlight">deeper connection to the land</span>.
             </p>
             <div className="mt-6 flex items-center gap-2 text-sm text-primary">
               <Sparkles className="h-4 w-4" />
@@ -705,7 +739,7 @@ const galleryItems = treks.map((t) => ({
 
 const Treks = memo(function Treks({ onTrekClick }: { onTrekClick: (t: Trek) => void }) {
   return (
-    <SectionReveal id="treks" className="relative py-28 px-4 section-blobs">
+    <SectionReveal id="treks" className="relative py-16 md:py-28 px-4 section-blobs">
       <div className="mx-auto max-w-6xl">
         <div className="max-w-3xl">
           <RevealBlock>
@@ -731,10 +765,10 @@ const Treks = memo(function Treks({ onTrekClick }: { onTrekClick: (t: Trek) => v
       {/* Circular WebGL gallery — full viewport width, breaks out of px-4 */}
       <div className="mt-8 md:mt-12 -mx-4 overflow-hidden">
         <RevealBlock>
-          <div className="h-[480px] md:h-[620px] relative overflow-hidden">
+          <div className="h-[380px] md:h-[620px] relative overflow-hidden">
             <CircularGallery
               items={galleryItems}
-              bend={1.5}
+              bend={1.0}
               textColor="#2d4a3e"
               borderRadius={0.08}
               scrollSpeed={2}
@@ -816,7 +850,7 @@ function Gallery({ onLightboxOpen }: { onLightboxOpen: (index: number) => void }
   const hasMore = visibleCount < ALL_GALLERY_ITEMS.length;
 
   return (
-    <SectionReveal id="gallery" className="relative py-28 px-4 section-blobs">
+    <SectionReveal id="gallery" className="relative py-16 md:py-28 px-4 section-blobs">
       <div className="mx-auto max-w-6xl">
         <div className="max-w-3xl">
           <RevealBlock>
@@ -873,7 +907,7 @@ function Gallery({ onLightboxOpen }: { onLightboxOpen: (index: number) => void }
 
 function Stay() {
   return (
-    <SectionReveal id="stay" className="relative py-28 px-4 section-blobs">
+    <SectionReveal id="stay" className="relative py-16 md:py-28 px-4 section-blobs">
       <div className="mx-auto max-w-6xl">
         <div className="max-w-3xl">
           <RevealBlock>
@@ -954,7 +988,7 @@ function CertifiedSticker() {
       {/* Static text design */}
       <svg
         viewBox="0 0 200 200"
-        className="absolute inset-0 h-full w-full drop-shadow-[0_6px_18px_oklch(0.35_0.08_155_/_0.45)]"
+        className="absolute inset-0 h-full w-full drop-shadow-[0_6px_18px_oklch(0.35_0.08_155/0.45)]"
       >
         <defs>
           {/* Top arc for CERTIFIED - proper semi-circle */}
@@ -1020,7 +1054,7 @@ function CertifiedSticker() {
 
 function Contact() {
   return (
-    <SectionReveal id="contact" className="relative py-28 px-4">
+    <SectionReveal id="contact" className="relative py-16 md:py-28 px-4">
       <div className="mx-auto max-w-5xl">
         <div className="relative">
           <CertifiedSticker />
@@ -1120,7 +1154,21 @@ function Footer() {
   return (
     <footer className="px-4 pb-10 pt-4">
       <div className="mx-auto max-w-6xl flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-muted-foreground">
-        <Logo size={28} />
+        <a href="#top" className="flex items-center gap-2">
+          <img
+            src="/icon.png"
+            alt="Wild Chikkamagaluru Treks"
+            className="h-7 w-7 rounded-full object-cover"
+          />
+          <span className="hidden sm:flex flex-col leading-none">
+            <span className="font-serif text-[12px] tracking-tight text-foreground">
+              Wild Chikkamagaluru
+            </span>
+            <span className="uppercase tracking-[0.18em] text-[8px] text-muted-foreground">
+              Treks
+            </span>
+          </span>
+        </a>
         <p>© {new Date().getFullYear()} — Nature is a way of life.</p>
       </div>
     </footer>
@@ -1210,11 +1258,8 @@ function MobileNav() {
   }, []);
 
   return (
-    <motion.nav
-      initial={{ y: 80, opacity: 0 }}
-      animate={{ y: isVisible ? 0 : 80, opacity: isVisible ? 1 : 0 }}
-      transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
-      className="fixed bottom-6 left-1/2 -translate-x-1/2 z-50 md:hidden"
+    <nav
+      className={`fixed bottom-6 left-1/2 -translate-x-1/2 z-50 md:hidden transition-all duration-300 ${isVisible ? "translate-y-0 opacity-100" : "translate-y-20 opacity-0"}`}
     >
       <div className="flex items-center gap-1 rounded-full bg-white/85 backdrop-blur-xl px-2 py-1.5 shadow-[0_4px_20px_-6px_oklch(0.25_0.08_155/0.4)] ring-1 ring-white/60">
         {navItems.map((item) => {
@@ -1242,6 +1287,6 @@ function MobileNav() {
           );
         })}
       </div>
-    </motion.nav>
+    </nav>
   );
 }

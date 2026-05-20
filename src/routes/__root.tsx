@@ -7,9 +7,7 @@ import {
   HeadContent,
   Scripts,
 } from "@tanstack/react-router";
-import { ReactLenis, type LenisRef } from "lenis/react";
-import { cancelFrame, frame } from "motion/react";
-import { useEffect, useRef } from "react";
+import { ReactLenis } from "lenis/react";
 import "lenis/dist/lenis.css";
 
 import appCss from "../styles.css?url";
@@ -83,7 +81,10 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
           "Soulful, affordable treks across Chikkamagaluru's misty peaks — Mullayanagiri, Kudremukh, Netravati and more. Led by Sushanth Gowda.",
       },
       { name: "author", content: "Wild Chikkamagaluru Treks" },
-      { property: "og:title", content: "Wild Chikkamagaluru Treks — Soulful Treks in the Western Ghats" },
+      {
+        property: "og:title",
+        content: "Wild Chikkamagaluru Treks — Soulful Treks in the Western Ghats",
+      },
       {
         property: "og:description",
         content:
@@ -91,21 +92,54 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
-      { name: "twitter:title", content: "Wild Chikkamagaluru Treks — Soulful Treks in the Western Ghats" },
-      { name: "description", content: "Misty Peaks Trek is a website for exploring Chikkamagaluru's natural beauty and booking guided treks." },
-      { property: "og:description", content: "Misty Peaks Trek is a website for exploring Chikkamagaluru's natural beauty and booking guided treks." },
-      { name: "twitter:description", content: "Misty Peaks Trek is a website for exploring Chikkamagaluru's natural beauty and booking guided treks." },
-      { property: "og:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/4a2337bf-4de2-469f-95d3-54c54bba9043/id-preview-03d2a45c--ef6496a3-8edf-47ba-8c21-9ae87179bdfb.lovable.app-1779223082935.png" },
-      { name: "twitter:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/4a2337bf-4de2-469f-95d3-54c54bba9043/id-preview-03d2a45c--ef6496a3-8edf-47ba-8c21-9ae87179bdfb.lovable.app-1779223082935.png" },
+      {
+        name: "twitter:title",
+        content: "Wild Chikkamagaluru Treks — Soulful Treks in the Western Ghats",
+      },
+      {
+        name: "description",
+        content:
+          "Misty Peaks Trek is a website for exploring Chikkamagaluru's natural beauty and booking guided treks.",
+      },
+      {
+        property: "og:description",
+        content:
+          "Misty Peaks Trek is a website for exploring Chikkamagaluru's natural beauty and booking guided treks.",
+      },
+      {
+        name: "twitter:description",
+        content:
+          "Misty Peaks Trek is a website for exploring Chikkamagaluru's natural beauty and booking guided treks.",
+      },
+      {
+        property: "og:image",
+        content:
+          "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/4a2337bf-4de2-469f-95d3-54c54bba9043/id-preview-03d2a45c--ef6496a3-8edf-47ba-8c21-9ae87179bdfb.lovable.app-1779223082935.png",
+      },
+      {
+        name: "twitter:image",
+        content:
+          "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/4a2337bf-4de2-469f-95d3-54c54bba9043/id-preview-03d2a45c--ef6496a3-8edf-47ba-8c21-9ae87179bdfb.lovable.app-1779223082935.png",
+      },
     ],
     links: [
       { rel: "stylesheet", href: appCss },
+      { rel: "preconnect", href: "https://picsum.photos" },
+      { rel: "dns-prefetch", href: "https://fastly.picsum.photos" },
       { rel: "preconnect", href: "https://fonts.googleapis.com" },
       { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
       {
-        rel: "stylesheet",
+        rel: "preload",
+        as: "style",
         href: "https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap",
+        onload: "this.onload=null;this.rel='stylesheet'",
       },
+      { rel: "icon", type: "image/png", href: "/icon.png" },
+      { rel: "icon", type: "image/x-icon", href: "/icon_32.ico", sizes: "32x32" },
+      { rel: "icon", type: "image/x-icon", href: "/icon_16.ico", sizes: "16x16" },
+      { rel: "icon", type: "image/x-icon", href: "/icon_48.ico", sizes: "48x48" },
+      { rel: "apple-touch-icon", href: "/icon.png" },
+      { rel: "shortcut icon", href: "/icon_32.ico" },
     ],
   }),
   shellComponent: RootShell,
@@ -129,19 +163,8 @@ function RootShell({ children }: { children: React.ReactNode }) {
 }
 
 function SmoothScroll({ children }: { children: React.ReactNode }) {
-  const lenisRef = useRef<LenisRef>(null);
-
-  useEffect(() => {
-    function update(data: { timestamp: number }) {
-      lenisRef.current?.lenis?.raf(data.timestamp);
-    }
-
-    frame.update(update, true);
-    return () => cancelFrame(update);
-  }, []);
-
   return (
-    <ReactLenis root options={{ autoRaf: false }} ref={lenisRef}>
+    <ReactLenis root options={{ lerp: 0.1, duration: 1.2, smoothWheel: true }}>
       {children}
     </ReactLenis>
   );

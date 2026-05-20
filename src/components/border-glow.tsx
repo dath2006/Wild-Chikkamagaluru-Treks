@@ -162,6 +162,7 @@ export default function BorderGlow({
 
   const handlePointerMove = useCallback(
     (e: React.PointerEvent<HTMLDivElement>) => {
+      if (sweepActive) return; // Ignore hover during auto-sweep animation
       const card = cardRef.current;
       if (!card) return;
       const rect = card.getBoundingClientRect();
@@ -170,7 +171,7 @@ export default function BorderGlow({
       setEdgeProximity(getEdgeProximity(card, x, y));
       setCursorAngle(getCursorAngle(card, x, y));
     },
-    [getEdgeProximity, getCursorAngle],
+    [getEdgeProximity, getCursorAngle, sweepActive],
   );
 
   useEffect(() => {

@@ -1,5 +1,6 @@
 import { motion, useReducedMotion, useScroll, useTransform, type Variants } from "motion/react";
 import { useRef, type ReactNode } from "react";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 const ease = [0.22, 1, 0.36, 1] as const;
 
@@ -20,11 +21,13 @@ export function SectionReveal({
 }) {
   const ref = useRef<HTMLElement | null>(null);
   const reduce = useReducedMotion();
+  const isMobile = useIsMobile();
   const { scrollYProgress } = useScroll({
     target: ref,
     offset: ["start end", "end start"],
   });
   const y = useTransform(scrollYProgress, [0, 1], [parallax, -parallax]);
+  const disableParallax = reduce || isMobile;
 
   return (
     <motion.section
@@ -36,7 +39,7 @@ export function SectionReveal({
       viewport={{ once: true, margin: "0px" }}
       transition={{ duration: 0.9, ease }}
     >
-      <motion.div style={{ y: reduce ? 0 : y }}>{children}</motion.div>
+      <motion.div style={{ y: disableParallax ? 0 : y }}>{children}</motion.div>
     </motion.section>
   );
 }
@@ -49,8 +52,8 @@ export function RevealText({
   text,
   as: Tag = "h2",
   className,
-  delay = 0,
-  stagger = 0.05,
+  delay = 0.15,
+  stagger = 0.07,
   gradient = false,
 }: {
   text: string;
@@ -69,12 +72,12 @@ export function RevealText({
     },
   };
   const child: Variants = {
-    hidden: reduce ? { opacity: 0 } : { opacity: 0, y: "0.6em", filter: "blur(8px)" },
+    hidden: reduce ? { opacity: 0 } : { opacity: 0, y: "0.8em", filter: "blur(16px)" },
     show: {
       opacity: 1,
       y: 0,
       filter: "blur(0px)",
-      transition: { duration: 0.8, ease },
+      transition: { duration: 1.1, ease: [0.16, 1, 0.3, 1] },
     },
   };
   const MotionTag = motion(Tag as React.ElementType);
@@ -155,11 +158,13 @@ export function RevealImage({
 }) {
   const ref = useRef<HTMLDivElement | null>(null);
   const reduce = useReducedMotion();
+  const isMobile = useIsMobile();
   const { scrollYProgress } = useScroll({
     target: ref,
     offset: ["start end", "end start"],
   });
   const y = useTransform(scrollYProgress, [0, 1], [parallax, -parallax]);
+  const disableParallax = reduce || isMobile;
 
   return (
     <motion.div
@@ -176,7 +181,7 @@ export function RevealImage({
         whileInView={{ scale: 1 }}
         viewport={{ once: true, margin: "0px" }}
         transition={{ duration: 1.4, ease }}
-        style={{ y: reduce ? 0 : y }}
+        style={{ y: disableParallax ? 0 : y }}
       >
         {children}
       </motion.div>
