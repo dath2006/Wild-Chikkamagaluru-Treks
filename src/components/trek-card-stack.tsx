@@ -167,7 +167,7 @@ export function TrekCardStack({ cards, className, cycleInterval = 3600 }: TrekCa
         if (Date.now() < autoPausedUntil.current) return;
         goNextRef.current();
       }, cycleInterval);
-    }, 80);
+    }, 600);
 
     return () => {
       clearTimeout(timeout);
