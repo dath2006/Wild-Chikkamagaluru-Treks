@@ -407,8 +407,11 @@ function Hero() {
   });
   return (
     <section id="top" ref={heroRef} className="relative overflow-hidden">
-      {/* Stage with floating photo/video tiles */}
-      <div className="relative h-[100vh] min-h-[680px] w-full pt-24">
+      {/* Mobile-specific split hero */}
+      <MobileHero />
+
+      {/* Desktop stage with floating photo/video tiles */}
+      <div className="relative hidden md:block h-[100vh] min-h-[680px] w-full pt-24">
         {/* ambient blobs */}
         <div className="absolute inset-0 -z-10">
           <div className="absolute top-10 -left-32 h-96 w-96 rounded-full bg-[oklch(0.85_0.09_165_/_0.5)] blur-3xl" />
@@ -421,11 +424,9 @@ function Hero() {
           {heroTiles.map((t, i) => (
             <FloatingTile key={t.label} tile={t} index={i} scrollY={scrollYProgress} />
           ))}
-          {/* Mobile: vertical scrolling collage */}
-          <MobileScrollingCollage scrollY={scrollYProgress} />
         </div>
 
-        {/* Centered focal content — compact, not the giant headline anymore */}
+        {/* Centered focal content */}
         <div className="relative z-10 flex h-full flex-col items-center justify-center px-4 pointer-events-none">
           <motion.div
             initial={{ opacity: 0, scale: 0.9 }}
