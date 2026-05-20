@@ -24,6 +24,7 @@ import {
   ImageIcon,
   PlayCircle,
   ArrowDown,
+  Check,
 } from "lucide-react";
 import { SiteNav } from "@/components/site-nav";
 import { MediaPlaceholder } from "@/components/media-placeholder";
