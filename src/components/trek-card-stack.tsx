@@ -17,6 +17,16 @@ export interface TrekCard {
 // Distance in px between card centers
 const CARD_GAP = 180;
 
+// Module-level cache — persists across re-renders and card swaps
+const loadedUrls = new Set<string>();
+
+function preload(url: string) {
+  if (!url || loadedUrls.has(url)) return;
+  const img = new Image();
+  img.onload = () => loadedUrls.add(url);
+  img.src = url;
+}
+
 interface SlideCardProps {
   card: TrekCard;
   slot: number; // -2..2
@@ -32,6 +42,16 @@ const SlideCard = memo(function SlideCard({
   eager,
   isActive,
 }: SlideCardProps) {
+  const [imgLoaded, setImgLoaded] = useState(() => loadedUrls.has(card.imageUrl));
+
+  // Reset loaded state only when src actually changes
+  const prevSrc = useRef(card.imageUrl);
+  if (prevSrc.current !== card.imageUrl) {
+    prevSrc.current = card.imageUrl;
+    // Already cached — no shimmer needed
+    if (!loadedUrls.has(card.imageUrl)) setImgLoaded(false);
+  }
+
   // Derive all visual properties from the single offsetX motion value
   // progress: 0 = card at its resting slot, ±1 = moved one full slot away
   const progress = useTransform(offsetX, (v) => slot + v / CARD_GAP);
@@ -71,8 +91,8 @@ const SlideCard = memo(function SlideCard({
         backfaceVisibility: "hidden",
       }}
     >
-      {/* Shimmer skeleton shown while image loads */}
-      <div className="absolute inset-0 bg-[oklch(0.82_0.06_150)] animate-pulse" />
+      {/* Shimmer — hidden immediately if image already cached */}
+      {!imgLoaded && <div className="absolute inset-0 bg-[oklch(0.82_0.06_150)] animate-pulse" />}
       <img
         src={card.imageUrl}
         alt={card.name}
@@ -82,6 +102,10 @@ const SlideCard = memo(function SlideCard({
         loading={eager ? "eager" : "lazy"}
         fetchPriority={eager ? "high" : "low"}
         draggable={false}
+        onLoad={() => {
+          loadedUrls.add(card.imageUrl);
+          setImgLoaded(true);
+        }}
       />
 
       {/* Top gradient + label */}
@@ -117,8 +141,12 @@ export function TrekCardStack({ cards, className, cycleInterval = 3600 }: TrekCa
   const isAnimating = useRef(false);
 
   // All mutable values in refs so goNext/goPrev are stable function refs — never change
+  const cardsRef = useRef(cards);
+  cardsRef.current = cards;
   const cardsLengthRef = useRef(cards.length);
   cardsLengthRef.current = cards.length;
+  const activeIndexRef = useRef(activeIndex);
+  activeIndexRef.current = activeIndex;
   const offsetXRef = useRef(offsetX);
   offsetXRef.current = offsetX;
   const setActiveIndexRef = useRef(setActiveIndex);
@@ -128,6 +156,9 @@ export function TrekCardStack({ cards, className, cycleInterval = 3600 }: TrekCa
   const goNextRef = useRef(() => {
     if (isAnimating.current) return;
     isAnimating.current = true;
+    preload(
+      cardsRef.current[(activeIndexRef.current + 1) % cardsLengthRef.current]?.imageUrl ?? "",
+    );
     const safety = window.setTimeout(() => {
       isAnimating.current = false;
     }, 800);
@@ -136,8 +167,9 @@ export function TrekCardStack({ cards, className, cycleInterval = 3600 }: TrekCa
       ease: [0.32, 0.72, 0, 1],
       onComplete: () => {
         clearTimeout(safety);
-        setActiveIndexRef.current((i) => (i + 1) % cardsLengthRef.current);
+        // Jump FIRST so the motion value is at 0 before React re-renders the new cards
         offsetXRef.current.jump(0);
+        setActiveIndexRef.current((i) => (i + 1) % cardsLengthRef.current);
         isAnimating.current = false;
       },
     });
@@ -146,6 +178,11 @@ export function TrekCardStack({ cards, className, cycleInterval = 3600 }: TrekCa
   const goPrevRef = useRef(() => {
     if (isAnimating.current) return;
     isAnimating.current = true;
+    preload(
+      cardsRef.current[
+        (activeIndexRef.current - 1 + cardsLengthRef.current) % cardsLengthRef.current
+      ]?.imageUrl ?? "",
+    );
     const safety = window.setTimeout(() => {
       isAnimating.current = false;
     }, 800);
@@ -154,8 +191,8 @@ export function TrekCardStack({ cards, className, cycleInterval = 3600 }: TrekCa
       ease: [0.32, 0.72, 0, 1],
       onComplete: () => {
         clearTimeout(safety);
-        setActiveIndexRef.current((i) => (i - 1 + cardsLengthRef.current) % cardsLengthRef.current);
         offsetXRef.current.jump(0);
+        setActiveIndexRef.current((i) => (i - 1 + cardsLengthRef.current) % cardsLengthRef.current);
         isAnimating.current = false;
       },
     });

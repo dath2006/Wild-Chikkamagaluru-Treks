@@ -2,7 +2,7 @@ import { useState, useEffect, useCallback } from "react";
 
 function LogoTitle({
   className = "",
-  imgClassName = "h-14",
+  imgClassName = "h-9 sm:h-14",
 }: {
   className?: string;
   imgClassName?: string;
@@ -16,7 +16,7 @@ function LogoTitle({
           src="/title.png"
           alt="Wild Chikkamagaluru Treks"
           onError={onError}
-          className={`${imgClassName} w-auto object-contain`}
+          className={`${imgClassName} w-auto object-contain max-w-[140px] sm:max-w-none`}
           style={{ mixBlendMode: "multiply" }}
           draggable={false}
         />
