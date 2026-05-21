@@ -46,6 +46,7 @@ import {
   MOBILE_CAROUSEL_IMAGES,
 } from "@/lib/media";
 import { useIsMobile } from "@/hooks/use-mobile";
+import { cn } from "@/lib/utils";
 
 export const Route = createFileRoute("/")({
   component: Index,
@@ -178,15 +179,34 @@ function TileContent({ seed, visible }: { seed: number; visible: boolean }) {
   const [idx, setIdx] = useState(seed % mediaPool.length);
   useEffect(() => {
     if (reduce || !visible) return;
-    const t = setInterval(
-      () => {
-        setIdx(
-          (i) => (i + 1 + Math.floor(Math.random() * (mediaPool.length - 1))) % mediaPool.length,
-        );
-      },
-      3600 + seed * 450,
-    );
-    return () => clearInterval(t);
+
+    // RAF-based timing to sync with display vsync (eliminates mid-frame flashes)
+    let rafId = 0;
+    let timeoutId = 0;
+    const delay = 3600 + seed * 450;
+
+    const scheduleNext = () => {
+      const start = performance.now();
+      const check = (now: number) => {
+        if (now - start >= delay) {
+          setIdx(
+            (i) => (i + 1 + Math.floor(Math.random() * (mediaPool.length - 1))) % mediaPool.length,
+          );
+          scheduleNext(); // Schedule next cycle
+        } else {
+          rafId = requestAnimationFrame(check);
+        }
+      };
+      rafId = requestAnimationFrame(check);
+    };
+
+    // Initial delay before first change
+    timeoutId = window.setTimeout(scheduleNext, delay);
+
+    return () => {
+      cancelAnimationFrame(rafId);
+      clearTimeout(timeoutId);
+    };
   }, [seed, reduce, visible]);
   const item = mediaPool[idx];
   const Icon = item.variant === "video" ? PlayCircle : ImageIcon;
@@ -251,19 +271,23 @@ function FloatingTile({
   const depth = tile.z === 2 ? 120 : 200;
   const direction = index % 2 === 0 ? 1 : -1;
   const parallaxY = useTransform(scrollY, [0, 1], [0, depth * direction]);
+
+  // CSS custom properties for the keyframe animation (unique per tile)
+  const cssVars = {
+    "--tile-y": tile.yRange,
+    "--tile-x": tile.xRange,
+    "tile-rotate": `${tile.rotate}deg`,
+    "--tile-dur": `${tile.duration}s`,
+    "--tile-delay": `${tile.delay}s`,
+  } as React.CSSProperties;
+
   return (
     <motion.div
       initial={{ opacity: 0, scale: 0.85, y: 30, rotate: tile.rotate }}
       animate={
         reduce
           ? { opacity: 1, scale: 1, y: 0, rotate: tile.rotate }
-          : {
-              opacity: 1,
-              scale: 1,
-              y: [0, -tile.yRange, 0],
-              x: [0, tile.xRange, 0],
-              rotate: [tile.rotate, tile.rotate + 1.5, tile.rotate],
-            }
+          : { opacity: 1, scale: 1, y: 0, rotate: tile.rotate }
       }
       transition={
         reduce
@@ -271,24 +295,8 @@ function FloatingTile({
           : {
               opacity: { duration: 1.2, delay: tile.delay },
               scale: { duration: 1.2, delay: tile.delay, ease: [0.22, 1, 0.36, 1] },
-              y: {
-                duration: tile.duration,
-                repeat: Infinity,
-                ease: "easeInOut",
-                delay: tile.delay,
-              },
-              x: {
-                duration: tile.duration * 1.3,
-                repeat: Infinity,
-                ease: "easeInOut",
-                delay: tile.delay,
-              },
-              rotate: {
-                duration: tile.duration * 1.5,
-                repeat: Infinity,
-                ease: "easeInOut",
-                delay: tile.delay,
-              },
+              y: { duration: 0.8, delay: tile.delay, ease: [0.22, 1, 0.36, 1] },
+              rotate: { duration: 0.8, delay: tile.delay },
             }
       }
       style={{
@@ -298,8 +306,12 @@ function FloatingTile({
         height: tile.h,
         zIndex: tile.z,
         translateY: reduce || isMobile ? 0 : parallaxY,
+        ...cssVars,
       }}
-      className="absolute hidden md:block rounded-3xl overflow-hidden border border-white/60 shadow-[0_20px_60px_-25px_oklch(0.42_0.07_155_/_0.45)] gradient-mist"
+      className={cn(
+        "absolute hidden md:block rounded-3xl overflow-hidden border border-white/60 shadow-[0_20px_60px_-25px_oklch(0.42_0.07_155_/_0.45)] gradient-mist",
+        !reduce && "animate-float-tile",
+      )}
     >
       <TileContent seed={index} visible={visible} />
       <div className="pointer-events-none absolute inset-0 rounded-3xl ring-1 ring-inset ring-white/50" />
@@ -680,12 +692,12 @@ function Founder() {
           </RevealBlock>
           <RevealText
             as="h2"
-            text="Sushanth Gowda"
+            text="SUSHANTH GOWDA"
             className="mt-3 font-serif text-4xl sm:text-5xl leading-tight"
             gradient
           />
           <RevealBlock delay={0.1}>
-            <p className="mt-2 text-sm text-muted-foreground">Founder & Lead Guide</p>
+            <p className="mt-2 text-sm text-muted-foreground">Founder & Trek Lead</p>
             <a
               href="https://www.instagram.com/sushanth_ckm"
               target="_blank"
@@ -1079,7 +1091,8 @@ function CertifiedSticker() {
 
       {/* Large center tick mark */}
       <div className="absolute inset-0 flex items-center justify-center">
-        <div className="relative h-14 w-14 sm:h-16 sm:w-16 rounded-full bg-linear-to-br from-white via-[oklch(0.98_0.015_155)] to-[oklch(0.88_0.035_155)] p-1.5 shadow-[inset_0_1px_0_white,0_12px_28px_-14px_oklch(0.18_0.08_155/0.85)]">
+        {/* Extracted box-shadow to ::before pseudo-element for GPU layer rendering */}
+        <div className="relative h-14 w-14 sm:h-16 sm:w-16 rounded-full bg-linear-to-br from-white via-[oklch(0.98_0.015_155)] to-[oklch(0.88_0.035_155)] p-1.5 before:absolute before:inset-0 before:rounded-full before:shadow-[inset_0_1px_0_white,0_12px_28px_-14px_oklch(0.18_0.08_155/0.85)] before:content-['']">
           <div className="absolute inset-1 rounded-full border border-[oklch(0.78_0.06_155/0.65)]" />
           <div className="relative h-full w-full rounded-full bg-linear-to-br from-[oklch(0.68_0.15_155)] via-[oklch(0.50_0.12_158)] to-[oklch(0.32_0.08_168)] flex items-center justify-center shadow-[inset_0_1px_2px_oklch(1_0_0/0.35),inset_0_-6px_12px_oklch(0.18_0.06_165/0.28)]">
             <div className="absolute inset-1.5 rounded-full bg-linear-to-br from-white/22 to-transparent" />
@@ -1140,7 +1153,7 @@ function Contact() {
                   <span className="flex flex-col leading-tight text-left">
                     <span className="font-serif text-white text-sm">Sushanth Gowda</span>
                     <span className="text-[10px] uppercase tracking-[0.18em] text-white/70">
-                      Lead Guide
+                      Trek Lead
                     </span>
                   </span>
                 </div>

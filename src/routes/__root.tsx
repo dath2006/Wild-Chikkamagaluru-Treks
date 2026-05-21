@@ -7,8 +7,11 @@ import {
   HeadContent,
   Scripts,
 } from "@tanstack/react-router";
-import { ReactLenis } from "lenis/react";
+import Lenis from "lenis";
 import "lenis/dist/lenis.css";
+import { frame } from "motion";
+import { useEffect, useRef } from "react";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 import appCss from "../styles.css?url";
 
@@ -162,11 +165,34 @@ function RootShell({ children }: { children: React.ReactNode }) {
 }
 
 function SmoothScroll({ children }: { children: React.ReactNode }) {
-  return (
-    <ReactLenis root options={{ lerp: 0.1, duration: 1.2, smoothWheel: true }}>
-      {children}
-    </ReactLenis>
-  );
+  const lenisRef = useRef<Lenis | null>(null);
+  const isMobile = useIsMobile();
+
+  useEffect(() => {
+    // Mobile: lighter settings for smoother touch scrolling
+    // Desktop: standard smooth scroll
+    const lenis = new Lenis({
+      lerp: isMobile ? 0.15 : 0.1,
+      duration: isMobile ? 0.8 : 1.2,
+      smoothWheel: true,
+      touchMultiplier: isMobile ? 1.5 : 2, // More responsive on mobile
+    });
+    lenisRef.current = lenis;
+
+    // Sync Lenis to Motion's frame scheduler instead of running its own RAF loop
+    // This merges all animation work into one RAF loop instead of competing loops
+    const update = (data: { timestamp: number }) => {
+      lenis.raf(data.timestamp);
+    };
+    frame.update(update, true); // true = runs on every frame, synced with Motion
+
+    return () => {
+      lenis.destroy();
+      // Motion's frame.cancel is not exposed, but lenis.destroy() stops the animation
+    };
+  }, [isMobile]);
+
+  return <>{children}</>;
 }
 
 function RootComponent() {

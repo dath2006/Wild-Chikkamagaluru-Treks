@@ -22,9 +22,16 @@ interface SlideCardProps {
   slot: number; // -2..2
   offsetX: MotionValue<number>;
   eager?: boolean;
+  isActive?: boolean;
 }
 
-const SlideCard = memo(function SlideCard({ card, slot, offsetX, eager }: SlideCardProps) {
+const SlideCard = memo(function SlideCard({
+  card,
+  slot,
+  offsetX,
+  eager,
+  isActive,
+}: SlideCardProps) {
   // Derive all visual properties from the single offsetX motion value
   // progress: 0 = card at its resting slot, ±1 = moved one full slot away
   const progress = useTransform(offsetX, (v) => slot + v / CARD_GAP);
@@ -42,11 +49,11 @@ const SlideCard = memo(function SlideCard({ card, slot, offsetX, eager }: SlideC
   return (
     <motion.div
       className={cn(
-        "absolute top-1/2 left-1/2 will-change-transform",
-        "w-[245px] rounded-[1.8rem] overflow-hidden",
+        "absolute top-1/2 left-1/2",
+        isActive && "will-change-transform",
+        "transform-gpu w-[245px] rounded-[1.8rem] overflow-hidden",
         "border border-white/60",
         "shadow-[0_22px_70px_-18px_rgba(0,0,0,0.55)]",
-        "transform-gpu",
       )}
       style={{
         x,
@@ -265,11 +272,12 @@ export function TrekCardStack({ cards, className, cycleInterval = 3600 }: TrekCa
       >
         {slots.map((slot) => (
           <SlideCard
-            key={getCard(slot).id + slot}
+            key={slot}
             card={getCard(slot)}
             slot={slot}
             offsetX={offsetX}
             eager={slot >= -1 && slot <= 1}
+            isActive={slot === 0}
           />
         ))}
       </div>

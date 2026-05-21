@@ -187,25 +187,20 @@ export function GalleryTile({ item, index, onClick }: GalleryTileProps) {
           ? "aspect-[1/1]"
           : "aspect-4/3";
 
+  // Stagger delay based on column position (0-3)
+  const staggerDelay = (index % 4) * 70;
+
   return (
-    <motion.button
-      initial={{ opacity: 0, y: 24 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "80px" }}
-      transition={{
-        duration: reduce ? 0 : 0.55,
-        delay: (index % 4) * 0.07,
-        ease: [0.22, 1, 0.36, 1],
-      }}
-      whileHover={reduce ? undefined : { scale: 1.02 }}
+    <button
       onClick={() => onClick(index)}
-      className={`group relative w-full overflow-hidden rounded-2xl border border-white/50 shadow-[0_8px_30px_-12px_oklch(0.42_0.07_155/0.4)] cursor-zoom-in focus:outline-none focus-visible:ring-2 focus-visible:ring-primary ${heightClass}`}
+      className={`group relative w-full overflow-hidden rounded-2xl border border-white/50 shadow-[0_8px_30px_-12px_oklch(0.42_0.07_155/0.4)] cursor-zoom-in focus:outline-none focus-visible:ring-2 focus-visible:ring-primary transition-transform duration-300 hover:scale-[1.02] ${heightClass} ${reduce ? "" : "gallery-tile-enter"}`}
       style={
         item.url
-          ? undefined
-          : {
+          ? ({ "--stagger-delay": `${staggerDelay}ms` } as React.CSSProperties)
+          : ({
+              "--stagger-delay": `${staggerDelay}ms`,
               background: `radial-gradient(circle at 30% 20%, oklch(0.88 0.08 ${hue1} / 0.65), transparent 55%), radial-gradient(circle at 80% 80%, oklch(0.86 0.06 ${hue2} / 0.55), transparent 60%), oklch(0.95 0.03 155)`,
-            }
+            } as React.CSSProperties)
       }
     >
       {/* Real image if available */}
@@ -251,6 +246,6 @@ export function GalleryTile({ item, index, onClick }: GalleryTileProps) {
       )}
 
       <div className="pointer-events-none absolute inset-0 ring-1 ring-inset ring-white/30 rounded-2xl" />
-    </motion.button>
+    </button>
   );
 }

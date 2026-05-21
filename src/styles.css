@@ -346,3 +346,55 @@
 .hero-fade-in {
   animation: hero-fade-in 0.35s ease-out both;
 }
+
+/* Floating tile animation - CSS keyframe to replace 18 JS animation loops */
+/* Runs on compositor thread, zero main-thread cost per frame */
+@keyframes float-tile {
+  0%,
+  100% {
+    transform: translateY(0) translateX(0) rotate(var(--tile-rotate, 0deg));
+  }
+  50% {
+    transform: translateY(calc(var(--tile-y, 0) * -1px)) translateX(calc(var(--tile-x, 0) * 1px))
+      rotate(calc(var(--tile-rotate, 0deg) + 1.5deg));
+  }
+}
+
+.animate-float-tile {
+  animation: float-tile var(--tile-dur, 10s) ease-in-out infinite;
+  animation-delay: var(--tile-delay, 0s);
+}
+
+/* Gallery tile entrance animation - replaces per-tile motion whileInView */
+/* Single CSS animation vs dozens of IntersectionObservers */
+@keyframes gallery-tile-in {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.gallery-tile-enter {
+  animation: gallery-tile-in 0.55s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  animation-delay: var(--stagger-delay, 0ms);
+}
+
+/* Mobile border glow - simple opacity pulse, no heavy mask updates */
+/* Runs on compositor thread, zero main-thread cost */
+@keyframes border-glow-pulse {
+  0%,
+  100% {
+    opacity: 0.5;
+  }
+  50% {
+    opacity: 0.8;
+  }
+}
+
+.border-glow-mobile {
+  animation: border-glow-pulse 2s ease-in-out infinite;
+}

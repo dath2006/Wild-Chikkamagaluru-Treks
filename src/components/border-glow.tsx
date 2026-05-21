@@ -1,4 +1,5 @@
-import { useRef, useEffect, type ReactNode } from "react";
+import { motion, useReducedMotion, useScroll, useTransform, type Variants } from "motion/react";
+import { useRef, useState, useEffect, type ReactNode } from "react";
 
 interface BorderGlowProps {
   children?: ReactNode;
@@ -138,6 +139,8 @@ export default function BorderGlow({
 
   // All animation state lives in refs — zero React re-renders during sweep or hover
   const stateRef = useRef({ angle: 45, proximity: 0, hovered: false, sweeping: false });
+  // Cache for gradient strings to avoid rebuilding on every frame
+  const cacheRef = useRef({ lastAngle: -1, lastAngleCached: false, borderMask: "", glowMask: "" });
 
   useEffect(() => {
     const card = cardRef.current;
@@ -161,7 +164,7 @@ export default function BorderGlow({
     fillEl.style.background = fillBg;
     (glowEl.firstElementChild as HTMLElement).style.boxShadow = boxShadow;
 
-    // Flush computed values to DOM — called on every RAF tick during sweep/hover
+    // Flush computed values to DOM — throttled to one call per frame
     const flush = () => {
       const { angle, proximity, hovered, sweeping } = stateRef.current;
       const isActive = hovered || sweeping;
@@ -175,32 +178,67 @@ export default function BorderGlow({
       const transitionOn = "opacity 0.25s ease-out";
       const transitionOff = "opacity 0.75s ease-in-out";
 
+      // Only rebuild maskImage if angle changed by more than 0.5deg
+      const angleChanged = Math.abs(angle - cacheRef.current.lastAngle) > 0.5;
+
       borderEl.style.opacity = String(borderOpacity);
-      borderEl.style.maskImage = `conic-gradient(from ${angleDeg} at center, black ${coneSpread}%, transparent ${coneSpread + 15}%, transparent ${100 - coneSpread - 15}%, black ${100 - coneSpread}%)`;
-      (borderEl.style as any).WebkitMaskImage = borderEl.style.maskImage;
+      if (angleChanged || !cacheRef.current.borderMask) {
+        cacheRef.current.borderMask = `conic-gradient(from ${angleDeg} at center, black ${coneSpread}%, transparent ${coneSpread + 15}%, transparent ${100 - coneSpread - 15}%, black ${100 - coneSpread}%)`;
+        borderEl.style.maskImage = cacheRef.current.borderMask;
+        (borderEl.style as any).WebkitMaskImage = cacheRef.current.borderMask;
+      }
       borderEl.style.transition = isActive ? transitionOn : transitionOff;
 
       fillEl.style.opacity = String(borderOpacity * fillOpacity);
-      const fillMask = [
-        "linear-gradient(to bottom, black, black)",
-        "radial-gradient(ellipse at 50% 50%, black 40%, transparent 65%)",
-        "radial-gradient(ellipse at 66% 66%, black 5%, transparent 40%)",
-        "radial-gradient(ellipse at 33% 33%, black 5%, transparent 40%)",
-        "radial-gradient(ellipse at 66% 33%, black 5%, transparent 40%)",
-        "radial-gradient(ellipse at 33% 66%, black 5%, transparent 40%)",
-        `conic-gradient(from ${angleDeg} at center, transparent 5%, black 15%, black 85%, transparent 95%)`,
-      ].join(", ");
-      fillEl.style.maskImage = fillMask;
-      (fillEl.style as any).WebkitMaskImage = fillMask;
+      // fillMask always uses current angle - rebuild if angle changed
+      if (angleChanged || !cacheRef.current.lastAngleCached) {
+        const fillMask = [
+          "linear-gradient(to bottom, black, black)",
+          "radial-gradient(ellipse at 50% 50%, black 40%, transparent 65%)",
+          "radial-gradient(ellipse at 66% 66%, black 5%, transparent 40%)",
+          "radial-gradient(ellipse at 33% 33%, black 5%, transparent 40%)",
+          "radial-gradient(ellipse at 66% 33%, black 5%, transparent 40%)",
+          "radial-gradient(ellipse at 33% 66%, black 5%, transparent 40%)",
+          `conic-gradient(from ${angleDeg} at center, transparent 5%, black 15%, black 85%, transparent 95%)`,
+        ].join(", ");
+        fillEl.style.maskImage = fillMask;
+        (fillEl.style as any).WebkitMaskImage = fillMask;
+      }
       fillEl.style.transition = isActive ? transitionOn : transitionOff;
 
       glowEl.style.opacity = String(glowOpacity);
-      glowEl.style.maskImage = `conic-gradient(from ${angleDeg} at center, black 2.5%, transparent 10%, transparent 90%, black 97.5%)`;
-      (glowEl.style as any).WebkitMaskImage = glowEl.style.maskImage;
+      if (angleChanged || !cacheRef.current.glowMask) {
+        cacheRef.current.glowMask = `conic-gradient(from ${angleDeg} at center, black 2.5%, transparent 10%, transparent 90%, black 97.5%)`;
+        glowEl.style.maskImage = cacheRef.current.glowMask;
+        (glowEl.style as any).WebkitMaskImage = cacheRef.current.glowMask;
+      }
       glowEl.style.transition = isActive ? transitionOn : transitionOff;
+
+      // Update cached angle after processing
+      if (angleChanged) {
+        cacheRef.current.lastAngle = angle;
+        cacheRef.current.lastAngleCached = true;
+      }
     };
 
     // Pointer handlers — direct DOM, no setState
+    let rafId = 0;
+    let pendingFlush = false;
+    const scheduleFlush = () => {
+      if (pendingFlush) return;
+      pendingFlush = true;
+      cancelAnimationFrame(rafId);
+      rafId = requestAnimationFrame(() => {
+        pendingFlush = false;
+        flush();
+      });
+    };
+
+    // Detect mobile for conditional pointer tracking
+    const isMobile =
+      /iPhone|iPad|iPod|Android/i.test(navigator.userAgent) ||
+      window.matchMedia("(pointer: coarse)").matches;
+
     const onPointerMove = (e: PointerEvent) => {
       if (stateRef.current.sweeping) return;
       const rect = card.getBoundingClientRect();
@@ -218,7 +256,7 @@ export default function BorderGlow({
       let deg = Math.atan2(dy, dx) * (180 / Math.PI) + 90;
       if (deg < 0) deg += 360;
       stateRef.current.angle = deg;
-      flush();
+      scheduleFlush(); // Throttled to one flush per frame
     };
     const onPointerEnter = () => {
       stateRef.current.hovered = true;
@@ -229,11 +267,26 @@ export default function BorderGlow({
       flush();
     };
 
-    card.addEventListener("pointermove", onPointerMove);
-    card.addEventListener("pointerenter", onPointerEnter);
-    card.addEventListener("pointerleave", onPointerLeave);
+    // Only add pointer events on desktop — mobile has no hover capability
+    if (!isMobile) {
+      card.addEventListener("pointermove", onPointerMove);
+      card.addEventListener("pointerenter", onPointerEnter);
+      card.addEventListener("pointerleave", onPointerLeave);
+    }
 
-    // Sweep animation — all via refs + direct DOM
+    // Mobile: Simple opacity pulse animation - no heavy mask updates to avoid flickering
+    if (isMobile) {
+      fillEl.style.opacity = String(0.6 * fillOpacity);
+      glowEl.style.opacity = "0";
+      // Set static mask
+      const staticMask = `conic-gradient(from 45deg at center, black ${coneSpread}%, transparent ${coneSpread + 15}%, transparent ${100 - coneSpread - 15}%, black ${100 - coneSpread}%)`;
+      borderEl.style.maskImage = staticMask;
+      (borderEl.style as any).WebkitMaskImage = staticMask;
+      // Add CSS class for opacity pulse animation (compositor-only)
+      borderEl.classList.add("border-glow-mobile");
+    }
+
+    // Sweep animation — all via refs + direct DOM (desktop only)
     let hasSwept = false;
     let cancelFns: Array<() => void> = [];
     const startSweep = () => {
@@ -294,7 +347,8 @@ export default function BorderGlow({
     };
 
     let observer: IntersectionObserver | null = null;
-    if (animated) {
+    // Only run sweep animation on desktop — mobile uses CSS animation instead
+    if (animated && !isMobile) {
       if (!("IntersectionObserver" in window)) {
         startSweep();
       } else {
@@ -312,11 +366,15 @@ export default function BorderGlow({
     }
 
     return () => {
-      card.removeEventListener("pointermove", onPointerMove);
-      card.removeEventListener("pointerenter", onPointerEnter);
-      card.removeEventListener("pointerleave", onPointerLeave);
+      // Only remove listeners if they were added (desktop only)
+      if (!isMobile) {
+        card.removeEventListener("pointermove", onPointerMove);
+        card.removeEventListener("pointerenter", onPointerEnter);
+        card.removeEventListener("pointerleave", onPointerLeave);
+      }
       observer?.disconnect();
       cancelFns.forEach((fn) => fn());
+      cancelAnimationFrame(rafId);
     };
   }, [
     animated,
