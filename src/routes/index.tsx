@@ -27,7 +27,7 @@ import {
   Info,
 } from "lucide-react";
 
-import { SiteNav } from "@/components/site-nav";
+import { SiteNav, LogoTitle } from "@/components/site-nav";
 import { MediaPlaceholder } from "@/components/media-placeholder";
 import { SectionReveal, RevealText, RevealBlock, RevealImage } from "@/components/reveal";
 import CircularGallery from "@/components/circular-gallery";
@@ -174,7 +174,15 @@ const heroTiles: Tile[] = [
   },
 ];
 
-function TileContent({ seed, visible }: { seed: number; visible: boolean }) {
+function TileContent({
+  seed,
+  visible,
+  onLabelChange,
+}: {
+  seed: number;
+  visible: boolean;
+  onLabelChange?: (label: string) => void;
+}) {
   const reduce = useReducedMotion();
   const [idx, setIdx] = useState(seed % mediaPool.length);
   useEffect(() => {
@@ -208,6 +216,11 @@ function TileContent({ seed, visible }: { seed: number; visible: boolean }) {
       clearTimeout(timeoutId);
     };
   }, [seed, reduce, visible]);
+
+  useEffect(() => {
+    onLabelChange?.(mediaPool[idx].label);
+  }, [idx, onLabelChange]);
+
   const item = mediaPool[idx];
   const Icon = item.variant === "video" ? PlayCircle : ImageIcon;
   const hue1 = 150 + ((idx * 7) % 40);
@@ -223,7 +236,7 @@ function TileContent({ seed, visible }: { seed: number; visible: boolean }) {
           opacity: { duration: reduce ? 0 : 1.6, ease: [0.4, 0, 0.2, 1] },
           scale: { duration: reduce ? 0 : 1.8, ease: [0.22, 1, 0.36, 1] },
         }}
-        className="absolute inset-0"
+        className="absolute inset-0 rounded-3xl overflow-hidden"
       >
         {HERO_TILE_IMAGES[item.label] ? (
           <img
@@ -239,16 +252,13 @@ function TileContent({ seed, visible }: { seed: number; visible: boolean }) {
             }}
           />
         )}
-        <div className="absolute inset-0 flex flex-col items-center justify-center gap-2 text-primary/70 pointer-events-none">
-          {!HERO_TILE_IMAGES[item.label] && (
+        {!HERO_TILE_IMAGES[item.label] && (
+          <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
             <div className="rounded-full bg-white/70 p-2.5 backdrop-blur shadow-sm">
               <Icon className="h-5 w-5" strokeWidth={1.4} />
             </div>
-          )}
-          <p className="text-[10px] uppercase tracking-[0.18em] text-primary/60 px-3 text-center drop-shadow">
-            {item.label}
-          </p>
-        </div>
+          </div>
+        )}
       </motion.div>
     </AnimatePresence>
   );
@@ -267,6 +277,7 @@ function FloatingTile({
 }) {
   const reduce = useReducedMotion();
   const isMobile = useIsMobile();
+  const [activeLabel, setActiveLabel] = useState(tile.label);
   // Parallax depth varies by z and index — deeper tiles move slower
   const depth = tile.z === 2 ? 120 : 200;
   const direction = index % 2 === 0 ? 1 : -1;
@@ -308,16 +319,45 @@ function FloatingTile({
         translateY: reduce || isMobile ? 0 : parallaxY,
         ...cssVars,
       }}
-      className={cn(
-        "absolute hidden md:block rounded-3xl overflow-hidden border border-white/60 shadow-[0_20px_60px_-25px_oklch(0.42_0.07_155_/_0.45)] gradient-mist",
-        !reduce && "animate-float-tile",
-      )}
+      className={cn("absolute hidden md:block overflow-visible", !reduce && "animate-float-tile")}
     >
-      <TileContent seed={index} visible={visible} />
-      <div className="pointer-events-none absolute inset-0 rounded-3xl ring-1 ring-inset ring-white/50" />
-      <span className="absolute top-3 left-3 text-[9px] font-mono text-primary/50 z-10">
-        0{index + 1}
-      </span>
+      {/* Card visuals — clipped to rounded corners */}
+      <div className="absolute inset-0 rounded-3xl overflow-hidden border border-white/60 shadow-[0_20px_60px_-25px_oklch(0.42_0.07_155_/_0.45)] gradient-mist">
+        <TileContent seed={index} visible={visible} onLabelChange={setActiveLabel} />
+        <div className="pointer-events-none absolute inset-0 rounded-3xl ring-1 ring-inset ring-white/50" />
+        <span className="absolute top-3 left-3 text-[9px] font-mono text-primary/50 z-10">
+          0{index + 1}
+        </span>
+      </div>
+      {/* Sticker — outside overflow-hidden so tape strip shows above card edge */}
+      <div className="absolute bottom-0 inset-x-0 z-20 flex justify-center translate-y-1/2 pointer-events-none">
+        <div
+          className="relative px-3 py-1.5 bg-white rounded-sm flex items-center gap-1.5"
+          style={{
+            transform: `rotate(${(index % 2 === 0 ? -1.8 : 1.4) + index * 0.4}deg)`,
+            boxShadow:
+              "0 2px 10px rgba(0,0,0,0.22), 0 0 0 1px rgba(0,0,0,0.07), inset 0 1px 0 rgba(255,255,255,0.95)",
+          }}
+        >
+          {/* Tape strip at top */}
+          <div
+            className="absolute -top-2.5 left-1/2 -translate-x-1/2 w-8 h-2.5 bg-amber-100/90 rounded-sm border border-amber-200/70"
+            style={{ boxShadow: "0 1px 3px rgba(0,0,0,0.1)" }}
+          />
+          <AnimatePresence mode="wait" initial={false}>
+            <motion.span
+              key={activeLabel}
+              initial={{ opacity: 0, y: 4 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -4 }}
+              transition={{ duration: 0.25, ease: [0.22, 1, 0.36, 1] }}
+              className="font-condensed text-[10px] uppercase tracking-[0.14em] text-foreground/85 font-semibold leading-none"
+            >
+              {activeLabel}
+            </motion.span>
+          </AnimatePresence>
+        </div>
+      </div>
     </motion.div>
   );
 }
@@ -531,11 +571,9 @@ function Hero() {
 
               {/* Stamp-style focal mark */}
               <div className="relative mt-8 flex items-center justify-center">
-                <div className="glass rounded-full px-6 py-3 flex items-center gap-3 shadow-[0_15px_50px_-20px_oklch(0.42_0.07_155_/_0.5)]">
-                  <img src="/icon.png" alt="" className="h-8 w-8 rounded-full object-cover" />
-                  <span className="font-serif text-lg sm:text-xl text-primary">
-                    Wild Chikkamagaluru Treks
-                  </span>
+                <div className="glass rounded-full px-6 py-1 flex items-center gap-3 shadow-[0_15px_50px_-20px_oklch(0.42_0.07_155/0.5)]">
+                  <img src="/icon.png" alt="" className="h-14 w-14 rounded-full object-cover" />
+                  <LogoTitle imgClassName="h-20" />
                 </div>
               </div>
 
@@ -1212,14 +1250,7 @@ function Footer() {
             alt="Wild Chikkamagaluru Treks"
             className="h-7 w-7 rounded-full object-cover"
           />
-          <span className="hidden sm:flex flex-col leading-none">
-            <span className="font-serif text-[12px] tracking-tight text-foreground">
-              Wild Chikkamagaluru
-            </span>
-            <span className="uppercase tracking-[0.18em] text-[8px] text-muted-foreground">
-              Treks
-            </span>
-          </span>
+          <LogoTitle className="hidden sm:flex" />
         </a>
         <p>© {new Date().getFullYear()} — Nature is a way of life.</p>
       </div>

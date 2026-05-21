@@ -100,30 +100,12 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
         content: "Wild Chikkamagaluru Treks — Soulful Treks in the Western Ghats",
       },
       {
-        name: "description",
-        content:
-          "Misty Peaks Trek is a website for exploring Chikkamagaluru's natural beauty and booking guided treks.",
-      },
-      {
-        property: "og:description",
-        content:
-          "Misty Peaks Trek is a website for exploring Chikkamagaluru's natural beauty and booking guided treks.",
-      },
-      {
         name: "twitter:description",
         content:
-          "Misty Peaks Trek is a website for exploring Chikkamagaluru's natural beauty and booking guided treks.",
+          "Soulful, affordable treks across Chikkamagaluru's misty peaks — Mullayanagiri, Kudremukh, Netravati and more. Led by Sushanth Gowda.",
       },
-      {
-        property: "og:image",
-        content:
-          "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/4a2337bf-4de2-469f-95d3-54c54bba9043/id-preview-03d2a45c--ef6496a3-8edf-47ba-8c21-9ae87179bdfb.lovable.app-1779223082935.png",
-      },
-      {
-        name: "twitter:image",
-        content:
-          "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/4a2337bf-4de2-469f-95d3-54c54bba9043/id-preview-03d2a45c--ef6496a3-8edf-47ba-8c21-9ae87179bdfb.lovable.app-1779223082935.png",
-      },
+      { property: "og:image", content: "/icon.png" },
+      { name: "twitter:image", content: "/icon.png" },
     ],
     links: [
       { rel: "stylesheet", href: appCss },
@@ -134,7 +116,11 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       {
         rel: "preload",
         as: "style",
-        href: "https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap",
+        href: "https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Inter:wght@300;400;500;600&family=Rye&family=Oswald:wght@600;700&display=swap",
+      },
+      {
+        rel: "stylesheet",
+        href: "https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Inter:wght@300;400;500;600&family=Rye&family=Oswald:wght@600;700&display=swap",
       },
       { rel: "icon", type: "image/png", href: "/icon.png" },
       { rel: "icon", type: "image/x-icon", href: "/icon_32.ico", sizes: "32x32" },

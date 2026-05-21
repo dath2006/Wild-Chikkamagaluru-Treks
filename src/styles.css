@@ -19,6 +19,8 @@
  */
 
 @theme inline {
+  --font-brush: Rye, cursive;
+  --font-condensed: Oswald, sans-serif;
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
@@ -227,6 +229,12 @@
     -webkit-background-clip: text;
     background-clip: text;
     color: transparent;
+  }
+  .font-brush {
+    font-family: var(--font-brush);
+  }
+  .font-condensed {
+    font-family: var(--font-condensed);
   }
   .glass {
     background: oklch(1 0 0 / 0.55);
