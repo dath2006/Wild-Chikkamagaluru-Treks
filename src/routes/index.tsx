@@ -573,7 +573,7 @@ function Hero() {
               <div className="relative mt-8 flex items-center justify-center">
                 <div className="glass rounded-full px-6 py-1 flex items-center gap-3 shadow-[0_15px_50px_-20px_oklch(0.42_0.07_155/0.5)]">
                   <img src="/icon.png" alt="" className="h-14 w-14 rounded-full object-cover" />
-                  <LogoTitle imgClassName="h-20" />
+                  <LogoTitle imgClassName="h-16" />
                 </div>
               </div>
 

@@ -64,11 +64,11 @@ export function GalleryLightbox({ items, activeIndex, onClose, onNavigate }: Gal
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
-          transition={{ duration: reduce ? 0 : 0.25 }}
+          transition={{ duration: reduce ? 0 : 0.18, ease: [0.22, 1, 0.36, 1] }}
           className="fixed inset-0 z-100 flex items-center justify-center"
         >
           {/* Backdrop */}
-          <div className="absolute inset-0 bg-black/85 backdrop-blur-md" onClick={onClose} />
+          <div className="absolute inset-0 bg-black/88" onClick={onClose} />
 
           {/* Main media pane */}
           <div className="relative z-10 w-full max-w-4xl mx-4 flex flex-col items-center gap-4">
@@ -76,7 +76,7 @@ export function GalleryLightbox({ items, activeIndex, onClose, onNavigate }: Gal
             <div className="w-full flex justify-end">
               <button
                 onClick={onClose}
-                className="rounded-full bg-white/10 hover:bg-white/20 border border-white/20 p-2.5 text-white transition backdrop-blur"
+                className="rounded-full bg-white/15 hover:bg-white/25 border border-white/20 p-2.5 text-white transition"
               >
                 <X className="h-5 w-5" />
               </button>
@@ -90,7 +90,7 @@ export function GalleryLightbox({ items, activeIndex, onClose, onNavigate }: Gal
                   initial={{ opacity: 0, scale: reduce ? 1 : 0.96 }}
                   animate={{ opacity: 1, scale: 1 }}
                   exit={{ opacity: 0, scale: reduce ? 1 : 1.02 }}
-                  transition={{ duration: reduce ? 0 : 0.3, ease: [0.22, 1, 0.36, 1] }}
+                  transition={{ duration: reduce ? 0 : 0.2, ease: [0.22, 1, 0.36, 1] }}
                   className="relative aspect-4/3 w-full"
                 >
                   <div
@@ -142,7 +142,7 @@ export function GalleryLightbox({ items, activeIndex, onClose, onNavigate }: Gal
             <div className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-2 sm:-translate-x-6">
               <button
                 onClick={prev}
-                className="rounded-full bg-white/10 hover:bg-white/20 border border-white/20 p-3 text-white transition backdrop-blur"
+                className="rounded-full bg-white/15 hover:bg-white/25 border border-white/20 p-3 text-white transition"
               >
                 <ChevronLeft className="h-5 w-5" />
               </button>
@@ -150,7 +150,7 @@ export function GalleryLightbox({ items, activeIndex, onClose, onNavigate }: Gal
             <div className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-2 sm:translate-x-6">
               <button
                 onClick={next}
-                className="rounded-full bg-white/10 hover:bg-white/20 border border-white/20 p-3 text-white transition backdrop-blur"
+                className="rounded-full bg-white/15 hover:bg-white/25 border border-white/20 p-3 text-white transition"
               >
                 <ChevronRight className="h-5 w-5" />
               </button>

@@ -2,7 +2,7 @@ import { useState, useEffect, useCallback } from "react";
 
 function LogoTitle({
   className = "",
-  imgClassName = "h-9 sm:h-14",
+  imgClassName = "h-9 sm:h-10",
 }: {
   className?: string;
   imgClassName?: string;
