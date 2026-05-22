@@ -47,6 +47,17 @@ export const HERO_TILE_IMAGES: Record<string, string> = {
   "Chikkamagaluru poster": `${BASE_URL}/chikkamagaluru%20treks/poster.jpeg`,
 };
 
+// ─── 1b. HERO TILE VIDEOS (Desktop background short clips) ───────────────────
+export const HERO_TILE_VIDEOS: Record<string, string> = {
+  // Trek highlight videos for hero tiles (correct paths from R2 hierarchy)
+  "Mullayanagiri clip": `${BASE_URL}/chikkamagaluru%20treks/mullaynagiri/WhatsApp%20Video%202026-05-21%20at%208.18.33%20PM.mp4`,
+  "Kudremukh clip": `${BASE_URL}/chikkamagaluru%20treks/kudremuka/kudremukha_movements/WhatsApp%20Video%202026-05-19%20at%2010.22.56%20PM.mp4`,
+  "Kurinjal clip": `${BASE_URL}/chikkamagaluru%20treks/kurinjal/movements/WhatsApp%20Video%202026-05-21%20at%208.07.20%20PM.mp4`,
+  "Bandaje clip": `${BASE_URL}/chikkamagaluru%20treks/bandaje%20falls%20trek/WhatsApp%20Video%202026-05-21%20at%208.23.05%20PM.mp4`,
+  "Hebbe clip": `${BASE_URL}/chikkamagaluru%20treks/hebbe%20falls/WhatsApp%20Video%202026-05-20%20at%2011.16.55%20PM.mp4`,
+  "Hidden Falls clip": `${BASE_URL}/chikkamagaluru%20treks/hidden%20water%20falls/WhatsApp%20Video%202026-05-21%20at%208.39.59%20PM.mp4`,
+};
+
 // ─── 2. CIRCULAR GALLERY (WebGL carousel - uses hero files) ──────────────────
 // Key = trek name (must match treks.ts exactly)
 export const TREK_COVER_IMAGES: Record<string, string> = {

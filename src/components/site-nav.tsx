@@ -58,11 +58,26 @@ export function SiteNav() {
 
   const handleAnchorClick = useCallback(
     (e: React.MouseEvent<HTMLAnchorElement>, hash: string) => {
-      if (isHome) return;
+      if (isHome) {
+        e.preventDefault();
+        // Handle smooth scroll on home page
+        const id = hash.slice(1);
+        if (id === "top") {
+          window.scrollTo({ top: 0, behavior: "smooth" });
+        } else {
+          const el = document.getElementById(id);
+          if (el) el.scrollIntoView({ behavior: "smooth" });
+        }
+        return;
+      }
       e.preventDefault();
       navigate({ to: "/" }).then(() => {
         const id = hash.slice(1);
         const attempt = (tries: number) => {
+          if (id === "top") {
+            window.scrollTo({ top: 0, behavior: "smooth" });
+            return;
+          }
           const el = document.getElementById(id);
           if (el) {
             el.scrollIntoView({ behavior: "smooth" });
@@ -87,7 +102,15 @@ export function SiteNav() {
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((e) => {
-          if (e.isIntersecting) setActive(e.target.id);
+          if (e.isIntersecting) {
+            const newId = e.target.id;
+            setActive(newId);
+            // Update URL hash without triggering scroll
+            const newHash = newId === "top" ? "" : `#${newId}`;
+            if (window.location.hash !== newHash) {
+              window.history.replaceState(null, "", newHash || window.location.pathname);
+            }
+          }
         });
       },
       { rootMargin: "-40% 0px -50% 0px", threshold: 0 },
@@ -96,6 +119,9 @@ export function SiteNav() {
       const el = document.querySelector(href);
       if (el) observer.observe(el);
     });
+    // Also observe the top section
+    const topEl = document.querySelector("#top");
+    if (topEl) observer.observe(topEl);
     return () => observer.disconnect();
   }, [isHome]);
 
@@ -109,10 +135,7 @@ export function SiteNav() {
         }`}
       >
         {/* Logo */}
-        <a
-          href={isHome ? "#top" : "/"}
-          className="flex items-center gap-2.5 group overflow-visible"
-        >
+        <Link to="/" className="flex items-center gap-2.5 group overflow-visible">
           <div className="relative">
             <img
               src="/icon.png"
@@ -122,7 +145,7 @@ export function SiteNav() {
             <span className="absolute -bottom-0.5 -right-0.5 h-2 w-2 rounded-full bg-primary border-2 border-white shadow-sm" />
           </div>
           <LogoTitle />
-        </a>
+        </Link>
 
         {/* Desktop links */}
         <ul className="hidden md:flex items-center gap-1 text-sm">

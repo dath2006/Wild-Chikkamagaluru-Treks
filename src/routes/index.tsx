@@ -27,6 +27,7 @@ import {
   Info,
   FileText,
   Share2,
+  MousePointerClick,
 } from "lucide-react";
 import { FaInstagram, FaWhatsapp } from "react-icons/fa6";
 
@@ -44,6 +45,7 @@ import { TrekCardStack, type TrekCard } from "@/components/trek-card-stack";
 import { treks, type Trek } from "@/lib/treks";
 import {
   HERO_TILE_IMAGES,
+  HERO_TILE_VIDEOS,
   TREK_COVER_IMAGES,
   TREK_MEDIA_IMAGES,
   TREK_MEDIA_VIDEOS,
@@ -80,8 +82,9 @@ type Tile = {
   z: number;
 };
 
-// Pool of media captions the tiles cycle through (includes bits_and_pieces)
+// Pool of media captions the tiles cycle through (includes photos + short video clips)
 const mediaPool: { label: string; variant: "image" | "video" }[] = [
+  // Images
   { label: "Mullayanagiri sunrise", variant: "image" },
   { label: "Kudremukh ridge", variant: "image" },
   { label: "Hebbe falls", variant: "image" },
@@ -99,6 +102,13 @@ const mediaPool: { label: string; variant: "image" | "video" }[] = [
   { label: "Karnataka wilds", variant: "image" },
   { label: "Misty cascade", variant: "image" },
   { label: "Road adventure", variant: "image" },
+  // Short video clips (mixed in intelligently)
+  { label: "Mullayanagiri clip", variant: "video" },
+  { label: "Kudremukh clip", variant: "video" },
+  { label: "Kurinjal clip", variant: "video" },
+  { label: "Bandaje clip", variant: "video" },
+  { label: "Hebbe clip", variant: "video" },
+  { label: "Hidden Falls clip", variant: "video" },
 ];
 
 const heroTiles: Tile[] = [
@@ -161,7 +171,7 @@ const heroTiles: Tile[] = [
   {
     label: "Forest deep",
     variant: "image",
-    top: "32%",
+    top: "18%", // Moved up from 32%
     left: "38%",
     w: "14rem",
     h: "10rem",
@@ -188,6 +198,24 @@ const heroTiles: Tile[] = [
   },
 ];
 
+// Module-level Set to track which media indices are currently active across all tiles
+const activeTileIndices = new Set<number>();
+
+// Get a unique random index not currently in use
+function getUniqueRandomIndex(excludeIndices: Set<number>): number {
+  const availableIndices = [];
+  for (let i = 0; i < mediaPool.length; i++) {
+    if (!excludeIndices.has(i)) {
+      availableIndices.push(i);
+    }
+  }
+  if (availableIndices.length === 0) {
+    // If all are taken, return random (edge case with many tiles)
+    return Math.floor(Math.random() * mediaPool.length);
+  }
+  return availableIndices[Math.floor(Math.random() * availableIndices.length)];
+}
+
 function TileContent({
   seed,
   visible,
@@ -198,7 +226,18 @@ function TileContent({
   onLabelChange?: (label: string) => void;
 }) {
   const reduce = useReducedMotion();
-  const [idx, setIdx] = useState(seed % mediaPool.length);
+  // Initialize with a unique index not already in use
+  const [idx, setIdx] = useState(() => {
+    const initialIdx = seed % mediaPool.length;
+    if (activeTileIndices.has(initialIdx)) {
+      const uniqueIdx = getUniqueRandomIndex(activeTileIndices);
+      activeTileIndices.add(uniqueIdx);
+      return uniqueIdx;
+    }
+    activeTileIndices.add(initialIdx);
+    return initialIdx;
+  });
+
   useEffect(() => {
     if (reduce || !visible) return;
 
@@ -211,9 +250,15 @@ function TileContent({
       const start = performance.now();
       const check = (now: number) => {
         if (now - start >= delay) {
-          setIdx(
-            (i) => (i + 1 + Math.floor(Math.random() * (mediaPool.length - 1))) % mediaPool.length,
-          );
+          setIdx((currentIdx) => {
+            // Remove current index from active set
+            activeTileIndices.delete(currentIdx);
+            // Get a new unique index
+            const newIdx = getUniqueRandomIndex(activeTileIndices);
+            // Add new index to active set
+            activeTileIndices.add(newIdx);
+            return newIdx;
+          });
           scheduleNext(); // Schedule next cycle
         } else {
           rafId = requestAnimationFrame(check);
@@ -228,8 +273,10 @@ function TileContent({
     return () => {
       cancelAnimationFrame(rafId);
       clearTimeout(timeoutId);
+      // Clean up this tile's index when unmounting
+      activeTileIndices.delete(idx);
     };
-  }, [seed, reduce, visible]);
+  }, [seed, reduce, visible, idx]);
 
   useEffect(() => {
     onLabelChange?.(mediaPool[idx].label);
@@ -252,7 +299,17 @@ function TileContent({
         }}
         className="absolute inset-0 rounded-3xl overflow-hidden"
       >
-        {HERO_TILE_IMAGES[item.label] ? (
+        {/* Image or Video rendering */}
+        {item.variant === "video" && HERO_TILE_VIDEOS[item.label] ? (
+          <video
+            src={HERO_TILE_VIDEOS[item.label]}
+            className="absolute inset-0 w-full h-full object-cover"
+            autoPlay
+            loop
+            muted
+            playsInline
+          />
+        ) : HERO_TILE_IMAGES[item.label] ? (
           <img
             src={HERO_TILE_IMAGES[item.label]}
             alt={item.label}
@@ -266,7 +323,10 @@ function TileContent({
             }}
           />
         )}
-        {!HERO_TILE_IMAGES[item.label] && (
+        {/* Show icon overlay only when no media available */}
+        {(item.variant === "video"
+          ? !HERO_TILE_VIDEOS[item.label]
+          : !HERO_TILE_IMAGES[item.label]) && (
           <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
             <div className="rounded-full bg-white/70 p-2.5 backdrop-blur shadow-sm">
               <Icon className="h-5 w-5" strokeWidth={1.4} />
@@ -887,54 +947,132 @@ function Founder() {
   );
 }
 
+const GALLERY_HINT_KEY = "gallery-tutorial-seen";
+
 function GalleryHint() {
-  const [visible, setVisible] = useState(true);
+  const isMobile = useIsMobile();
+  const reduce = useReducedMotion();
+  const [show, setShow] = useState(false);
+
   useEffect(() => {
-    // Auto-hide after 5s — long enough to read, gone before it annoys
-    const t = setTimeout(() => setVisible(false), 5000);
-    return () => clearTimeout(t);
+    try {
+      if (!sessionStorage.getItem(GALLERY_HINT_KEY)) setShow(true);
+    } catch {
+      setShow(true);
+    }
   }, []);
+
+  const dismiss = useCallback(() => {
+    setShow(false);
+    try {
+      sessionStorage.setItem(GALLERY_HINT_KEY, "1");
+    } catch {}
+  }, []);
+
+  // Auto-dismiss after 8s
+  useEffect(() => {
+    if (!show) return;
+    const t = setTimeout(dismiss, 8000);
+    return () => clearTimeout(t);
+  }, [show, dismiss]);
+
   return (
-    <AnimatePresence>
-      {visible && (
-        <motion.div
-          initial={{ opacity: 0, y: -8 }}
-          animate={{ opacity: 1, y: 0 }}
-          exit={{ opacity: 0, y: -8 }}
-          transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
-          className="pointer-events-none absolute inset-x-0 top-3 z-10 flex justify-center"
-        >
-          <div className="glass rounded-full px-4 py-2 flex items-center gap-2.5 border border-white/60 shadow-lg">
-            {/* drag arrows */}
-            <div className="flex items-center gap-0.5">
-              <motion.div
-                animate={{ x: [-3, 0, -3] }}
-                transition={{ duration: 1.1, repeat: Infinity, ease: "easeInOut" }}
-              >
-                <ArrowRight className="h-3 w-3 text-primary/60 rotate-180" />
-              </motion.div>
-              <motion.div
-                animate={{ x: [0, 3, 0] }}
-                transition={{ duration: 1.1, repeat: Infinity, ease: "easeInOut", delay: 0.55 }}
-              >
-                <ArrowRight className="h-3 w-3 text-primary/60" />
-              </motion.div>
-            </div>
-            <span className="text-primary/30 text-xs">|</span>
-            {/* tap pulse */}
+    <>
+      {/* ── Tutorial overlay (once per session) ── */}
+      <AnimatePresence>
+        {show && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
+            className="absolute inset-0 z-50 flex items-center justify-center cursor-pointer"
+            onClick={dismiss}
+            style={{ pointerEvents: "auto" }}
+          >
+            {/* Dim backdrop */}
+            <div className="absolute inset-0 bg-black/30 backdrop-blur-[3px]" />
+
+            {/* Tutorial card */}
             <motion.div
-              animate={{ scale: [1, 1.3, 1] }}
-              transition={{ duration: 1.1, repeat: Infinity, ease: "easeInOut", delay: 0.3 }}
+              initial={{ opacity: 0, y: 24, scale: 0.92 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              exit={{ opacity: 0, y: 12, scale: 0.96 }}
+              transition={{ duration: 0.5, delay: 0.12, ease: [0.22, 1, 0.36, 1] }}
+              className="relative z-10 rounded-2xl bg-white/90 backdrop-blur-lg border border-primary/15 shadow-2xl shadow-black/20 px-8 py-6 max-w-sm mx-4 flex flex-col items-center gap-5"
             >
-              <Leaf className="h-3 w-3 text-primary/50" />
+              <span className="text-xs font-semibold uppercase tracking-[0.18em] text-primary/80">
+                Interactive Gallery
+              </span>
+
+              <div className="flex items-center gap-6">
+                {/* Swipe / Drag gesture */}
+                <div className="flex flex-col items-center gap-2">
+                  <div className="relative h-12 w-20 flex items-center justify-center">
+                    <motion.div
+                      animate={reduce ? {} : { x: [-18, 18, -18] }}
+                      transition={{ duration: 2.2, repeat: Infinity, ease: "easeInOut" }}
+                      className="flex items-center gap-1"
+                    >
+                      <ArrowRight className="h-5 w-5 text-primary/60 rotate-180" />
+                      <div className="h-6 w-6 rounded-full bg-primary/20 border-2 border-primary/40 flex items-center justify-center">
+                        <div className="h-2.5 w-2.5 rounded-full bg-primary/60" />
+                      </div>
+                      <ArrowRight className="h-5 w-5 text-primary/60" />
+                    </motion.div>
+                  </div>
+                  <span className="text-xs font-semibold text-primary/80">
+                    {isMobile ? "Swipe" : "Drag"} to browse
+                  </span>
+                </div>
+
+                <div className="h-12 w-px bg-primary/20" />
+
+                {/* Tap / Click gesture */}
+                <div className="flex flex-col items-center gap-2">
+                  <div className="relative h-12 w-12 flex items-center justify-center">
+                    <motion.div
+                      animate={reduce ? {} : { scale: [1, 0.8, 1] }}
+                      transition={{
+                        duration: 1.3,
+                        repeat: Infinity,
+                        ease: "easeInOut",
+                        delay: 0.4,
+                      }}
+                    >
+                      <MousePointerClick className="h-6 w-6 text-primary/70" />
+                    </motion.div>
+                    <motion.div
+                      animate={reduce ? {} : { scale: [0, 2, 0], opacity: [0.5, 0, 0] }}
+                      transition={{ duration: 1.3, repeat: Infinity, ease: "easeOut", delay: 0.4 }}
+                      className="absolute inset-0 m-auto h-4 w-4 rounded-full bg-primary/25"
+                    />
+                  </div>
+                  <span className="text-xs font-semibold text-primary/80">
+                    {isMobile ? "Tap" : "Click"} for details
+                  </span>
+                </div>
+              </div>
+
+              <span className="text-[11px] text-primary/45 tracking-wide">
+                Tap anywhere to dismiss
+              </span>
             </motion.div>
-            <span className="font-serif text-[11px] text-primary/75 leading-none whitespace-nowrap">
-              Drag to browse · tap to view details
-            </span>
-          </div>
-        </motion.div>
-      )}
-    </AnimatePresence>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* ── Persistent note (always visible at bottom of gallery) ── */}
+      <div className="absolute bottom-3 md:bottom-4 inset-x-0 z-10 flex justify-center pointer-events-none">
+        <div className="flex items-center gap-2 rounded-full bg-white/70 backdrop-blur-md px-4 py-2 border border-primary/15 shadow-md">
+          <Info className="h-3.5 w-3.5 text-primary/60 shrink-0" />
+          <span className="text-xs sm:text-sm font-medium text-primary/70">
+            {isMobile ? "Swipe" : "Drag"} to scroll &middot; {isMobile ? "tap" : "click"} any trek
+            to view details
+          </span>
+        </div>
+      </div>
+    </>
   );
 }
 
@@ -1048,10 +1186,60 @@ const BATCH = 12; // items loaded per scroll trigger
 
 function TrekJourneyVideos() {
   const [activeVideo, setActiveVideo] = useState(0);
+  const [isVisible, setIsVisible] = useState(false);
+  const videoRefs = useRef<(HTMLVideoElement | null)[]>([]);
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  // Track visibility with IntersectionObserver
+  useEffect(() => {
+    const container = containerRef.current;
+    if (!container) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        setIsVisible(entry.isIntersecting);
+      },
+      { threshold: 0.3 }, // At least 30% visible to play
+    );
+
+    observer.observe(container);
+    return () => observer.disconnect();
+  }, []);
+
+  // Pause previous video and play current when switching
+  useEffect(() => {
+    // Pause all videos first
+    videoRefs.current.forEach((video) => {
+      if (video) video.pause();
+    });
+    // Play only the active video if visible
+    const currentVideo = videoRefs.current[activeVideo];
+    if (currentVideo && isVisible) {
+      currentVideo.play().catch(() => {});
+    }
+  }, [isVisible, activeVideo]);
+
+  // Auto-advance to next video when current ends
+  const handleVideoEnd = useCallback(() => {
+    if (!isVisible) return; // Only advance if visible
+    setActiveVideo((current) => (current + 1) % TREK_JOURNEY_VIDEOS.length);
+  }, [isVisible]);
+
+  // Set up ended event listeners for videos
+  useEffect(() => {
+    const currentVideo = videoRefs.current[activeVideo];
+    if (currentVideo) {
+      currentVideo.addEventListener("ended", handleVideoEnd);
+      return () => currentVideo.removeEventListener("ended", handleVideoEnd);
+    }
+  }, [activeVideo, handleVideoEnd]);
 
   return (
     <RevealBlock className="mb-12">
-      <div className="rounded-2xl overflow-hidden border border-white/50 shadow-[0_8px_30px_-12px_oklch(0.42_0.07_155/0.4)] bg-white/30 backdrop-blur-sm">
+      <div
+        ref={containerRef}
+        className="rounded-2xl overflow-hidden border border-white/50 shadow-[0_8px_30px_-12px_oklch(0.42_0.07_155/0.4)] bg-white/30 backdrop-blur-sm"
+      >
         {/* Header */}
         <div className="px-6 py-4 border-b border-primary/10 flex items-center justify-between">
           <div className="flex items-center gap-2">
@@ -1059,7 +1247,7 @@ function TrekJourneyVideos() {
             <span className="text-xs uppercase tracking-[0.2em] text-primary/70">Trek Journey</span>
           </div>
           <span className="text-[10px] uppercase tracking-[0.15em] text-primary/50">
-            {TREK_JOURNEY_VIDEOS.length} videos
+            Auto-playing {TREK_JOURNEY_VIDEOS.length} videos
           </span>
         </div>
 
@@ -1129,23 +1317,26 @@ function TrekJourneyVideos() {
           ))}
         </div>
 
-        {/* Active video player */}
-        <div className="relative aspect-video w-full bg-black/90">
-          {TREK_JOURNEY_VIDEOS.map((video, i) => (
-            <video
-              key={video.url}
-              src={video.url}
-              poster={video.poster}
-              className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-500 ${
-                activeVideo === i ? "opacity-100" : "opacity-0 pointer-events-none"
-              }`}
-              autoPlay={activeVideo === i}
-              loop
-              muted
-              playsInline
-              controls={activeVideo === i}
-            />
-          ))}
+        {/* Active video player - smaller on desktop */}
+        <div className="px-4 md:px-12 lg:px-20">
+          <div className="relative aspect-video w-full max-w-4xl mx-auto bg-black/90 rounded-lg overflow-hidden">
+            {TREK_JOURNEY_VIDEOS.map((video, i) => (
+              <video
+                key={video.url}
+                ref={(el) => {
+                  videoRefs.current[i] = el;
+                }}
+                src={video.url}
+                poster={video.poster}
+                className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-500 ${
+                  activeVideo === i ? "opacity-100" : "opacity-0 pointer-events-none"
+                }`}
+                autoPlay={activeVideo === i}
+                playsInline
+                controls={activeVideo === i}
+              />
+            ))}
+          </div>
         </div>
       </div>
     </RevealBlock>
