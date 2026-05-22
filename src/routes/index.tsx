@@ -1,4 +1,4 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import {
   motion,
   AnimatePresence,
@@ -25,10 +25,13 @@ import {
   ArrowDown,
   Check,
   Info,
+  FileText,
+  Share2,
 } from "lucide-react";
 import { FaInstagram, FaWhatsapp } from "react-icons/fa6";
 
 import { SiteNav, LogoTitle } from "@/components/site-nav";
+import { MobileNav } from "@/components/mobile-nav";
 import { MediaPlaceholder } from "@/components/media-placeholder";
 import { SectionReveal, RevealText, RevealBlock, RevealImage } from "@/components/reveal";
 import CircularGallery from "@/components/circular-gallery";
@@ -43,8 +46,13 @@ import {
   HERO_TILE_IMAGES,
   TREK_COVER_IMAGES,
   TREK_MEDIA_IMAGES,
+  TREK_MEDIA_VIDEOS,
   SITE_IMAGES,
   MOBILE_CAROUSEL_IMAGES,
+  TREK_JOURNEY_VIDEOS,
+  ALL_GALLERY_MEDIA,
+  BITS_AND_PIECES,
+  getTrekMedia,
 } from "@/lib/media";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { cn } from "@/lib/utils";
@@ -72,20 +80,25 @@ type Tile = {
   z: number;
 };
 
-// Pool of media captions the tiles cycle through
+// Pool of media captions the tiles cycle through (includes bits_and_pieces)
 const mediaPool: { label: string; variant: "image" | "video" }[] = [
   { label: "Mullayanagiri sunrise", variant: "image" },
   { label: "Kudremukh ridge", variant: "image" },
-  { label: "Hebbe falls", variant: "video" },
-  { label: "Trail through mist", variant: "image" },
-  { label: "Coffee estate", variant: "image" },
-  { label: "Summit camp", variant: "video" },
-  { label: "Baba Budangiri", variant: "image" },
-  { label: "Z-Point dusk", variant: "image" },
-  { label: "Netravati ridge", variant: "video" },
-  { label: "Shola forest", variant: "image" },
-  { label: "Bhadra backwaters", variant: "image" },
-  { label: "Kemmangundi vista", variant: "video" },
+  { label: "Hebbe falls", variant: "image" },
+  { label: "Jari falls", variant: "image" },
+  { label: "Netravati ridge", variant: "image" },
+  { label: "Kurinjal vista", variant: "image" },
+  { label: "Ettina Bhuja rock", variant: "image" },
+  { label: "Gangadikkal view", variant: "image" },
+  { label: "Bandaje cascade", variant: "image" },
+  { label: "Ballalrayan fort", variant: "image" },
+  { label: "Kyatanamakki sunset", variant: "image" },
+  { label: "Rani Jheri viewpoint", variant: "image" },
+  { label: "Charmudi mist", variant: "image" },
+  { label: "Forest deep", variant: "image" },
+  { label: "Karnataka wilds", variant: "image" },
+  { label: "Misty cascade", variant: "image" },
+  { label: "Road adventure", variant: "image" },
 ];
 
 const heroTiles: Tile[] = [
@@ -119,7 +132,7 @@ const heroTiles: Tile[] = [
   },
   {
     label: "Hebbe falls",
-    variant: "video",
+    variant: "image",
     top: "55%",
     left: "2%",
     w: "15rem",
@@ -132,7 +145,7 @@ const heroTiles: Tile[] = [
     z: 1,
   },
   {
-    label: "Trail through mist",
+    label: "Charmudi mist",
     variant: "image",
     top: "60%",
     left: "78%",
@@ -146,7 +159,7 @@ const heroTiles: Tile[] = [
     z: 2,
   },
   {
-    label: "Coffee estate",
+    label: "Forest deep",
     variant: "image",
     top: "32%",
     left: "38%",
@@ -160,8 +173,8 @@ const heroTiles: Tile[] = [
     z: 1,
   },
   {
-    label: "Summit camp",
-    variant: "video",
+    label: "Kyatanamakki sunset",
+    variant: "image",
     top: "78%",
     left: "44%",
     w: "13rem",
@@ -363,15 +376,15 @@ function FloatingTile({
   );
 }
 
-// Trek cards data for the mobile hero card stack
-const heroTrekCards: TrekCard[] = treks.map((t) => ({
-  id: t.name,
-  name: t.name,
-  tag: t.tag,
-  // Use actual images from media registry, fallback to picsum placeholder
-  imageUrl:
-    MOBILE_CAROUSEL_IMAGES[t.name] || `https://picsum.photos/seed/${t.coverSeed + 200}/360/640`,
-}));
+// Trek cards data for the mobile hero card stack — only treks with real images
+const heroTrekCards: TrekCard[] = treks
+  .filter((t) => MOBILE_CAROUSEL_IMAGES[t.name]) // Only include if has real image
+  .map((t) => ({
+    id: t.name,
+    name: t.name,
+    tag: t.tag,
+    imageUrl: MOBILE_CAROUSEL_IMAGES[t.name],
+  }));
 
 // Mobile hero: open portrait deck (top 70%) + frosted text zone (bottom)
 function MobileHero() {
@@ -469,17 +482,103 @@ function MobileHero() {
 }
 
 // Marquee word ticker
+function TrekJourneyBanner() {
+  const [activeVideo, setActiveVideo] = useState(0);
+  const reduce = useReducedMotion();
+
+  return (
+    <SectionReveal className="relative py-8 md:py-12 px-4 overflow-hidden">
+      <div className="mx-auto max-w-6xl">
+        <BorderGlow
+          className="p-1"
+          borderRadius={24}
+          colors={["#6ee7b7", "#fbbf24", "#86efac"]}
+          glowColor="155 40 60"
+          glowIntensity={0.6}
+          backgroundColor="oklch(0.15 0.02 150 / 0.9)"
+          animated
+        >
+          <div className="relative rounded-[22px] overflow-hidden bg-black/40">
+            {/* Video thumbnails row */}
+            <div className="flex flex-col md:flex-row">
+              {TREK_JOURNEY_VIDEOS.map((video, i) => (
+                <button
+                  key={video.title}
+                  onClick={() => setActiveVideo(i)}
+                  className={`relative flex-1 p-4 md:p-6 text-left transition-all ${
+                    activeVideo === i ? "bg-white/10" : "hover:bg-white/5"
+                  }`}
+                >
+                  <div className="flex items-center gap-4">
+                    <div className="relative w-24 h-16 md:w-32 md:h-20 rounded-lg overflow-hidden shrink-0">
+                      <img
+                        src={video.poster}
+                        alt={video.title}
+                        className="w-full h-full object-cover"
+                      />
+                      <div className="absolute inset-0 flex items-center justify-center bg-black/30">
+                        <PlayCircle className="h-6 w-6 text-white" />
+                      </div>
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <h4 className="font-serif text-lg md:text-xl text-white truncate">
+                        {video.title}
+                      </h4>
+                      <p className="text-sm text-white/60 mt-1">{video.description}</p>
+                    </div>
+                  </div>
+                </button>
+              ))}
+            </div>
+
+            {/* Active video player */}
+            <div className="relative aspect-video w-full bg-black">
+              {TREK_JOURNEY_VIDEOS.map((video, i) => (
+                <video
+                  key={video.url}
+                  src={video.url}
+                  poster={video.poster}
+                  className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-500 ${
+                    activeVideo === i ? "opacity-100" : "opacity-0 pointer-events-none"
+                  }`}
+                  autoPlay={activeVideo === i}
+                  loop
+                  muted
+                  playsInline
+                  controls={activeVideo === i}
+                />
+              ))}
+
+              {/* Overlay info */}
+              <div className="absolute bottom-0 left-0 right-0 p-4 md:p-6 bg-linear-to-t from-black/80 to-transparent">
+                <div className="flex items-center gap-2 text-white/80 text-sm">
+                  <PlayCircle className="h-4 w-4" />
+                  <span>Trek Journey Highlights</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </BorderGlow>
+      </div>
+    </SectionReveal>
+  );
+}
+
 function WordMarquee() {
   const reduce = useReducedMotion();
   const words = [
     "Mullayanagiri",
     "Kudremukh",
     "Netravati",
-    "Baba Budangiri",
+    "Kurinjal",
+    "Ettina Bhuja",
+    "Gangadikkal",
+    "Bandaje Falls",
     "Hebbe Falls",
-    "Kemmangundi",
-    "Z-Point",
-    "Bhadra",
+    "Jari Falls",
+    "Ballalrayan Durga",
+    "Kyatanamakki",
+    "Rani Jheri",
   ];
   // Duplicate once for seamless infinite scroll (2x total)
   const loop = [...words, ...words];
@@ -672,7 +771,7 @@ function About() {
 
           <RevealImage>
             <img
-              src="https://pub-18631e686c464661a4c7ffbf0ced64ef.r2.dev/Additionals/WhatsApp%20Image%202026-05-19%20at%2010.23.44%20PM%20(2).jpeg"
+              src={SITE_IMAGES.aboutHero}
               alt="Forest trail photograph"
               className="photo-halo w-full object-cover rounded-3xl max-h-[420px] md:max-h-[640px]"
             />
@@ -839,8 +938,11 @@ function GalleryHint() {
   );
 }
 
-const galleryItems = treks.map((t) => ({
-  image: TREK_COVER_IMAGES[t.name] || `https://picsum.photos/seed/${t.coverSeed}/800/600`,
+// Treks that have cover images for circular gallery
+const galleryTreks = treks.filter((t) => TREK_COVER_IMAGES[t.name]);
+
+const galleryItems = galleryTreks.map((t) => ({
+  image: TREK_COVER_IMAGES[t.name],
   text: t.name,
 }));
 
@@ -880,7 +982,7 @@ const Treks = memo(function Treks({ onTrekClick }: { onTrekClick: (t: Trek) => v
               borderRadius={0.08}
               scrollSpeed={2}
               scrollEase={0.08}
-              onItemClick={(i) => onTrekClick(treks[i] ?? treks[0])}
+              onItemClick={(i) => onTrekClick(galleryTreks[i] ?? galleryTreks[0])}
             />
             <GalleryHint />
           </div>
@@ -920,18 +1022,135 @@ const Treks = memo(function Treks({ onTrekClick }: { onTrekClick: (t: Trek) => v
   );
 });
 
-// ── All gallery photos derived from trek media ─────────────────────────────
-const ALL_GALLERY_ITEMS: GalleryItem[] = treks.flatMap((t) =>
-  t.media.map((m) => ({
-    label: m.label,
-    variant: m.type,
-    url: TREK_MEDIA_IMAGES[m.label] || undefined,
-    seed: m.seed,
-    trekName: t.name,
-  })),
-);
+// ── All gallery photos derived from ALL_GALLERY_MEDIA (includes all treks + bits_and_pieces) ─────────────────────────────
+// Shuffle function for randomizing image/video order
+function shuffleArray<T>(array: T[]): T[] {
+  const shuffled = [...array];
+  for (let i = shuffled.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+  }
+  return shuffled;
+}
+
+const ALL_GALLERY_ITEMS: GalleryItem[] = shuffleArray(ALL_GALLERY_MEDIA).map((item, i) => ({
+  label: item.label,
+  variant: item.type,
+  // For videos, use the video URL as the thumbnail (browser will show first frame)
+  url: item.type === "image" ? item.url : item.url,
+  videoUrl: item.type === "video" ? item.url : undefined,
+  seed: item.label.length + i * 13, // stable seed based on label + position
+  trekName: undefined,
+  id: `${item.type}-${item.label.replace(/\s+/g, "-").toLowerCase()}-${i}`, // stable unique id
+}));
 
 const BATCH = 12; // items loaded per scroll trigger
+
+function TrekJourneyVideos() {
+  const [activeVideo, setActiveVideo] = useState(0);
+
+  return (
+    <RevealBlock className="mb-12">
+      <div className="rounded-2xl overflow-hidden border border-white/50 shadow-[0_8px_30px_-12px_oklch(0.42_0.07_155/0.4)] bg-white/30 backdrop-blur-sm">
+        {/* Header */}
+        <div className="px-6 py-4 border-b border-primary/10 flex items-center justify-between">
+          <div className="flex items-center gap-2">
+            <PlayCircle className="h-4 w-4 text-primary/70" />
+            <span className="text-xs uppercase tracking-[0.2em] text-primary/70">Trek Journey</span>
+          </div>
+          <span className="text-[10px] uppercase tracking-[0.15em] text-primary/50">
+            {TREK_JOURNEY_VIDEOS.length} videos
+          </span>
+        </div>
+
+        {/* Video thumbnails row */}
+        <div className="flex flex-col md:flex-row border-b border-primary/10">
+          {TREK_JOURNEY_VIDEOS.map((video, i) => (
+            <button
+              key={video.title}
+              onClick={() => setActiveVideo(i)}
+              className={`relative flex-1 p-4 text-left transition-all border-r last:border-r-0 border-primary/10 ${
+                activeVideo === i
+                  ? "bg-white/70 ring-2 ring-primary/30 ring-inset"
+                  : "hover:bg-white/30"
+              }`}
+            >
+              {/* Active indicator bar */}
+              {activeVideo === i && (
+                <div className="absolute top-0 left-0 right-0 h-1 bg-primary/60" />
+              )}
+              <div className="flex items-center gap-3">
+                <div
+                  className={`relative w-20 h-14 rounded-lg overflow-hidden shrink-0 ${
+                    activeVideo === i ? "ring-2 ring-primary/50" : ""
+                  }`}
+                >
+                  <img
+                    src={video.poster}
+                    alt={video.title}
+                    className="w-full h-full object-cover"
+                  />
+                  {/* Playing indicator overlay */}
+                  {activeVideo === i ? (
+                    <div className="absolute inset-0 flex items-center justify-center bg-primary/30">
+                      <div className="flex items-center gap-1">
+                        <span className="w-1 h-4 bg-white rounded-full animate-pulse" />
+                        <span className="w-1 h-4 bg-white rounded-full animate-pulse [animation-delay:0.2s]" />
+                        <span className="w-1 h-4 bg-white rounded-full animate-pulse [animation-delay:0.4s]" />
+                      </div>
+                    </div>
+                  ) : (
+                    <div className="absolute inset-0 flex items-center justify-center bg-black/20">
+                      <PlayCircle className="h-5 w-5 text-white" />
+                    </div>
+                  )}
+                </div>
+                <div className="flex-1 min-w-0">
+                  <div className="flex items-center gap-2">
+                    <h4
+                      className={`font-serif text-sm truncate ${
+                        activeVideo === i ? "text-primary font-medium" : "text-primary/80"
+                      }`}
+                    >
+                      {video.title}
+                    </h4>
+                    {/* Now Playing badge */}
+                    {activeVideo === i && (
+                      <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-primary/20 text-[9px] uppercase tracking-wider text-primary font-medium">
+                        <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse" />
+                        Playing
+                      </span>
+                    )}
+                  </div>
+                  <p className="text-xs text-muted-foreground mt-0.5">{video.description}</p>
+                </div>
+              </div>
+            </button>
+          ))}
+        </div>
+
+        {/* Active video player */}
+        <div className="relative aspect-video w-full bg-black/90">
+          {TREK_JOURNEY_VIDEOS.map((video, i) => (
+            <video
+              key={video.url}
+              src={video.url}
+              poster={video.poster}
+              className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-500 ${
+                activeVideo === i ? "opacity-100" : "opacity-0 pointer-events-none"
+              }`}
+              autoPlay={activeVideo === i}
+              loop
+              muted
+              playsInline
+              controls={activeVideo === i}
+            />
+          ))}
+        </div>
+      </div>
+    </RevealBlock>
+  );
+}
 
 function Gallery({ onLightboxOpen }: { onLightboxOpen: (index: number) => void }) {
   const [visibleCount, setVisibleCount] = useState(BATCH);
@@ -972,17 +1191,20 @@ function Gallery({ onLightboxOpen }: { onLightboxOpen: (index: number) => void }
           />
           <RevealBlock delay={0.15}>
             <p className="mt-4 text-muted-foreground">
-              {ALL_GALLERY_ITEMS.length} photos &amp; videos from across every trail — scroll to
-              explore, click to view full screen.
+              {ALL_GALLERY_ITEMS.length} photos &amp; videos from across every trail — mixed gallery
+              with moments from all treks.
             </p>
           </RevealBlock>
         </div>
 
+        {/* Trek Journey Videos — Featured at top of gallery */}
+        <TrekJourneyVideos />
+
         {/* Responsive masonry-style columns grid */}
         <div className="mt-12 columns-2 sm:columns-3 lg:columns-4 gap-3 space-y-3">
           {visibleItems.map((item, i) => (
-            <div key={`${item.seed}-${i}`} className="break-inside-avoid mb-3">
-              <GalleryTile item={item} index={i} onClick={onLightboxOpen} />
+            <div key={item.id || `${item.label}-${i}`} className="break-inside-avoid mb-3">
+              <GalleryTile item={item} index={i} onClick={() => onLightboxOpen(i)} />
             </div>
           ))}
         </div>
@@ -1004,7 +1226,7 @@ function Gallery({ onLightboxOpen }: { onLightboxOpen: (index: number) => void }
         {!hasMore && ALL_GALLERY_ITEMS.length > BATCH && (
           <div className="mt-8 flex justify-center">
             <span className="text-[11px] uppercase tracking-[0.25em] text-primary/40">
-              ✦ All {ALL_GALLERY_ITEMS.length} photos loaded
+              ✦ All {ALL_GALLERY_ITEMS.length} items loaded
             </span>
           </div>
         )}
@@ -1084,6 +1306,59 @@ function Stay() {
   );
 }
 
+function ShareButton() {
+  const [copied, setCopied] = useState(false);
+
+  const handleShare = async () => {
+    const title = "Wild Chikkamagaluru Treks";
+    const text =
+      "🌿 Experience soulful treks through the forests of Chikkamagaluru — Netravathi, Kudremukha, Bandaje Falls and more. Guided by Sushanth Gowda. Affordable, authentic, unforgettable.\n\nContact: +91 94488 17562 | @sushanth_ckm";
+    const url = window.location.origin;
+
+    if (navigator.share) {
+      try {
+        // Attempt to attach the poster image
+        let files: File[] | undefined;
+        try {
+          const res = await fetch("/poster.jpeg");
+          const blob = await res.blob();
+          const file = new File([blob], "wild-chikkamagaluru-treks.jpeg", { type: blob.type });
+          if (navigator.canShare?.({ files: [file] })) {
+            files = [file];
+          }
+        } catch {
+          // poster unavailable — share without image
+        }
+        await navigator.share(files ? { title, text, url, files } : { title, text, url });
+      } catch {
+        // user cancelled — do nothing
+      }
+    } else {
+      // Fallback: copy text + link to clipboard
+      await navigator.clipboard.writeText(`${text}\n\n${url}`);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    }
+  };
+
+  return (
+    <button
+      onClick={handleShare}
+      className="inline-flex items-center gap-2 rounded-full border border-white/30 bg-white/10 px-6 py-3 text-sm font-medium text-white backdrop-blur hover:bg-white/20 transition"
+    >
+      {copied ? (
+        <>
+          <Check className="h-4 w-4" /> Copied!
+        </>
+      ) : (
+        <>
+          <Share2 className="h-4 w-4" /> Share
+        </>
+      )}
+    </button>
+  );
+}
+
 function Contact() {
   return (
     <SectionReveal id="contact" className="relative py-16 md:py-28 px-4">
@@ -1095,7 +1370,7 @@ function Contact() {
 
             <div className="relative p-10 sm:p-14 text-center md:text-left md:pr-96">
               {/* Logo - rounded TiltedCard, above Sushanth Gowda on mobile, right side on desktop */}
-              <div className="flex justify-center md:absolute md:right-24 md:top-1/2 md:-translate-y-1/2 mb-6 md:mb-0">
+              <div className="flex justify-center md:absolute md:right-24 md:top-1/2 md:-translate-y-1/2 mb-3 md:mb-0 scale-75 md:scale-100 origin-top">
                 <TiltedCard
                   imageSrc="/icon.png"
                   altText="Wild Chikkamagaluru Treks"
@@ -1116,7 +1391,7 @@ function Contact() {
                 <div className="inline-flex items-center gap-3 rounded-full bg-white/15 backdrop-blur border border-white/25 pl-1.5 pr-5 py-1.5 shadow-lg">
                   <span className="relative inline-block h-10 w-10 rounded-full overflow-hidden ring-2 ring-white/60">
                     <img
-                      src="https://pub-18631e686c464661a4c7ffbf0ced64ef.r2.dev/sushanth/10001.jpg"
+                      src={SITE_IMAGES.founderAvatar}
                       alt="Sushanth Gowda"
                       className="h-full w-full object-cover"
                     />
@@ -1160,6 +1435,7 @@ function Contact() {
                 >
                   <FaInstagram className="h-5 w-5" /> @sushanth_ckm
                 </a>
+                <ShareButton />
               </div>
 
               <p className="mt-8 font-serif italic text-white/70 text-base text-center md:text-left">
@@ -1185,7 +1461,16 @@ function Footer() {
           />
           <LogoTitle className="hidden sm:flex" />
         </a>
-        <p>© {new Date().getFullYear()} — Nature is a way of life.</p>
+        <div className="flex items-center gap-4">
+          <Link
+            to="/permits"
+            className="inline-flex items-center gap-1.5 text-primary/70 hover:text-primary transition-colors font-medium"
+          >
+            <Info className="h-3 w-3" />
+            How to Get Permits
+          </Link>
+          <p>© {new Date().getFullYear()} — Nature is a way of life.</p>
+        </div>
       </div>
     </footer>
   );
@@ -1222,97 +1507,5 @@ function Index() {
         onNavigate={setLightboxIndex}
       />
     </main>
-  );
-}
-
-// Mobile bottom navigation bar
-const navItems = [
-  { href: "#about", label: "About", icon: Info },
-  { href: "#treks", label: "Treks", icon: Mountain },
-  { href: "#stay", label: "Stay", icon: Home },
-  { href: "#contact", label: "Contact", icon: Phone },
-  { href: "#gallery", label: "Gallery", icon: ImageIcon },
-];
-
-function MobileNav() {
-  const [activeSection, setActiveSection] = useState("");
-  const [isVisible, setIsVisible] = useState(true);
-  const lastScrollY = useRef(0);
-
-  useEffect(() => {
-    const handleScroll = () => {
-      const currentScrollY = window.scrollY;
-      if (currentScrollY > lastScrollY.current && currentScrollY > 100) {
-        setIsVisible(false);
-      } else {
-        setIsVisible(true);
-      }
-      lastScrollY.current = currentScrollY;
-    };
-
-    const observerCallback: IntersectionObserverCallback = (entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          setActiveSection(entry.target.id);
-        }
-      });
-    };
-
-    const observer = new IntersectionObserver(observerCallback, {
-      rootMargin: "-40% 0px -40% 0px",
-      threshold: 0,
-    });
-
-    navItems.forEach((item) => {
-      const section = document.querySelector(item.href);
-      if (section) observer.observe(section);
-    });
-
-    window.addEventListener("scroll", handleScroll, { passive: true });
-
-    return () => {
-      observer.disconnect();
-      window.removeEventListener("scroll", handleScroll);
-    };
-  }, []);
-
-  return (
-    <nav
-      className={`fixed bottom-4 left-1/2 -translate-x-1/2 z-50 md:hidden transition-all duration-300 w-[85vw] max-w-[260px] ${
-        isVisible ? "translate-y-0 opacity-100" : "translate-y-24 opacity-0"
-      }`}
-    >
-      <div className="flex items-center justify-between rounded-xl bg-white/88 backdrop-blur-2xl px-2 py-1.5 shadow-[0_6px_24px_-6px_oklch(0.25_0.08_155/0.35),0_2px_6px_-2px_oklch(0.3_0.06_155/0.15)] ring-1 ring-white/70">
-        {navItems.map((item) => {
-          const Icon = item.icon;
-          const isActive = activeSection === item.href.slice(1);
-          return (
-            <a
-              key={item.href}
-              href={item.href}
-              className={`relative flex flex-col items-center justify-center gap-0 rounded-lg px-2 py-1 transition-all duration-200 ${
-                isActive ? "text-primary" : "text-foreground/45 hover:text-foreground/70"
-              }`}
-              aria-label={item.label}
-            >
-              {isActive && <span className="absolute inset-0 rounded-lg bg-primary/10" />}
-              <Icon
-                className={`relative h-[16px] w-[16px] transition-transform duration-200 ${
-                  isActive ? "scale-110" : ""
-                }`}
-                strokeWidth={isActive ? 2 : 1.6}
-              />
-              <span
-                className={`relative text-[8.5px] font-medium tracking-wide transition-all duration-200 ${
-                  isActive ? "text-primary" : "text-foreground/40"
-                }`}
-              >
-                {item.label}
-              </span>
-            </a>
-          );
-        })}
-      </div>
-    </nav>
   );
 }

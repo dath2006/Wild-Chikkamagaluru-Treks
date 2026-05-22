@@ -11,9 +11,10 @@ import {
   TrendingUp,
   Calendar,
 } from "lucide-react";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { createPortal } from "react-dom";
 import type { Trek } from "@/lib/treks";
+import { getTrekMedia } from "@/lib/media";
 
 interface TrekModalProps {
   trek: Trek | null;
@@ -22,6 +23,23 @@ interface TrekModalProps {
 
 export function TrekModal({ trek, onClose }: TrekModalProps) {
   const [activeIdx, setActiveIdx] = useState(0);
+
+  // Get all media from trek folder (including subfolders)
+  const allMedia = useMemo(() => {
+    if (!trek) return [];
+    const { images, videos } = getTrekMedia(trek.name);
+    // Combine and shuffle for variety
+    const combined = [
+      ...images.map((url) => ({ type: "image" as const, url })),
+      ...videos.map((url) => ({ type: "video" as const, url })),
+    ];
+    // Shuffle the media
+    for (let i = combined.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [combined[i], combined[j]] = [combined[j], combined[i]];
+    }
+    return combined;
+  }, [trek]);
 
   useEffect(() => {
     setActiveIdx(0);
@@ -38,9 +56,8 @@ export function TrekModal({ trek, onClose }: TrekModalProps) {
     };
   }, [trek]);
 
-  const prev = () =>
-    setActiveIdx((i) => (i - 1 + (trek?.media.length ?? 1)) % (trek?.media.length ?? 1));
-  const next = () => setActiveIdx((i) => (i + 1) % (trek?.media.length ?? 1));
+  const prev = () => setActiveIdx((i) => (i - 1 + allMedia.length) % allMedia.length);
+  const next = () => setActiveIdx((i) => (i + 1) % allMedia.length);
 
   const modalContent = (
     <AnimatePresence>
@@ -87,30 +104,59 @@ export function TrekModal({ trek, onClose }: TrekModalProps) {
                     transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
                     className="absolute inset-0"
                   >
-                    {/* Gradient placeholder — replace with real <img> or <video> when available */}
-                    <div
-                      className="absolute inset-0"
-                      style={{
-                        background: `radial-gradient(circle at 25% 25%, oklch(0.85 0.09 ${150 + ((trek.coverSeed + activeIdx * 7) % 40)} / 0.7), transparent 55%), radial-gradient(circle at 80% 75%, oklch(0.82 0.07 ${170 + ((trek.coverSeed + activeIdx * 11) % 30)} / 0.6), transparent 55%), linear-gradient(160deg, oklch(0.96 0.02 145) 0%, oklch(0.90 0.05 170) 50%, oklch(0.93 0.03 130) 100%)`,
-                      }}
-                    />
-                    <div className="absolute inset-0 flex flex-col items-center justify-center gap-2 text-primary/60">
-                      <div className="rounded-full bg-white/60 p-4 backdrop-blur shadow-sm">
-                        {trek.media[activeIdx]?.type === "video" ? (
-                          <PlayCircle className="h-8 w-8" strokeWidth={1.4} />
-                        ) : (
-                          <ImageIcon className="h-8 w-8" strokeWidth={1.4} />
-                        )}
-                      </div>
-                      <p className="text-xs uppercase tracking-[0.18em] text-primary/50 px-4 text-center">
-                        {trek.media[activeIdx]?.label}
-                      </p>
-                    </div>
+                    {/* All folder media display */}
+                    {(() => {
+                      const currentMedia = allMedia[activeIdx];
+                      if (!currentMedia) {
+                        // Fallback to gradient placeholder
+                        return (
+                          <>
+                            <div
+                              className="absolute inset-0"
+                              style={{
+                                background: `radial-gradient(circle at 25% 25%, oklch(0.85 0.09 ${150 + ((trek.coverSeed + activeIdx * 7) % 40)} / 0.7), transparent 55%), radial-gradient(circle at 80% 75%, oklch(0.82 0.07 ${170 + ((trek.coverSeed + activeIdx * 11) % 30)} / 0.6), transparent 55%), linear-gradient(160deg, oklch(0.96 0.02 145) 0%, oklch(0.90 0.05 170) 50%, oklch(0.93 0.03 130) 100%)`,
+                              }}
+                            />
+                            <div className="absolute inset-0 flex flex-col items-center justify-center gap-2 text-primary/60">
+                              <div className="rounded-full bg-white/60 p-4 backdrop-blur shadow-sm">
+                                <ImageIcon className="h-8 w-8" strokeWidth={1.4} />
+                              </div>
+                              <p className="text-xs uppercase tracking-[0.18em] text-primary/50 px-4 text-center">
+                                No media available
+                              </p>
+                            </div>
+                          </>
+                        );
+                      }
+
+                      if (currentMedia.type === "video") {
+                        return (
+                          <video
+                            src={currentMedia.url}
+                            className="absolute inset-0 w-full h-full object-cover"
+                            autoPlay
+                            loop
+                            muted
+                            playsInline
+                            controls
+                          />
+                        );
+                      }
+
+                      return (
+                        <img
+                          src={currentMedia.url}
+                          alt={`${trek.name} ${activeIdx + 1}`}
+                          className="absolute inset-0 w-full h-full object-cover"
+                          loading="eager"
+                        />
+                      );
+                    })()}
                   </motion.div>
                 </AnimatePresence>
 
                 {/* Prev / Next */}
-                {trek.media.length > 1 && (
+                {allMedia.length > 1 && (
                   <>
                     <button
                       onClick={prev}
@@ -128,9 +174,9 @@ export function TrekModal({ trek, onClose }: TrekModalProps) {
                 )}
 
                 {/* Dot indicators */}
-                {trek.media.length > 1 && (
+                {allMedia.length > 1 && (
                   <div className="absolute bottom-4 left-0 right-0 flex justify-center gap-2">
-                    {trek.media.map((_, i) => (
+                    {allMedia.map((_, i) => (
                       <button
                         key={i}
                         onClick={() => setActiveIdx(i)}
@@ -141,30 +187,37 @@ export function TrekModal({ trek, onClose }: TrekModalProps) {
                 )}
               </div>
 
-              {/* Thumbnail strip */}
-              {trek.media.length > 1 && (
+              {/* Thumbnail strip with all folder media */}
+              {allMedia.length > 1 && (
                 <div className="hidden md:flex gap-2 px-5 py-4 overflow-x-auto shrink-0 scrollbar-none bg-white border-t border-gray-100">
-                  {trek.media.map((m, i) => {
-                    const hue = 150 + ((trek.coverSeed + i * 7) % 40);
-                    return (
-                      <button
-                        key={i}
-                        onClick={() => setActiveIdx(i)}
-                        className={`relative shrink-0 w-16 h-16 rounded-xl overflow-hidden border-2 transition-all ${i === activeIdx ? "border-primary shadow-lg scale-105" : "border-gray-200 opacity-70 hover:opacity-100 hover:border-gray-300"}`}
-                        style={{
-                          background: `linear-gradient(135deg, oklch(0.88 0.06 ${hue}), oklch(0.93 0.04 ${hue + 20}))`,
-                        }}
-                      >
-                        <div className="absolute inset-0 flex items-center justify-center text-primary/60">
-                          {m.type === "video" ? (
-                            <PlayCircle className="h-5 w-5" strokeWidth={1.4} />
-                          ) : (
-                            <ImageIcon className="h-5 w-5" strokeWidth={1.4} />
-                          )}
-                        </div>
-                      </button>
-                    );
-                  })}
+                  {allMedia.map((m, i) => (
+                    <button
+                      key={i}
+                      onClick={() => setActiveIdx(i)}
+                      className={`relative shrink-0 w-16 h-16 rounded-xl overflow-hidden border-2 transition-all ${i === activeIdx ? "border-primary shadow-lg scale-105" : "border-gray-200 opacity-70 hover:opacity-100 hover:border-gray-300"}`}
+                    >
+                      {m.type === "video" ? (
+                        <>
+                          <video
+                            src={m.url}
+                            className="absolute inset-0 w-full h-full object-cover"
+                            preload="metadata"
+                            muted
+                          />
+                          <div className="absolute inset-0 flex items-center justify-center bg-black/20">
+                            <PlayCircle className="h-5 w-5 text-white" strokeWidth={1.4} />
+                          </div>
+                        </>
+                      ) : (
+                        <img
+                          src={m.url}
+                          alt={`${trek.name} ${i + 1}`}
+                          className="absolute inset-0 w-full h-full object-cover"
+                          loading="lazy"
+                        />
+                      )}
+                    </button>
+                  ))}
                 </div>
               )}
             </div>

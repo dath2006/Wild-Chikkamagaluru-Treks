@@ -1,0 +1,1152 @@
+{
+  "customDomain": "media.wildchikkamagalurutreks.com",
+  "bucketName": "wild-chikkamagaluru-treks",
+  "totalObjects": 77,
+  "folders": [
+    "chikkamagaluru treks",
+    "chikkamagaluru treks/Kyatanamakki hills",
+    "chikkamagaluru treks/ballalrayan durga trek",
+    "chikkamagaluru treks/bandaje falls trek",
+    "chikkamagaluru treks/bits_and_pieces",
+    "chikkamagaluru treks/ethin bhuja",
+    "chikkamagaluru treks/gangadikal",
+    "chikkamagaluru treks/hanumana gudi falls",
+    "chikkamagaluru treks/hebbe falls",
+    "chikkamagaluru treks/hidden water falls",
+    "chikkamagaluru treks/jhari falls",
+    "chikkamagaluru treks/kodige falls",
+    "chikkamagaluru treks/kudremuka",
+    "chikkamagaluru treks/kudremuka/back_waters",
+    "chikkamagaluru treks/kurinjal",
+    "chikkamagaluru treks/kurinjal/movements",
+    "chikkamagaluru treks/mullaynagiri",
+    "chikkamagaluru treks/netravathi",
+    "chikkamagaluru treks/rani jheri",
+    "chikkamagaluru treks/sushanth",
+    "chikkamagaluru treks/trek_journey"
+  ],
+  "byFolder": {
+    "chikkamagaluru treks/Kyatanamakki hills": [
+      {
+        "key": "chikkamagaluru treks/Kyatanamakki hills/WhatsApp Image 2026-05-21 at 8.28.35 PM.jpeg",
+        "size": 137221,
+        "lastModified": "2026-05-22T15:31:47.027Z",
+        "mediaType": "image",
+        "url": "https://media.wildchikkamagalurutreks.com/chikkamagaluru treks/Kyatanamakki hills/WhatsApp Image 2026-05-21 at 8.28.35 PM.jpeg"
+      },
+      {
+        "key": "chikkamagaluru treks/Kyatanamakki hills/WhatsApp Video 2026-05-21 at 8.28.47 PM.mp4",
+        "size": 454657,
+        "lastModified": "2026-05-22T15:31:49.258Z",
+        "mediaType": "video",
+        "url": "https://media.wildchikkamagalurutreks.com/chikkamagaluru treks/Kyatanamakki hills/WhatsApp Video 2026-05-21 at 8.28.47 PM.mp4"
+      },
+      {
+        "key": "chikkamagaluru treks/Kyatanamakki hills/hero.jpeg",
+        "size": 82500,
+        "lastModified": "2026-05-22T15:31:46.526Z",
+        "mediaType": "image",
+        "url": "https://media.wildchikkamagalurutreks.com/chikkamagaluru treks/Kyatanamakki hills/hero.jpeg"
+      },
+      {
+        "key": "chikkamagaluru treks/Kyatanamakki hills/kyatanamakki_hills.mp4",
+        "size": 10378665,
+        "lastModified": "2026-05-22T15:31:50.564Z",
+        "mediaType": "video",
+        "url": "https://media.wildchikkamagalurutreks.com/chikkamagaluru treks/Kyatanamakki hills/kyatanamakki_hills.mp4"
+      }
+    ],
+    "chikkamagaluru treks/ballalrayan durga trek": [
+      {
+        "key": "chikkamagaluru treks/ballalrayan durga trek/WhatsApp Image 2026-05-21 at 8.02.30 PM.jpeg",
+        "size": 157360,
+        "lastModified": "2026-05-22T15:32:08.030Z",
+        "mediaType": "image",
+        "url": "https://media.wildchikkamagalurutreks.com/chikkamagaluru treks/ballalrayan durga trek/WhatsApp Image 2026-05-21 at 8.02.30 PM.jpeg"
+      },
+      {
+        "key": "chikkamagaluru treks/ballalrayan durga trek/WhatsApp Image 2026-05-21 at 8.02.31 PM (1).jpeg",
+        "size": 241402,
+        "lastModified": "2026-05-22T15:32:08.893Z",
+        "mediaType": "image",
+        "url": "https://media.wildchikkamagalurutreks.com/chikkamagaluru treks/ballalrayan durga trek/WhatsApp Image 2026-05-21 at 8.02.31 PM (1).jpeg"
+      },
+      {
+        "key": "chikkamagaluru treks/ballalrayan durga trek/WhatsApp Image 2026-05-21 at 8.02.31 PM.jpeg",
+        "size": 156984,
+        "lastModified": "2026-05-22T15:32:08.862Z",
+        "mediaType": "image",
+        "url": "https://media.wildchikkamagalurutreks.com/chikkamagaluru treks/ballalrayan durga trek/WhatsApp Image 2026-05-21 at 8.02.31 PM.jpeg"
+      },
+      {
+        "key": "chikkamagaluru treks/ballalrayan durga trek/WhatsApp Image 2026-05-21 at 8.02.32 PM (1).jpeg",
+        "size": 88984,
+        "lastModified": "2026-05-22T15:32:09.132Z",
+        "mediaType": "image",
+        "url": "https://media.wildchikkamagalurutreks.com/chikkamagaluru treks/ballalrayan durga trek/WhatsApp Image 2026-05-21 at 8.02.32 PM (1).jpeg"
+      },
+      {
+        "key": "chikkamagaluru treks/ballalrayan durga trek/WhatsApp Image 2026-05-21 at 8.02.32 PM.jpeg",
+        "size": 153554,
+        "lastModified": "2026-05-22T15:32:09.243Z",
+        "mediaType": "image",
+        "url": "https://media.wildchikkamagalurutreks.com/chikkamagaluru treks/ballalrayan durga trek/WhatsApp Image 2026-05-21 at 8.02.32 PM.jpeg"
+      },
+      {
+        "key": "chikkamagaluru treks/ballalrayan durga trek/ballalarayana-durga-fort.jpg",
+        "size": 67515,
+        "lastModified": "2026-05-22T15:32:06.854Z",
+        "mediaType": "image",
+        "url": "https://media.wildchikkamagalurutreks.com/chikkamagaluru treks/ballalrayan durga trek/ballalarayana-durga-fort.jpg"
+      },
+      {
+        "key": "chikkamagaluru treks/ballalrayan durga trek/hero.jpg",
+        "size": 90056,
+        "lastModified": "2026-05-22T15:32:07.898Z",
+        "mediaType": "image",
+        "url": "https://media.wildchikkamagalurutreks.com/chikkamagaluru treks/ballalrayan durga trek/hero.jpg"
+      },
+      {
+        "key": "chikkamagaluru treks/ballalrayan durga trek/images.jfif",
+        "size": 12793,
+        "lastModified": "2026-05-22T15:32:07.573Z",
+        "mediaType": "other",
+        "url": "https://media.wildchikkamagalurutreks.com/chikkamagaluru treks/ballalrayan durga trek/images.jfif"
+      }
+    ],
+    "chikkamagaluru treks/bandaje falls trek": [
+      {
+        "key": "chikkamagaluru treks/bandaje falls trek/WhatsApp Image 2026-05-21 at 20.13.43.jpeg",
+        "size": 242212,
+        "lastModified": "2026-05-22T15:32:06.302Z",
+        "mediaType": "image",
+        "url": "https://media.wildchikkamagalurutreks.com/chikkamagaluru treks/bandaje falls trek/WhatsApp Image 2026-05-21 at 20.13.43.jpeg"
+      },
+      {
+        "key": "chikkamagaluru treks/bandaje falls trek/WhatsApp Video 2026-05-21 at 8.23.05 PM.mp4",
+        "size": 2870441,
+        "lastModified": "2026-05-22T15:32:07.662Z",
+        "mediaType": "video",
+        "url": "https://media.wildchikkamagalurutreks.com/chikkamagaluru treks/bandaje falls trek/WhatsApp Video 2026-05-21 at 8.23.05 PM.mp4"
+      },
+      {
+        "key": "chikkamagaluru treks/bandaje falls trek/hero.jpeg",
+        "size": 229015,
+        "lastModified": "2026-05-22T15:32:06.360Z",
+        "mediaType": "image",
+        "url": "https://media.wildchikkamagalurutreks.com/chikkamagaluru treks/bandaje falls trek/hero.jpeg"
+      }
+    ],
+    "chikkamagaluru treks/bits_and_pieces": [
+      {
+        "key": "chikkamagaluru treks/bits_and_pieces/Charmudi Falls.jpeg",
+        "size": 339993,
+        "lastModified": "2026-05-22T15:32:03.565Z",
+        "mediaType": "image",
+        "url": "https://media.wildchikkamagalurutreks.com/chikkamagaluru treks/bits_and_pieces/Charmudi Falls.jpeg"
+      },
+      {
+        "key": "chikkamagaluru treks/bits_and_pieces/FOREST.jpeg",
+        "size": 266782,
+        "lastModified": "2026-05-22T15:32:04.411Z",
+        "mediaType": "image",
+        "url": "https://media.wildchikkamagalurutreks.com/chikkamagaluru treks/bits_and_pieces/FOREST.jpeg"
+      },
+      {
+        "key": "chikkamagaluru treks/bits_and_pieces/Karnataka Forest.jpeg",
+        "size": 113928,
+        "lastModified": "2026-05-22T15:32:04.208Z",
+        "mediaType": "image",
+        "url": "https://media.wildchikkamagalurutreks.com/chikkamagaluru treks/bits_and_pieces/Karnataka Forest.jpeg"
+      },
+      {
+        "key": "chikkamagaluru treks/bits_and_pieces/Kyatanmakki Hills.mp4",
+        "size": 1479330,
+        "lastModified": "2026-05-22T15:32:04.955Z",
+        "mediaType": "video",
+        "url": "https://media.wildchikkamagalurutreks.com/chikkamagaluru treks/bits_and_pieces/Kyatanmakki Hills.mp4"
+      },
+      {
+        "key": "chikkamagaluru treks/bits_and_pieces/Misty Falls.jpeg",
+        "size": 116671,
+        "lastModified": "2026-05-22T15:32:05.491Z",
+        "mediaType": "image",
+        "url": "https://media.wildchikkamagalurutreks.com/chikkamagaluru treks/bits_and_pieces/Misty Falls.jpeg"
+      },
+      {
+        "key": "chikkamagaluru treks/bits_and_pieces/Road Trip.jpeg",
+        "size": 161097,
+        "lastModified": "2026-05-22T15:32:05.560Z",
+        "mediaType": "image",
+        "url": "https://media.wildchikkamagalurutreks.com/chikkamagaluru treks/bits_and_pieces/Road Trip.jpeg"
+      },
+      {
+        "key": "chikkamagaluru treks/bits_and_pieces/Unknown Territory.mp4",
+        "size": 23619770,
+        "lastModified": "2026-05-22T15:32:10.490Z",
+        "mediaType": "video",
+        "url": "https://media.wildchikkamagalurutreks.com/chikkamagaluru treks/bits_and_pieces/Unknown Territory.mp4"
+      }
+    ],
+    "chikkamagaluru treks/ethin bhuja": [
+      {
+        "key": "chikkamagaluru treks/ethin bhuja/WhatsApp Image 2026-05-21 at 20.17.47.jpeg",
+        "size": 24325,
+        "lastModified": "2026-05-22T15:32:02.821Z",
+        "mediaType": "image",
+        "url": "https://media.wildchikkamagalurutreks.com/chikkamagaluru treks/ethin bhuja/WhatsApp Image 2026-05-21 at 20.17.47.jpeg"
+      },
+      {
+        "key": "chikkamagaluru treks/ethin bhuja/WhatsApp Image 2026-05-21 at 20.17.48.jpeg",
+        "size": 268373,
+        "lastModified": "2026-05-22T15:32:04.266Z",
+        "mediaType": "image",
+        "url": "https://media.wildchikkamagalurutreks.com/chikkamagaluru treks/ethin bhuja/WhatsApp Image 2026-05-21 at 20.17.48.jpeg"
+      },
+      {
+        "key": "chikkamagaluru treks/ethin bhuja/hero.jpeg",
+        "size": 109760,
+        "lastModified": "2026-05-22T15:32:02.194Z",
+        "mediaType": "image",
+        "url": "https://media.wildchikkamagalurutreks.com/chikkamagaluru treks/ethin bhuja/hero.jpeg"
+      },
+      {
+        "key": "chikkamagaluru treks/ethin bhuja/hero_1.jpeg",
+        "size": 328754,
+        "lastModified": "2026-05-22T15:32:02.888Z",
+        "mediaType": "image",
+        "url": "https://media.wildchikkamagalurutreks.com/chikkamagaluru treks/ethin bhuja/hero_1.jpeg"
+      }
+    ],
+    "chikkamagaluru treks/gangadikal": [
+      {
+        "key": "chikkamagaluru treks/gangadikal/WhatsApp Image 2026-05-21 at 20.04.50.jpeg",
+        "size": 114574,
+        "lastModified": "2026-05-22T15:32:01.646Z",
+        "mediaType": "image",
+        "url": "https://media.wildchikkamagalurutreks.com/chikkamagaluru treks/gangadikal/WhatsApp Image 2026-05-21 at 20.04.50.jpeg"
+      },
+      {
+        "key": "chikkamagaluru treks/gangadikal/hero.jpeg",
+        "size": 82738,
+        "lastModified": "2026-05-22T15:32:01.475Z",
+        "mediaType": "image",
+        "url": "https://media.wildchikkamagalurutreks.com/chikkamagaluru treks/gangadikal/hero.jpeg"
+      }
+    ],
+    "chikkamagaluru treks/hanumana gudi falls": [
+      {
+        "key": "chikkamagaluru treks/hanumana gudi falls/WhatsApp Video 2026-05-21 at 8.13.00 PM.mp4",
+        "size": 2720510,
+        "lastModified": "2026-05-22T15:32:01.316Z",
+        "mediaType": "video",
+        "url": "https://media.wildchikkamagalurutreks.com/chikkamagaluru treks/hanumana gudi falls/WhatsApp Video 2026-05-21 at 8.13.00 PM.mp4"
+      }
+    ],
+    "chikkamagaluru treks/hebbe falls": [
+      {
+        "key": "chikkamagaluru treks/hebbe falls/The-Natural-Beauty-of-Hebbe-Waterfalls.jpg",
+        "size": 61266,
+        "lastModified": "2026-05-22T15:32:00.416Z",
+        "mediaType": "image",
+        "url": "https://media.wildchikkamagalurutreks.com/chikkamagaluru treks/hebbe falls/The-Natural-Beauty-of-Hebbe-Waterfalls.jpg"
+      },
+      {
+        "key": "chikkamagaluru treks/hebbe falls/hero.jpg",
+        "size": 292202,
+        "lastModified": "2026-05-22T15:32:00.331Z",
+        "mediaType": "image",
+        "url": "https://media.wildchikkamagalurutreks.com/chikkamagaluru treks/hebbe falls/hero.jpg"
+      },
+      {
+        "key": "chikkamagaluru treks/hebbe falls/z1du9w6kfbe1tz61elcule5k8lum_4355778037_6d244c698f_o.webp",
+        "size": 1572666,
+        "lastModified": "2026-05-22T15:32:00.987Z",
+        "mediaType": "image",
+        "url": "https://media.wildchikkamagalurutreks.com/chikkamagaluru treks/hebbe falls/z1du9w6kfbe1tz61elcule5k8lum_4355778037_6d244c698f_o.webp"
+      }
+    ],
+    "chikkamagaluru treks/hidden water falls": [
+      {
+        "key": "chikkamagaluru treks/hidden water falls/WhatsApp Video 2026-05-21 at 8.39.59 PM.mp4",
+        "size": 1933392,
+        "lastModified": "2026-05-22T15:31:59.133Z",
+        "mediaType": "video",
+        "url": "https://media.wildchikkamagalurutreks.com/chikkamagaluru treks/hidden water falls/WhatsApp Video 2026-05-21 at 8.39.59 PM.mp4"
+      },
+      {
+        "key": "chikkamagaluru treks/hidden water falls/WhatsApp Video 2026-05-21 at 9.03.58 PM.mp4",
+        "size": 2135293,
+        "lastModified": "2026-05-22T15:31:59.090Z",
+        "mediaType": "video",
+        "url": "https://media.wildchikkamagalurutreks.com/chikkamagaluru treks/hidden water falls/WhatsApp Video 2026-05-21 at 9.03.58 PM.mp4"
+      },
+      {
+        "key": "chikkamagaluru treks/hidden water falls/WhatsApp Video 2026-05-21 at 9.04.00 PM.mp4",
+        "size": 1137380,
+        "lastModified": "2026-05-22T15:31:59.223Z",
+        "mediaType": "video",
+        "url": "https://media.wildchikkamagalurutreks.com/chikkamagaluru treks/hidden water falls/WhatsApp Video 2026-05-21 at 9.04.00 PM.mp4"
+      },
+      {
+        "key": "chikkamagaluru treks/hidden water falls/WhatsApp Video 2026-05-21 at 9.08.13 PM.mp4",
+        "size": 1744029,
+        "lastModified": "2026-05-22T15:31:59.716Z",
+        "mediaType": "video",
+        "url": "https://media.wildchikkamagalurutreks.com/chikkamagaluru treks/hidden water falls/WhatsApp Video 2026-05-21 at 9.08.13 PM.mp4"
+      },
+      {
+        "key": "chikkamagaluru treks/hidden water falls/hero.jpeg",
+        "size": 366598,
+        "lastModified": "2026-05-22T15:31:57.654Z",
+        "mediaType": "image",
+        "url": "https://media.wildchikkamagalurutreks.com/chikkamagaluru treks/hidden water falls/hero.jpeg"
+      }
+    ],
+    "chikkamagaluru treks/jhari falls": [
+      {
+        "key": "chikkamagaluru treks/jhari falls/caption.jpg",
+        "size": 562017,
+        "lastModified": "2026-05-22T15:31:57.699Z",
+        "mediaType": "image",
+        "url": "https://media.wildchikkamagalurutreks.com/chikkamagaluru treks/jhari falls/caption.jpg"
+      },
+      {
+        "key": "chikkamagaluru treks/jhari falls/hero.jpg",
+        "size": 201264,
+        "lastModified": "2026-05-22T15:31:57.350Z",
+        "mediaType": "image",
+        "url": "https://media.wildchikkamagalurutreks.com/chikkamagaluru treks/jhari falls/hero.jpg"
+      },
+      {
+        "key": "chikkamagaluru treks/jhari falls/jhari falls.jpg",
+        "size": 79868,
+        "lastModified": "2026-05-22T15:31:57.245Z",
+        "mediaType": "image",
+        "url": "https://media.wildchikkamagalurutreks.com/chikkamagaluru treks/jhari falls/jhari falls.jpg"
+      }
+    ],
+    "chikkamagaluru treks/kodige falls": [
+      {
+        "key": "chikkamagaluru treks/kodige falls/WhatsApp Video 2026-05-21 at 9.12.54 PM.mp4",
+        "size": 1279658,
+        "lastModified": "2026-05-22T15:31:56.322Z",
+        "mediaType": "video",
+        "url": "https://media.wildchikkamagalurutreks.com/chikkamagaluru treks/kodige falls/WhatsApp Video 2026-05-21 at 9.12.54 PM.mp4"
+      }
+    ],
+    "chikkamagaluru treks/kudremuka": [
+      {
+        "key": "chikkamagaluru treks/kudremuka/WhatsApp Image 2026-05-21 at 19.59.49.jpeg",
+        "size": 60013,
+        "lastModified": "2026-05-22T15:31:52.327Z",
+        "mediaType": "image",
+        "url": "https://media.wildchikkamagalurutreks.com/chikkamagaluru treks/kudremuka/WhatsApp Image 2026-05-21 at 19.59.49.jpeg"
+      },
+      {
+        "key": "chikkamagaluru treks/kudremuka/WhatsApp Image 2026-05-21 at 19.59.50.jpeg",
+        "size": 211389,
+        "lastModified": "2026-05-22T15:31:52.499Z",
+        "mediaType": "image",
+        "url": "https://media.wildchikkamagalurutreks.com/chikkamagaluru treks/kudremuka/WhatsApp Image 2026-05-21 at 19.59.50.jpeg"
+      },
+      {
+        "key": "chikkamagaluru treks/kudremuka/hero.jpeg",
+        "size": 44254,
+        "lastModified": "2026-05-22T15:31:51.866Z",
+        "mediaType": "image",
+        "url": "https://media.wildchikkamagalurutreks.com/chikkamagaluru treks/kudremuka/hero.jpeg"
+      }
+    ],
+    "chikkamagaluru treks/kudremuka/back_waters": [
+      {
+        "key": "chikkamagaluru treks/kudremuka/back_waters/WhatsApp Image 2026-05-21 at 7.54.28 PM (1).jpeg",
+        "size": 186852,
+        "lastModified": "2026-05-22T15:31:53.956Z",
+        "mediaType": "image",
+        "url": "https://media.wildchikkamagalurutreks.com/chikkamagaluru treks/kudremuka/back_waters/WhatsApp Image 2026-05-21 at 7.54.28 PM (1).jpeg"
+      },
+      {
+        "key": "chikkamagaluru treks/kudremuka/back_waters/WhatsApp Image 2026-05-21 at 7.54.28 PM.jpeg",
+        "size": 124196,
+        "lastModified": "2026-05-22T15:31:54.852Z",
+        "mediaType": "image",
+        "url": "https://media.wildchikkamagalurutreks.com/chikkamagaluru treks/kudremuka/back_waters/WhatsApp Image 2026-05-21 at 7.54.28 PM.jpeg"
+      },
+      {
+        "key": "chikkamagaluru treks/kudremuka/back_waters/WhatsApp Image 2026-05-21 at 7.54.31 PM.jpeg",
+        "size": 132433,
+        "lastModified": "2026-05-22T15:31:54.050Z",
+        "mediaType": "image",
+        "url": "https://media.wildchikkamagalurutreks.com/chikkamagaluru treks/kudremuka/back_waters/WhatsApp Image 2026-05-21 at 7.54.31 PM.jpeg"
+      },
+      {
+        "key": "chikkamagaluru treks/kudremuka/back_waters/WhatsApp Image 2026-05-21 at 7.54.32 PM.jpeg",
+        "size": 138478,
+        "lastModified": "2026-05-22T15:31:55.284Z",
+        "mediaType": "image",
+        "url": "https://media.wildchikkamagalurutreks.com/chikkamagaluru treks/kudremuka/back_waters/WhatsApp Image 2026-05-21 at 7.54.32 PM.jpeg"
+      },
+      {
+        "key": "chikkamagaluru treks/kudremuka/back_waters/WhatsApp Image 2026-05-21 at 7.54.34 PM.jpeg",
+        "size": 135767,
+        "lastModified": "2026-05-22T15:31:55.460Z",
+        "mediaType": "image",
+        "url": "https://media.wildchikkamagalurutreks.com/chikkamagaluru treks/kudremuka/back_waters/WhatsApp Image 2026-05-21 at 7.54.34 PM.jpeg"
+      },
+      {
+        "key": "chikkamagaluru treks/kudremuka/back_waters/lakhya_dam.mp4",
+        "size": 1449023,
+        "lastModified": "2026-05-22T15:31:54.719Z",
+        "mediaType": "video",
+        "url": "https://media.wildchikkamagalurutreks.com/chikkamagaluru treks/kudremuka/back_waters/lakhya_dam.mp4"
+      }
+    ],
+    "chikkamagaluru treks/kurinjal": [
+      {
+        "key": "chikkamagaluru treks/kurinjal/WhatsApp Image 2026-05-21 at 20.01.53 (1).jpeg",
+        "size": 53048,
+        "lastModified": "2026-05-22T15:31:48.236Z",
+        "mediaType": "image",
+        "url": "https://media.wildchikkamagalurutreks.com/chikkamagaluru treks/kurinjal/WhatsApp Image 2026-05-21 at 20.01.53 (1).jpeg"
+      },
+      {
+        "key": "chikkamagaluru treks/kurinjal/WhatsApp Image 2026-05-21 at 20.01.53.jpeg",
+        "size": 70813,
+        "lastModified": "2026-05-22T15:31:49.142Z",
+        "mediaType": "image",
+        "url": "https://media.wildchikkamagalurutreks.com/chikkamagaluru treks/kurinjal/WhatsApp Image 2026-05-21 at 20.01.53.jpeg"
+      },
+      {
+        "key": "chikkamagaluru treks/kurinjal/hero.jpeg",
+        "size": 204455,
+        "lastModified": "2026-05-22T15:31:47.909Z",
+        "mediaType": "image",
+        "url": "https://media.wildchikkamagalurutreks.com/chikkamagaluru treks/kurinjal/hero.jpeg"
+      }
+    ],
+    "chikkamagaluru treks/kurinjal/movements": [
+      {
+        "key": "chikkamagaluru treks/kurinjal/movements/WhatsApp Image 2026-05-21 at 8.07.18 PM.jpeg",
+        "size": 243215,
+        "lastModified": "2026-05-22T15:31:49.991Z",
+        "mediaType": "image",
+        "url": "https://media.wildchikkamagalurutreks.com/chikkamagaluru treks/kurinjal/movements/WhatsApp Image 2026-05-21 at 8.07.18 PM.jpeg"
+      },
+      {
+        "key": "chikkamagaluru treks/kurinjal/movements/WhatsApp Video 2026-05-21 at 8.07.20 PM.mp4",
+        "size": 1246878,
+        "lastModified": "2026-05-22T15:31:51.214Z",
+        "mediaType": "video",
+        "url": "https://media.wildchikkamagalurutreks.com/chikkamagaluru treks/kurinjal/movements/WhatsApp Video 2026-05-21 at 8.07.20 PM.mp4"
+      },
+      {
+        "key": "chikkamagaluru treks/kurinjal/movements/WhatsApp Video 2026-05-21 at 8.07.23 PM.mp4",
+        "size": 921031,
+        "lastModified": "2026-05-22T15:31:51.135Z",
+        "mediaType": "video",
+        "url": "https://media.wildchikkamagalurutreks.com/chikkamagaluru treks/kurinjal/movements/WhatsApp Video 2026-05-21 at 8.07.23 PM.mp4"
+      },
+      {
+        "key": "chikkamagaluru treks/kurinjal/movements/WhatsApp Video 2026-05-21 at 8.07.29 PM.mp4",
+        "size": 3850879,
+        "lastModified": "2026-05-22T15:31:52.839Z",
+        "mediaType": "video",
+        "url": "https://media.wildchikkamagalurutreks.com/chikkamagaluru treks/kurinjal/movements/WhatsApp Video 2026-05-21 at 8.07.29 PM.mp4"
+      }
+    ],
+    "chikkamagaluru treks/mullaynagiri": [
+      {
+        "key": "chikkamagaluru treks/mullaynagiri/DSC_0347.jpg",
+        "size": 331822,
+        "lastModified": "2026-05-22T15:31:44.342Z",
+        "mediaType": "image",
+        "url": "https://media.wildchikkamagalurutreks.com/chikkamagaluru treks/mullaynagiri/DSC_0347.jpg"
+      },
+      {
+        "key": "chikkamagaluru treks/mullaynagiri/Mullayanagiri-scaled.webp",
+        "size": 123876,
+        "lastModified": "2026-05-22T15:31:45.369Z",
+        "mediaType": "image",
+        "url": "https://media.wildchikkamagalurutreks.com/chikkamagaluru treks/mullaynagiri/Mullayanagiri-scaled.webp"
+      },
+      {
+        "key": "chikkamagaluru treks/mullaynagiri/WhatsApp Image 2026-05-21 at 8.18.18 PM.jpeg",
+        "size": 209793,
+        "lastModified": "2026-05-22T15:31:45.679Z",
+        "mediaType": "image",
+        "url": "https://media.wildchikkamagalurutreks.com/chikkamagaluru treks/mullaynagiri/WhatsApp Image 2026-05-21 at 8.18.18 PM.jpeg"
+      },
+      {
+        "key": "chikkamagaluru treks/mullaynagiri/WhatsApp Video 2026-05-21 at 8.18.33 PM.mp4",
+        "size": 848456,
+        "lastModified": "2026-05-22T15:31:46.346Z",
+        "mediaType": "video",
+        "url": "https://media.wildchikkamagalurutreks.com/chikkamagaluru treks/mullaynagiri/WhatsApp Video 2026-05-21 at 8.18.33 PM.mp4"
+      },
+      {
+        "key": "chikkamagaluru treks/mullaynagiri/hero.webp",
+        "size": 97654,
+        "lastModified": "2026-05-22T15:31:45.220Z",
+        "mediaType": "image",
+        "url": "https://media.wildchikkamagalurutreks.com/chikkamagaluru treks/mullaynagiri/hero.webp"
+      }
+    ],
+    "chikkamagaluru treks/netravathi": [
+      {
+        "key": "chikkamagaluru treks/netravathi/WhatsApp Image 2026-05-21 at 19.57.33.jpeg",
+        "size": 61715,
+        "lastModified": "2026-05-22T15:31:42.578Z",
+        "mediaType": "image",
+        "url": "https://media.wildchikkamagalurutreks.com/chikkamagaluru treks/netravathi/WhatsApp Image 2026-05-21 at 19.57.33.jpeg"
+      },
+      {
+        "key": "chikkamagaluru treks/netravathi/WhatsApp Image 2026-05-21 at 8.37.50 PM.jpeg",
+        "size": 194695,
+        "lastModified": "2026-05-22T15:31:43.967Z",
+        "mediaType": "image",
+        "url": "https://media.wildchikkamagalurutreks.com/chikkamagaluru treks/netravathi/WhatsApp Image 2026-05-21 at 8.37.50 PM.jpeg"
+      },
+      {
+        "key": "chikkamagaluru treks/netravathi/WhatsApp Video 2026-05-21 at 8.37.55 PM.mp4",
+        "size": 1007207,
+        "lastModified": "2026-05-22T15:31:44.653Z",
+        "mediaType": "video",
+        "url": "https://media.wildchikkamagalurutreks.com/chikkamagaluru treks/netravathi/WhatsApp Video 2026-05-21 at 8.37.55 PM.mp4"
+      },
+      {
+        "key": "chikkamagaluru treks/netravathi/hero.png",
+        "size": 525783,
+        "lastModified": "2026-05-22T15:31:42.969Z",
+        "mediaType": "image",
+        "url": "https://media.wildchikkamagalurutreks.com/chikkamagaluru treks/netravathi/hero.png"
+      }
+    ],
+    "chikkamagaluru treks": [
+      {
+        "key": "chikkamagaluru treks/poster.jpeg",
+        "size": 239366,
+        "lastModified": "2026-05-22T15:38:58.589Z",
+        "mediaType": "image",
+        "url": "https://media.wildchikkamagalurutreks.com/chikkamagaluru treks/poster.jpeg"
+      }
+    ],
+    "chikkamagaluru treks/rani jheri": [
+      {
+        "key": "chikkamagaluru treks/rani jheri/WhatsApp Video 2026-05-21 at 9.06.51 PM.mp4",
+        "size": 1523671,
+        "lastModified": "2026-05-22T15:31:42.727Z",
+        "mediaType": "video",
+        "url": "https://media.wildchikkamagalurutreks.com/chikkamagaluru treks/rani jheri/WhatsApp Video 2026-05-21 at 9.06.51 PM.mp4"
+      },
+      {
+        "key": "chikkamagaluru treks/rani jheri/WhatsApp Video 2026-05-21 at 9.06.56 PM.mp4",
+        "size": 2868655,
+        "lastModified": "2026-05-22T15:31:42.869Z",
+        "mediaType": "video",
+        "url": "https://media.wildchikkamagalurutreks.com/chikkamagaluru treks/rani jheri/WhatsApp Video 2026-05-21 at 9.06.56 PM.mp4"
+      },
+      {
+        "key": "chikkamagaluru treks/rani jheri/hero.webp",
+        "size": 461584,
+        "lastModified": "2026-05-22T15:31:39.957Z",
+        "mediaType": "image",
+        "url": "https://media.wildchikkamagalurutreks.com/chikkamagaluru treks/rani jheri/hero.webp"
+      },
+      {
+        "key": "chikkamagaluru treks/rani jheri/hero_1.jpg",
+        "size": 110736,
+        "lastModified": "2026-05-22T15:31:40.372Z",
+        "mediaType": "image",
+        "url": "https://media.wildchikkamagalurutreks.com/chikkamagaluru treks/rani jheri/hero_1.jpg"
+      },
+      {
+        "key": "chikkamagaluru treks/rani jheri/images.jfif",
+        "size": 8647,
+        "lastModified": "2026-05-22T15:31:41.225Z",
+        "mediaType": "other",
+        "url": "https://media.wildchikkamagalurutreks.com/chikkamagaluru treks/rani jheri/images.jfif"
+      },
+      {
+        "key": "chikkamagaluru treks/rani jheri/rani-jhari-view-point-wiki.jpg",
+        "size": 102762,
+        "lastModified": "2026-05-22T15:31:41.354Z",
+        "mediaType": "image",
+        "url": "https://media.wildchikkamagalurutreks.com/chikkamagaluru treks/rani jheri/rani-jhari-view-point-wiki.jpg"
+      }
+    ],
+    "chikkamagaluru treks/sushanth": [
+      {
+        "key": "chikkamagaluru treks/sushanth/sushanth_image.jpeg",
+        "size": 1321229,
+        "lastModified": "2026-05-22T15:31:39.014Z",
+        "mediaType": "image",
+        "url": "https://media.wildchikkamagalurutreks.com/chikkamagaluru treks/sushanth/sushanth_image.jpeg"
+      },
+      {
+        "key": "chikkamagaluru treks/sushanth/sushanth_profile.jpg",
+        "size": 491345,
+        "lastModified": "2026-05-22T15:31:40.225Z",
+        "mediaType": "image",
+        "url": "https://media.wildchikkamagalurutreks.com/chikkamagaluru treks/sushanth/sushanth_profile.jpg"
+      }
+    ],
+    "chikkamagaluru treks/trek_journey": [
+      {
+        "key": "chikkamagaluru treks/trek_journey/explore_chikkamagaluru.mp4",
+        "size": 4078445,
+        "lastModified": "2026-05-22T15:31:39.930Z",
+        "mediaType": "video",
+        "url": "https://media.wildchikkamagalurutreks.com/chikkamagaluru treks/trek_journey/explore_chikkamagaluru.mp4"
+      },
+      {
+        "key": "chikkamagaluru treks/trek_journey/trek_journey.mp4",
+        "size": 96193785,
+        "lastModified": "2026-05-22T15:32:05.013Z",
+        "mediaType": "video",
+        "url": "https://media.wildchikkamagalurutreks.com/chikkamagaluru treks/trek_journey/trek_journey.mp4"
+      }
+    ]
+  },
+  "allObjects": [
+    {
+      "key": "chikkamagaluru treks/Kyatanamakki hills/WhatsApp Image 2026-05-21 at 8.28.35 PM.jpeg",
+      "size": 137221,
+      "lastModified": "2026-05-22T15:31:47.027Z",
+      "mediaType": "image",
+      "url": "https://media.wildchikkamagalurutreks.com/chikkamagaluru treks/Kyatanamakki hills/WhatsApp Image 2026-05-21 at 8.28.35 PM.jpeg"
+    },
+    {
+      "key": "chikkamagaluru treks/Kyatanamakki hills/WhatsApp Video 2026-05-21 at 8.28.47 PM.mp4",
+      "size": 454657,
+      "lastModified": "2026-05-22T15:31:49.258Z",
+      "mediaType": "video",
+      "url": "https://media.wildchikkamagalurutreks.com/chikkamagaluru treks/Kyatanamakki hills/WhatsApp Video 2026-05-21 at 8.28.47 PM.mp4"
+    },
+    {
+      "key": "chikkamagaluru treks/Kyatanamakki hills/hero.jpeg",
+      "size": 82500,
+      "lastModified": "2026-05-22T15:31:46.526Z",
+      "mediaType": "image",
+      "url": "https://media.wildchikkamagalurutreks.com/chikkamagaluru treks/Kyatanamakki hills/hero.jpeg"
+    },
+    {
+      "key": "chikkamagaluru treks/Kyatanamakki hills/kyatanamakki_hills.mp4",
+      "size": 10378665,
+      "lastModified": "2026-05-22T15:31:50.564Z",
+      "mediaType": "video",
+      "url": "https://media.wildchikkamagalurutreks.com/chikkamagaluru treks/Kyatanamakki hills/kyatanamakki_hills.mp4"
+    },
+    {
+      "key": "chikkamagaluru treks/ballalrayan durga trek/WhatsApp Image 2026-05-21 at 8.02.30 PM.jpeg",
+      "size": 157360,
+      "lastModified": "2026-05-22T15:32:08.030Z",
+      "mediaType": "image",
+      "url": "https://media.wildchikkamagalurutreks.com/chikkamagaluru treks/ballalrayan durga trek/WhatsApp Image 2026-05-21 at 8.02.30 PM.jpeg"
+    },
+    {
+      "key": "chikkamagaluru treks/ballalrayan durga trek/WhatsApp Image 2026-05-21 at 8.02.31 PM (1).jpeg",
+      "size": 241402,
+      "lastModified": "2026-05-22T15:32:08.893Z",
+      "mediaType": "image",
+      "url": "https://media.wildchikkamagalurutreks.com/chikkamagaluru treks/ballalrayan durga trek/WhatsApp Image 2026-05-21 at 8.02.31 PM (1).jpeg"
+    },
+    {
+      "key": "chikkamagaluru treks/ballalrayan durga trek/WhatsApp Image 2026-05-21 at 8.02.31 PM.jpeg",
+      "size": 156984,
+      "lastModified": "2026-05-22T15:32:08.862Z",
+      "mediaType": "image",
+      "url": "https://media.wildchikkamagalurutreks.com/chikkamagaluru treks/ballalrayan durga trek/WhatsApp Image 2026-05-21 at 8.02.31 PM.jpeg"
+    },
+    {
+      "key": "chikkamagaluru treks/ballalrayan durga trek/WhatsApp Image 2026-05-21 at 8.02.32 PM (1).jpeg",
+      "size": 88984,
+      "lastModified": "2026-05-22T15:32:09.132Z",
+      "mediaType": "image",
+      "url": "https://media.wildchikkamagalurutreks.com/chikkamagaluru treks/ballalrayan durga trek/WhatsApp Image 2026-05-21 at 8.02.32 PM (1).jpeg"
+    },
+    {
+      "key": "chikkamagaluru treks/ballalrayan durga trek/WhatsApp Image 2026-05-21 at 8.02.32 PM.jpeg",
+      "size": 153554,
+      "lastModified": "2026-05-22T15:32:09.243Z",
+      "mediaType": "image",
+      "url": "https://media.wildchikkamagalurutreks.com/chikkamagaluru treks/ballalrayan durga trek/WhatsApp Image 2026-05-21 at 8.02.32 PM.jpeg"
+    },
+    {
+      "key": "chikkamagaluru treks/ballalrayan durga trek/ballalarayana-durga-fort.jpg",
+      "size": 67515,
+      "lastModified": "2026-05-22T15:32:06.854Z",
+      "mediaType": "image",
+      "url": "https://media.wildchikkamagalurutreks.com/chikkamagaluru treks/ballalrayan durga trek/ballalarayana-durga-fort.jpg"
+    },
+    {
+      "key": "chikkamagaluru treks/ballalrayan durga trek/hero.jpg",
+      "size": 90056,
+      "lastModified": "2026-05-22T15:32:07.898Z",
+      "mediaType": "image",
+      "url": "https://media.wildchikkamagalurutreks.com/chikkamagaluru treks/ballalrayan durga trek/hero.jpg"
+    },
+    {
+      "key": "chikkamagaluru treks/ballalrayan durga trek/images.jfif",
+      "size": 12793,
+      "lastModified": "2026-05-22T15:32:07.573Z",
+      "mediaType": "other",
+      "url": "https://media.wildchikkamagalurutreks.com/chikkamagaluru treks/ballalrayan durga trek/images.jfif"
+    },
+    {
+      "key": "chikkamagaluru treks/bandaje falls trek/WhatsApp Image 2026-05-21 at 20.13.43.jpeg",
+      "size": 242212,
+      "lastModified": "2026-05-22T15:32:06.302Z",
+      "mediaType": "image",
+      "url": "https://media.wildchikkamagalurutreks.com/chikkamagaluru treks/bandaje falls trek/WhatsApp Image 2026-05-21 at 20.13.43.jpeg"
+    },
+    {
+      "key": "chikkamagaluru treks/bandaje falls trek/WhatsApp Video 2026-05-21 at 8.23.05 PM.mp4",
+      "size": 2870441,
+      "lastModified": "2026-05-22T15:32:07.662Z",
+      "mediaType": "video",
+      "url": "https://media.wildchikkamagalurutreks.com/chikkamagaluru treks/bandaje falls trek/WhatsApp Video 2026-05-21 at 8.23.05 PM.mp4"
+    },
+    {
+      "key": "chikkamagaluru treks/bandaje falls trek/hero.jpeg",
+      "size": 229015,
+      "lastModified": "2026-05-22T15:32:06.360Z",
+      "mediaType": "image",
+      "url": "https://media.wildchikkamagalurutreks.com/chikkamagaluru treks/bandaje falls trek/hero.jpeg"
+    },
+    {
+      "key": "chikkamagaluru treks/bits_and_pieces/Charmudi Falls.jpeg",
+      "size": 339993,
+      "lastModified": "2026-05-22T15:32:03.565Z",
+      "mediaType": "image",
+      "url": "https://media.wildchikkamagalurutreks.com/chikkamagaluru treks/bits_and_pieces/Charmudi Falls.jpeg"
+    },
+    {
+      "key": "chikkamagaluru treks/bits_and_pieces/FOREST.jpeg",
+      "size": 266782,
+      "lastModified": "2026-05-22T15:32:04.411Z",
+      "mediaType": "image",
+      "url": "https://media.wildchikkamagalurutreks.com/chikkamagaluru treks/bits_and_pieces/FOREST.jpeg"
+    },
+    {
+      "key": "chikkamagaluru treks/bits_and_pieces/Karnataka Forest.jpeg",
+      "size": 113928,
+      "lastModified": "2026-05-22T15:32:04.208Z",
+      "mediaType": "image",
+      "url": "https://media.wildchikkamagalurutreks.com/chikkamagaluru treks/bits_and_pieces/Karnataka Forest.jpeg"
+    },
+    {
+      "key": "chikkamagaluru treks/bits_and_pieces/Kyatanmakki Hills.mp4",
+      "size": 1479330,
+      "lastModified": "2026-05-22T15:32:04.955Z",
+      "mediaType": "video",
+      "url": "https://media.wildchikkamagalurutreks.com/chikkamagaluru treks/bits_and_pieces/Kyatanmakki Hills.mp4"
+    },
+    {
+      "key": "chikkamagaluru treks/bits_and_pieces/Misty Falls.jpeg",
+      "size": 116671,
+      "lastModified": "2026-05-22T15:32:05.491Z",
+      "mediaType": "image",
+      "url": "https://media.wildchikkamagalurutreks.com/chikkamagaluru treks/bits_and_pieces/Misty Falls.jpeg"
+    },
+    {
+      "key": "chikkamagaluru treks/bits_and_pieces/Road Trip.jpeg",
+      "size": 161097,
+      "lastModified": "2026-05-22T15:32:05.560Z",
+      "mediaType": "image",
+      "url": "https://media.wildchikkamagalurutreks.com/chikkamagaluru treks/bits_and_pieces/Road Trip.jpeg"
+    },
+    {
+      "key": "chikkamagaluru treks/bits_and_pieces/Unknown Territory.mp4",
+      "size": 23619770,
+      "lastModified": "2026-05-22T15:32:10.490Z",
+      "mediaType": "video",
+      "url": "https://media.wildchikkamagalurutreks.com/chikkamagaluru treks/bits_and_pieces/Unknown Territory.mp4"
+    },
+    {
+      "key": "chikkamagaluru treks/ethin bhuja/WhatsApp Image 2026-05-21 at 20.17.47.jpeg",
+      "size": 24325,
+      "lastModified": "2026-05-22T15:32:02.821Z",
+      "mediaType": "image",
+      "url": "https://media.wildchikkamagalurutreks.com/chikkamagaluru treks/ethin bhuja/WhatsApp Image 2026-05-21 at 20.17.47.jpeg"
+    },
+    {
+      "key": "chikkamagaluru treks/ethin bhuja/WhatsApp Image 2026-05-21 at 20.17.48.jpeg",
+      "size": 268373,
+      "lastModified": "2026-05-22T15:32:04.266Z",
+      "mediaType": "image",
+      "url": "https://media.wildchikkamagalurutreks.com/chikkamagaluru treks/ethin bhuja/WhatsApp Image 2026-05-21 at 20.17.48.jpeg"
+    },
+    {
+      "key": "chikkamagaluru treks/ethin bhuja/hero.jpeg",
+      "size": 109760,
+      "lastModified": "2026-05-22T15:32:02.194Z",
+      "mediaType": "image",
+      "url": "https://media.wildchikkamagalurutreks.com/chikkamagaluru treks/ethin bhuja/hero.jpeg"
+    },
+    {
+      "key": "chikkamagaluru treks/ethin bhuja/hero_1.jpeg",
+      "size": 328754,
+      "lastModified": "2026-05-22T15:32:02.888Z",
+      "mediaType": "image",
+      "url": "https://media.wildchikkamagalurutreks.com/chikkamagaluru treks/ethin bhuja/hero_1.jpeg"
+    },
+    {
+      "key": "chikkamagaluru treks/gangadikal/WhatsApp Image 2026-05-21 at 20.04.50.jpeg",
+      "size": 114574,
+      "lastModified": "2026-05-22T15:32:01.646Z",
+      "mediaType": "image",
+      "url": "https://media.wildchikkamagalurutreks.com/chikkamagaluru treks/gangadikal/WhatsApp Image 2026-05-21 at 20.04.50.jpeg"
+    },
+    {
+      "key": "chikkamagaluru treks/gangadikal/hero.jpeg",
+      "size": 82738,
+      "lastModified": "2026-05-22T15:32:01.475Z",
+      "mediaType": "image",
+      "url": "https://media.wildchikkamagalurutreks.com/chikkamagaluru treks/gangadikal/hero.jpeg"
+    },
+    {
+      "key": "chikkamagaluru treks/hanumana gudi falls/WhatsApp Video 2026-05-21 at 8.13.00 PM.mp4",
+      "size": 2720510,
+      "lastModified": "2026-05-22T15:32:01.316Z",
+      "mediaType": "video",
+      "url": "https://media.wildchikkamagalurutreks.com/chikkamagaluru treks/hanumana gudi falls/WhatsApp Video 2026-05-21 at 8.13.00 PM.mp4"
+    },
+    {
+      "key": "chikkamagaluru treks/hebbe falls/The-Natural-Beauty-of-Hebbe-Waterfalls.jpg",
+      "size": 61266,
+      "lastModified": "2026-05-22T15:32:00.416Z",
+      "mediaType": "image",
+      "url": "https://media.wildchikkamagalurutreks.com/chikkamagaluru treks/hebbe falls/The-Natural-Beauty-of-Hebbe-Waterfalls.jpg"
+    },
+    {
+      "key": "chikkamagaluru treks/hebbe falls/hero.jpg",
+      "size": 292202,
+      "lastModified": "2026-05-22T15:32:00.331Z",
+      "mediaType": "image",
+      "url": "https://media.wildchikkamagalurutreks.com/chikkamagaluru treks/hebbe falls/hero.jpg"
+    },
+    {
+      "key": "chikkamagaluru treks/hebbe falls/z1du9w6kfbe1tz61elcule5k8lum_4355778037_6d244c698f_o.webp",
+      "size": 1572666,
+      "lastModified": "2026-05-22T15:32:00.987Z",
+      "mediaType": "image",
+      "url": "https://media.wildchikkamagalurutreks.com/chikkamagaluru treks/hebbe falls/z1du9w6kfbe1tz61elcule5k8lum_4355778037_6d244c698f_o.webp"
+    },
+    {
+      "key": "chikkamagaluru treks/hidden water falls/WhatsApp Video 2026-05-21 at 8.39.59 PM.mp4",
+      "size": 1933392,
+      "lastModified": "2026-05-22T15:31:59.133Z",
+      "mediaType": "video",
+      "url": "https://media.wildchikkamagalurutreks.com/chikkamagaluru treks/hidden water falls/WhatsApp Video 2026-05-21 at 8.39.59 PM.mp4"
+    },
+    {
+      "key": "chikkamagaluru treks/hidden water falls/WhatsApp Video 2026-05-21 at 9.03.58 PM.mp4",
+      "size": 2135293,
+      "lastModified": "2026-05-22T15:31:59.090Z",
+      "mediaType": "video",
+      "url": "https://media.wildchikkamagalurutreks.com/chikkamagaluru treks/hidden water falls/WhatsApp Video 2026-05-21 at 9.03.58 PM.mp4"
+    },
+    {
+      "key": "chikkamagaluru treks/hidden water falls/WhatsApp Video 2026-05-21 at 9.04.00 PM.mp4",
+      "size": 1137380,
+      "lastModified": "2026-05-22T15:31:59.223Z",
+      "mediaType": "video",
+      "url": "https://media.wildchikkamagalurutreks.com/chikkamagaluru treks/hidden water falls/WhatsApp Video 2026-05-21 at 9.04.00 PM.mp4"
+    },
+    {
+      "key": "chikkamagaluru treks/hidden water falls/WhatsApp Video 2026-05-21 at 9.08.13 PM.mp4",
+      "size": 1744029,
+      "lastModified": "2026-05-22T15:31:59.716Z",
+      "mediaType": "video",
+      "url": "https://media.wildchikkamagalurutreks.com/chikkamagaluru treks/hidden water falls/WhatsApp Video 2026-05-21 at 9.08.13 PM.mp4"
+    },
+    {
+      "key": "chikkamagaluru treks/hidden water falls/hero.jpeg",
+      "size": 366598,
+      "lastModified": "2026-05-22T15:31:57.654Z",
+      "mediaType": "image",
+      "url": "https://media.wildchikkamagalurutreks.com/chikkamagaluru treks/hidden water falls/hero.jpeg"
+    },
+    {
+      "key": "chikkamagaluru treks/jhari falls/caption.jpg",
+      "size": 562017,
+      "lastModified": "2026-05-22T15:31:57.699Z",
+      "mediaType": "image",
+      "url": "https://media.wildchikkamagalurutreks.com/chikkamagaluru treks/jhari falls/caption.jpg"
+    },
+    {
+      "key": "chikkamagaluru treks/jhari falls/hero.jpg",
+      "size": 201264,
+      "lastModified": "2026-05-22T15:31:57.350Z",
+      "mediaType": "image",
+      "url": "https://media.wildchikkamagalurutreks.com/chikkamagaluru treks/jhari falls/hero.jpg"
+    },
+    {
+      "key": "chikkamagaluru treks/jhari falls/jhari falls.jpg",
+      "size": 79868,
+      "lastModified": "2026-05-22T15:31:57.245Z",
+      "mediaType": "image",
+      "url": "https://media.wildchikkamagalurutreks.com/chikkamagaluru treks/jhari falls/jhari falls.jpg"
+    },
+    {
+      "key": "chikkamagaluru treks/kodige falls/WhatsApp Video 2026-05-21 at 9.12.54 PM.mp4",
+      "size": 1279658,
+      "lastModified": "2026-05-22T15:31:56.322Z",
+      "mediaType": "video",
+      "url": "https://media.wildchikkamagalurutreks.com/chikkamagaluru treks/kodige falls/WhatsApp Video 2026-05-21 at 9.12.54 PM.mp4"
+    },
+    {
+      "key": "chikkamagaluru treks/kudremuka/WhatsApp Image 2026-05-21 at 19.59.49.jpeg",
+      "size": 60013,
+      "lastModified": "2026-05-22T15:31:52.327Z",
+      "mediaType": "image",
+      "url": "https://media.wildchikkamagalurutreks.com/chikkamagaluru treks/kudremuka/WhatsApp Image 2026-05-21 at 19.59.49.jpeg"
+    },
+    {
+      "key": "chikkamagaluru treks/kudremuka/WhatsApp Image 2026-05-21 at 19.59.50.jpeg",
+      "size": 211389,
+      "lastModified": "2026-05-22T15:31:52.499Z",
+      "mediaType": "image",
+      "url": "https://media.wildchikkamagalurutreks.com/chikkamagaluru treks/kudremuka/WhatsApp Image 2026-05-21 at 19.59.50.jpeg"
+    },
+    {
+      "key": "chikkamagaluru treks/kudremuka/back_waters/WhatsApp Image 2026-05-21 at 7.54.28 PM (1).jpeg",
+      "size": 186852,
+      "lastModified": "2026-05-22T15:31:53.956Z",
+      "mediaType": "image",
+      "url": "https://media.wildchikkamagalurutreks.com/chikkamagaluru treks/kudremuka/back_waters/WhatsApp Image 2026-05-21 at 7.54.28 PM (1).jpeg"
+    },
+    {
+      "key": "chikkamagaluru treks/kudremuka/back_waters/WhatsApp Image 2026-05-21 at 7.54.28 PM.jpeg",
+      "size": 124196,
+      "lastModified": "2026-05-22T15:31:54.852Z",
+      "mediaType": "image",
+      "url": "https://media.wildchikkamagalurutreks.com/chikkamagaluru treks/kudremuka/back_waters/WhatsApp Image 2026-05-21 at 7.54.28 PM.jpeg"
+    },
+    {
+      "key": "chikkamagaluru treks/kudremuka/back_waters/WhatsApp Image 2026-05-21 at 7.54.31 PM.jpeg",
+      "size": 132433,
+      "lastModified": "2026-05-22T15:31:54.050Z",
+      "mediaType": "image",
+      "url": "https://media.wildchikkamagalurutreks.com/chikkamagaluru treks/kudremuka/back_waters/WhatsApp Image 2026-05-21 at 7.54.31 PM.jpeg"
+    },
+    {
+      "key": "chikkamagaluru treks/kudremuka/back_waters/WhatsApp Image 2026-05-21 at 7.54.32 PM.jpeg",
+      "size": 138478,
+      "lastModified": "2026-05-22T15:31:55.284Z",
+      "mediaType": "image",
+      "url": "https://media.wildchikkamagalurutreks.com/chikkamagaluru treks/kudremuka/back_waters/WhatsApp Image 2026-05-21 at 7.54.32 PM.jpeg"
+    },
+    {
+      "key": "chikkamagaluru treks/kudremuka/back_waters/WhatsApp Image 2026-05-21 at 7.54.34 PM.jpeg",
+      "size": 135767,
+      "lastModified": "2026-05-22T15:31:55.460Z",
+      "mediaType": "image",
+      "url": "https://media.wildchikkamagalurutreks.com/chikkamagaluru treks/kudremuka/back_waters/WhatsApp Image 2026-05-21 at 7.54.34 PM.jpeg"
+    },
+    {
+      "key": "chikkamagaluru treks/kudremuka/back_waters/lakhya_dam.mp4",
+      "size": 1449023,
+      "lastModified": "2026-05-22T15:31:54.719Z",
+      "mediaType": "video",
+      "url": "https://media.wildchikkamagalurutreks.com/chikkamagaluru treks/kudremuka/back_waters/lakhya_dam.mp4"
+    },
+    {
+      "key": "chikkamagaluru treks/kudremuka/hero.jpeg",
+      "size": 44254,
+      "lastModified": "2026-05-22T15:31:51.866Z",
+      "mediaType": "image",
+      "url": "https://media.wildchikkamagalurutreks.com/chikkamagaluru treks/kudremuka/hero.jpeg"
+    },
+    {
+      "key": "chikkamagaluru treks/kurinjal/WhatsApp Image 2026-05-21 at 20.01.53 (1).jpeg",
+      "size": 53048,
+      "lastModified": "2026-05-22T15:31:48.236Z",
+      "mediaType": "image",
+      "url": "https://media.wildchikkamagalurutreks.com/chikkamagaluru treks/kurinjal/WhatsApp Image 2026-05-21 at 20.01.53 (1).jpeg"
+    },
+    {
+      "key": "chikkamagaluru treks/kurinjal/WhatsApp Image 2026-05-21 at 20.01.53.jpeg",
+      "size": 70813,
+      "lastModified": "2026-05-22T15:31:49.142Z",
+      "mediaType": "image",
+      "url": "https://media.wildchikkamagalurutreks.com/chikkamagaluru treks/kurinjal/WhatsApp Image 2026-05-21 at 20.01.53.jpeg"
+    },
+    {
+      "key": "chikkamagaluru treks/kurinjal/hero.jpeg",
+      "size": 204455,
+      "lastModified": "2026-05-22T15:31:47.909Z",
+      "mediaType": "image",
+      "url": "https://media.wildchikkamagalurutreks.com/chikkamagaluru treks/kurinjal/hero.jpeg"
+    },
+    {
+      "key": "chikkamagaluru treks/kurinjal/movements/WhatsApp Image 2026-05-21 at 8.07.18 PM.jpeg",
+      "size": 243215,
+      "lastModified": "2026-05-22T15:31:49.991Z",
+      "mediaType": "image",
+      "url": "https://media.wildchikkamagalurutreks.com/chikkamagaluru treks/kurinjal/movements/WhatsApp Image 2026-05-21 at 8.07.18 PM.jpeg"
+    },
+    {
+      "key": "chikkamagaluru treks/kurinjal/movements/WhatsApp Video 2026-05-21 at 8.07.20 PM.mp4",
+      "size": 1246878,
+      "lastModified": "2026-05-22T15:31:51.214Z",
+      "mediaType": "video",
+      "url": "https://media.wildchikkamagalurutreks.com/chikkamagaluru treks/kurinjal/movements/WhatsApp Video 2026-05-21 at 8.07.20 PM.mp4"
+    },
+    {
+      "key": "chikkamagaluru treks/kurinjal/movements/WhatsApp Video 2026-05-21 at 8.07.23 PM.mp4",
+      "size": 921031,
+      "lastModified": "2026-05-22T15:31:51.135Z",
+      "mediaType": "video",
+      "url": "https://media.wildchikkamagalurutreks.com/chikkamagaluru treks/kurinjal/movements/WhatsApp Video 2026-05-21 at 8.07.23 PM.mp4"
+    },
+    {
+      "key": "chikkamagaluru treks/kurinjal/movements/WhatsApp Video 2026-05-21 at 8.07.29 PM.mp4",
+      "size": 3850879,
+      "lastModified": "2026-05-22T15:31:52.839Z",
+      "mediaType": "video",
+      "url": "https://media.wildchikkamagalurutreks.com/chikkamagaluru treks/kurinjal/movements/WhatsApp Video 2026-05-21 at 8.07.29 PM.mp4"
+    },
+    {
+      "key": "chikkamagaluru treks/mullaynagiri/DSC_0347.jpg",
+      "size": 331822,
+      "lastModified": "2026-05-22T15:31:44.342Z",
+      "mediaType": "image",
+      "url": "https://media.wildchikkamagalurutreks.com/chikkamagaluru treks/mullaynagiri/DSC_0347.jpg"
+    },
+    {
+      "key": "chikkamagaluru treks/mullaynagiri/Mullayanagiri-scaled.webp",
+      "size": 123876,
+      "lastModified": "2026-05-22T15:31:45.369Z",
+      "mediaType": "image",
+      "url": "https://media.wildchikkamagalurutreks.com/chikkamagaluru treks/mullaynagiri/Mullayanagiri-scaled.webp"
+    },
+    {
+      "key": "chikkamagaluru treks/mullaynagiri/WhatsApp Image 2026-05-21 at 8.18.18 PM.jpeg",
+      "size": 209793,
+      "lastModified": "2026-05-22T15:31:45.679Z",
+      "mediaType": "image",
+      "url": "https://media.wildchikkamagalurutreks.com/chikkamagaluru treks/mullaynagiri/WhatsApp Image 2026-05-21 at 8.18.18 PM.jpeg"
+    },
+    {
+      "key": "chikkamagaluru treks/mullaynagiri/WhatsApp Video 2026-05-21 at 8.18.33 PM.mp4",
+      "size": 848456,
+      "lastModified": "2026-05-22T15:31:46.346Z",
+      "mediaType": "video",
+      "url": "https://media.wildchikkamagalurutreks.com/chikkamagaluru treks/mullaynagiri/WhatsApp Video 2026-05-21 at 8.18.33 PM.mp4"
+    },
+    {
+      "key": "chikkamagaluru treks/mullaynagiri/hero.webp",
+      "size": 97654,
+      "lastModified": "2026-05-22T15:31:45.220Z",
+      "mediaType": "image",
+      "url": "https://media.wildchikkamagalurutreks.com/chikkamagaluru treks/mullaynagiri/hero.webp"
+    },
+    {
+      "key": "chikkamagaluru treks/netravathi/WhatsApp Image 2026-05-21 at 19.57.33.jpeg",
+      "size": 61715,
+      "lastModified": "2026-05-22T15:31:42.578Z",
+      "mediaType": "image",
+      "url": "https://media.wildchikkamagalurutreks.com/chikkamagaluru treks/netravathi/WhatsApp Image 2026-05-21 at 19.57.33.jpeg"
+    },
+    {
+      "key": "chikkamagaluru treks/netravathi/WhatsApp Image 2026-05-21 at 8.37.50 PM.jpeg",
+      "size": 194695,
+      "lastModified": "2026-05-22T15:31:43.967Z",
+      "mediaType": "image",
+      "url": "https://media.wildchikkamagalurutreks.com/chikkamagaluru treks/netravathi/WhatsApp Image 2026-05-21 at 8.37.50 PM.jpeg"
+    },
+    {
+      "key": "chikkamagaluru treks/netravathi/WhatsApp Video 2026-05-21 at 8.37.55 PM.mp4",
+      "size": 1007207,
+      "lastModified": "2026-05-22T15:31:44.653Z",
+      "mediaType": "video",
+      "url": "https://media.wildchikkamagalurutreks.com/chikkamagaluru treks/netravathi/WhatsApp Video 2026-05-21 at 8.37.55 PM.mp4"
+    },
+    {
+      "key": "chikkamagaluru treks/netravathi/hero.png",
+      "size": 525783,
+      "lastModified": "2026-05-22T15:31:42.969Z",
+      "mediaType": "image",
+      "url": "https://media.wildchikkamagalurutreks.com/chikkamagaluru treks/netravathi/hero.png"
+    },
+    {
+      "key": "chikkamagaluru treks/poster.jpeg",
+      "size": 239366,
+      "lastModified": "2026-05-22T15:38:58.589Z",
+      "mediaType": "image",
+      "url": "https://media.wildchikkamagalurutreks.com/chikkamagaluru treks/poster.jpeg"
+    },
+    {
+      "key": "chikkamagaluru treks/rani jheri/WhatsApp Video 2026-05-21 at 9.06.51 PM.mp4",
+      "size": 1523671,
+      "lastModified": "2026-05-22T15:31:42.727Z",
+      "mediaType": "video",
+      "url": "https://media.wildchikkamagalurutreks.com/chikkamagaluru treks/rani jheri/WhatsApp Video 2026-05-21 at 9.06.51 PM.mp4"
+    },
+    {
+      "key": "chikkamagaluru treks/rani jheri/WhatsApp Video 2026-05-21 at 9.06.56 PM.mp4",
+      "size": 2868655,
+      "lastModified": "2026-05-22T15:31:42.869Z",
+      "mediaType": "video",
+      "url": "https://media.wildchikkamagalurutreks.com/chikkamagaluru treks/rani jheri/WhatsApp Video 2026-05-21 at 9.06.56 PM.mp4"
+    },
+    {
+      "key": "chikkamagaluru treks/rani jheri/hero.webp",
+      "size": 461584,
+      "lastModified": "2026-05-22T15:31:39.957Z",
+      "mediaType": "image",
+      "url": "https://media.wildchikkamagalurutreks.com/chikkamagaluru treks/rani jheri/hero.webp"
+    },
+    {
+      "key": "chikkamagaluru treks/rani jheri/hero_1.jpg",
+      "size": 110736,
+      "lastModified": "2026-05-22T15:31:40.372Z",
+      "mediaType": "image",
+      "url": "https://media.wildchikkamagalurutreks.com/chikkamagaluru treks/rani jheri/hero_1.jpg"
+    },
+    {
+      "key": "chikkamagaluru treks/rani jheri/images.jfif",
+      "size": 8647,
+      "lastModified": "2026-05-22T15:31:41.225Z",
+      "mediaType": "other",
+      "url": "https://media.wildchikkamagalurutreks.com/chikkamagaluru treks/rani jheri/images.jfif"
+    },
+    {
+      "key": "chikkamagaluru treks/rani jheri/rani-jhari-view-point-wiki.jpg",
+      "size": 102762,
+      "lastModified": "2026-05-22T15:31:41.354Z",
+      "mediaType": "image",
+      "url": "https://media.wildchikkamagalurutreks.com/chikkamagaluru treks/rani jheri/rani-jhari-view-point-wiki.jpg"
+    },
+    {
+      "key": "chikkamagaluru treks/sushanth/sushanth_image.jpeg",
+      "size": 1321229,
+      "lastModified": "2026-05-22T15:31:39.014Z",
+      "mediaType": "image",
+      "url": "https://media.wildchikkamagalurutreks.com/chikkamagaluru treks/sushanth/sushanth_image.jpeg"
+    },
+    {
+      "key": "chikkamagaluru treks/sushanth/sushanth_profile.jpg",
+      "size": 491345,
+      "lastModified": "2026-05-22T15:31:40.225Z",
+      "mediaType": "image",
+      "url": "https://media.wildchikkamagalurutreks.com/chikkamagaluru treks/sushanth/sushanth_profile.jpg"
+    },
+    {
+      "key": "chikkamagaluru treks/trek_journey/explore_chikkamagaluru.mp4",
+      "size": 4078445,
+      "lastModified": "2026-05-22T15:31:39.930Z",
+      "mediaType": "video",
+      "url": "https://media.wildchikkamagalurutreks.com/chikkamagaluru treks/trek_journey/explore_chikkamagaluru.mp4"
+    },
+    {
+      "key": "chikkamagaluru treks/trek_journey/trek_journey.mp4",
+      "size": 96193785,
+      "lastModified": "2026-05-22T15:32:05.013Z",
+      "mediaType": "video",
+      "url": "https://media.wildchikkamagalurutreks.com/chikkamagaluru treks/trek_journey/trek_journey.mp4"
+    }
+  ]
+}

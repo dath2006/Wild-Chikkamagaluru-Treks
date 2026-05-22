@@ -1,14 +1,28 @@
 import { motion, AnimatePresence, useReducedMotion } from "motion/react";
-import { X, ChevronLeft, ChevronRight, ImageIcon, PlayCircle, ZoomIn } from "lucide-react";
-import { useEffect, useCallback } from "react";
+import {
+  X,
+  ChevronLeft,
+  ChevronRight,
+  ImageIcon,
+  PlayCircle,
+  ZoomIn,
+  Volume2,
+  VolumeX,
+} from "lucide-react";
+import { useEffect, useCallback, useState, useRef } from "react";
 import { createPortal } from "react-dom";
+
+// Module-level cache: URLs that have already been fully loaded this session
+const loadedUrlCache = new Set<string>();
 
 export type GalleryItem = {
   label: string;
   variant: "image" | "video";
   seed: number;
   trekName?: string;
-  url?: string;
+  url?: string; // image URL (thumbnail for videos too)
+  videoUrl?: string; // direct video file URL (mp4/webm)
+  id?: string; // stable unique identifier
 };
 
 interface GalleryLightboxProps {
@@ -22,6 +36,23 @@ export function GalleryLightbox({ items, activeIndex, onClose, onNavigate }: Gal
   const reduce = useReducedMotion();
   const isOpen = activeIndex !== null;
   const item = activeIndex !== null ? items[activeIndex] : null;
+  const [muted, setMuted] = useState(true);
+  const videoRef = useRef<HTMLVideoElement>(null);
+
+  // Reset muted state and replay when item changes
+  useEffect(() => {
+    setMuted(true);
+    if (videoRef.current) {
+      videoRef.current.currentTime = 0;
+    }
+  }, [activeIndex]);
+
+  // Pause video when lightbox closes
+  useEffect(() => {
+    if (!isOpen && videoRef.current) {
+      videoRef.current.pause();
+    }
+  }, [isOpen]);
 
   const prev = useCallback(() => {
     if (activeIndex === null) return;
@@ -82,8 +113,8 @@ export function GalleryLightbox({ items, activeIndex, onClose, onNavigate }: Gal
               </button>
             </div>
 
-            {/* Media frame */}
-            <div className="relative w-full rounded-2xl overflow-hidden shadow-[0_40px_100px_-20px_rgba(0,0,0,0.8)]">
+            {/* Media frame - shows original aspect ratio */}
+            <div className="relative w-full max-h-[80vh] rounded-2xl overflow-hidden shadow-[0_40px_100px_-20px_rgba(0,0,0,0.8)]">
               <AnimatePresence mode="wait" initial={false}>
                 <motion.div
                   key={activeIndex}
@@ -91,34 +122,60 @@ export function GalleryLightbox({ items, activeIndex, onClose, onNavigate }: Gal
                   animate={{ opacity: 1, scale: 1 }}
                   exit={{ opacity: 0, scale: reduce ? 1 : 1.02 }}
                   transition={{ duration: reduce ? 0 : 0.2, ease: [0.22, 1, 0.36, 1] }}
-                  className="relative aspect-4/3 w-full"
+                  className="relative w-full h-full flex items-center justify-center bg-black/50"
                 >
-                  <div
-                    className="absolute inset-0"
-                    style={
-                      item.url
-                        ? undefined
-                        : {
-                            background: `radial-gradient(circle at 25% 25%, oklch(0.85 0.09 ${hue1} / 0.75), transparent 55%), radial-gradient(circle at 80% 75%, oklch(0.82 0.07 ${hue2} / 0.65), transparent 55%), linear-gradient(160deg, oklch(0.96 0.02 145) 0%, oklch(0.90 0.05 170) 50%, oklch(0.93 0.03 130) 100%)`,
-                          }
-                    }
-                  >
-                    {item.url && (
-                      <img src={item.url} alt={item.label} className="w-full h-full object-cover" />
-                    )}
-                  </div>
-                  <div className="absolute inset-0 flex flex-col items-center justify-center gap-3 text-primary/60">
-                    <div className="rounded-full bg-white/60 p-5 backdrop-blur shadow-sm">
-                      {item.variant === "video" ? (
-                        <PlayCircle className="h-10 w-10" strokeWidth={1.3} />
-                      ) : (
-                        <ImageIcon className="h-10 w-10" strokeWidth={1.3} />
-                      )}
+                  {/* Image display - original aspect ratio */}
+                  {item.variant === "image" && item.url && (
+                    <img
+                      src={item.url}
+                      alt={item.label}
+                      className="max-w-full max-h-[80vh] w-auto h-auto object-contain"
+                      loading="eager"
+                      decoding="async"
+                    />
+                  )}
+
+                  {/* Gradient placeholder for images without URL */}
+                  {item.variant === "image" && !item.url && (
+                    <div
+                      className="w-full h-full min-h-[400px]"
+                      style={{
+                        background: `radial-gradient(circle at 25% 25%, oklch(0.85 0.09 ${hue1} / 0.75), transparent 55%), radial-gradient(circle at 80% 75%, oklch(0.82 0.07 ${hue2} / 0.65), transparent 55%), linear-gradient(160deg, oklch(0.96 0.02 145) 0%, oklch(0.90 0.05 170) 50%, oklch(0.93 0.03 130) 100%)`,
+                      }}
+                    />
+                  )}
+
+                  {/* Video player - original aspect ratio */}
+                  {item.variant === "video" && item.videoUrl && (
+                    <video
+                      ref={videoRef}
+                      src={item.videoUrl}
+                      poster={item.url}
+                      className="max-w-full max-h-[80vh] w-auto h-auto"
+                      autoPlay
+                      loop
+                      playsInline
+                      muted={muted}
+                      controls
+                    />
+                  )}
+
+                  {/* Placeholder icon — no URL at all (image without URL or video without videoUrl) */}
+                  {((item.variant === "image" && !item.url) ||
+                    (item.variant === "video" && !item.videoUrl)) && (
+                    <div className="absolute inset-0 flex flex-col items-center justify-center gap-3 text-primary/60">
+                      <div className="rounded-full bg-white/60 p-5 backdrop-blur shadow-sm">
+                        {item.variant === "video" ? (
+                          <PlayCircle className="h-10 w-10" strokeWidth={1.3} />
+                        ) : (
+                          <ImageIcon className="h-10 w-10" strokeWidth={1.3} />
+                        )}
+                      </div>
+                      <p className="text-xs uppercase tracking-[0.18em] text-primary/50">
+                        {item.label}
+                      </p>
                     </div>
-                    <p className="text-xs uppercase tracking-[0.18em] text-primary/50">
-                      {item.label}
-                    </p>
-                  </div>
+                  )}
                 </motion.div>
               </AnimatePresence>
             </div>
@@ -176,6 +233,40 @@ export function GalleryTile({ item, index, onClick }: GalleryTileProps) {
   const reduce = useReducedMotion();
   const hue1 = 150 + ((item.seed * 7) % 40);
   const hue2 = 170 + ((item.seed * 11) % 30);
+  // Start as loaded if already cached, otherwise wait for load event
+  const hasMedia = item.url || item.videoUrl;
+  const mediaUrl = item.url || item.videoUrl;
+  const [imgLoaded, setImgLoaded] = useState(() =>
+    !hasMedia ? true : loadedUrlCache.has(mediaUrl || ""),
+  );
+  const [shouldLoad, setShouldLoad] = useState(() =>
+    !hasMedia ? true : loadedUrlCache.has(mediaUrl || ""),
+  );
+  const tileRef = useRef<HTMLButtonElement>(null);
+
+  // Trigger image fetch when tile is near viewport (400px ahead)
+  useEffect(() => {
+    if ((!item.url && !item.videoUrl) || shouldLoad) return;
+    const el = tileRef.current;
+    if (!el) return;
+    const obs = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setShouldLoad(true);
+          obs.disconnect();
+        }
+      },
+      { rootMargin: "400px" },
+    );
+    obs.observe(el);
+    return () => obs.disconnect();
+  }, [item.url, item.videoUrl, shouldLoad]);
+
+  const handleLoad = () => {
+    if (item.url) loadedUrlCache.add(item.url);
+    if (item.videoUrl) loadedUrlCache.add(item.videoUrl);
+    setImgLoaded(true);
+  };
 
   // Vary heights across 3 buckets for masonry feel (col-span controlled by parent)
   const heightClass =
@@ -192,10 +283,11 @@ export function GalleryTile({ item, index, onClick }: GalleryTileProps) {
 
   return (
     <button
+      ref={tileRef}
       onClick={() => onClick(index)}
       className={`group relative w-full overflow-hidden rounded-2xl border border-white/50 shadow-[0_8px_30px_-12px_oklch(0.42_0.07_155/0.4)] cursor-zoom-in focus:outline-none focus-visible:ring-2 focus-visible:ring-primary transition-transform duration-300 hover:scale-[1.02] ${heightClass} ${reduce ? "" : "gallery-tile-enter"}`}
       style={
-        item.url
+        item.url || item.videoUrl
           ? ({ "--stagger-delay": `${staggerDelay}ms` } as React.CSSProperties)
           : ({
               "--stagger-delay": `${staggerDelay}ms`,
@@ -203,28 +295,56 @@ export function GalleryTile({ item, index, onClick }: GalleryTileProps) {
             } as React.CSSProperties)
       }
     >
-      {/* Real image if available */}
-      {item.url && (
+      {/* Shimmer skeleton while image/video loads */}
+      {(item.url || item.videoUrl) && !imgLoaded && (
+        <div className="absolute inset-0 overflow-hidden">
+          <div className="absolute inset-0 bg-primary/8" />
+          <div className="absolute inset-0 -translate-x-full animate-[shimmer_1.4s_infinite] bg-linear-to-r from-transparent via-white/30 to-transparent" />
+        </div>
+      )}
+
+      {/* Image — only rendered once tile is near viewport */}
+      {item.variant === "image" && item.url && shouldLoad && (
         <img
           src={item.url}
           alt={item.label}
-          className="absolute inset-0 w-full h-full object-cover"
+          decoding="async"
+          onLoad={handleLoad}
+          className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-500 ${
+            imgLoaded ? "opacity-100" : "opacity-0"
+          }`}
         />
       )}
 
-      {/* Inner icon */}
-      <div className="absolute inset-0 flex flex-col items-center justify-center gap-2 text-primary/60 transition-opacity duration-300 group-hover:opacity-0">
-        <div className="rounded-full bg-white/60 p-3 backdrop-blur shadow-sm">
-          {item.variant === "video" ? (
-            <PlayCircle className="h-5 w-5" strokeWidth={1.4} />
-          ) : (
-            <ImageIcon className="h-5 w-5" strokeWidth={1.4} />
-          )}
+      {/* Video thumbnail — shows first frame as poster */}
+      {item.variant === "video" && item.videoUrl && shouldLoad && (
+        <video
+          src={item.videoUrl}
+          className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-500 ${
+            imgLoaded ? "opacity-100" : "opacity-0"
+          }`}
+          preload="metadata"
+          muted
+          playsInline
+          onLoadedData={handleLoad}
+        />
+      )}
+
+      {/* Icon overlay — only when no URL at all */}
+      {!item.url && !item.videoUrl && (
+        <div className="absolute inset-0 flex flex-col items-center justify-center gap-2 text-primary/60 transition-opacity duration-300 group-hover:opacity-0">
+          <div className="rounded-full bg-white/60 p-3 backdrop-blur shadow-sm">
+            {item.variant === "video" ? (
+              <PlayCircle className="h-5 w-5" strokeWidth={1.4} />
+            ) : (
+              <ImageIcon className="h-5 w-5" strokeWidth={1.4} />
+            )}
+          </div>
+          <p className="text-[9px] uppercase tracking-[0.18em] text-primary/50 px-3 text-center leading-tight max-w-28">
+            {item.label}
+          </p>
         </div>
-        <p className="text-[9px] uppercase tracking-[0.18em] text-primary/50 px-3 text-center leading-tight max-w-28">
-          {item.label}
-        </p>
-      </div>
+      )}
 
       {/* Hover overlay */}
       <div className="absolute inset-0 flex flex-col items-end justify-end p-3 opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-linear-to-t from-black/30 via-transparent to-transparent">

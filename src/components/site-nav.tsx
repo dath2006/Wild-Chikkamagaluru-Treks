@@ -1,4 +1,5 @@
 import { useState, useEffect, useCallback } from "react";
+import { Link, useLocation, useNavigate } from "@tanstack/react-router";
 
 function LogoTitle({
   className = "",
@@ -50,6 +51,30 @@ const links = [
 export function SiteNav() {
   const [scrolled, setScrolled] = useState(false);
   const [active, setActive] = useState("");
+  const location = useLocation();
+  const navigate = useNavigate();
+  const isHome = location.pathname === "/";
+  const isPermits = location.pathname === "/permits";
+
+  const handleAnchorClick = useCallback(
+    (e: React.MouseEvent<HTMLAnchorElement>, hash: string) => {
+      if (isHome) return;
+      e.preventDefault();
+      navigate({ to: "/" }).then(() => {
+        const id = hash.slice(1);
+        const attempt = (tries: number) => {
+          const el = document.getElementById(id);
+          if (el) {
+            el.scrollIntoView({ behavior: "smooth" });
+          } else if (tries > 0) {
+            setTimeout(() => attempt(tries - 1), 120);
+          }
+        };
+        setTimeout(() => attempt(8), 80);
+      });
+    },
+    [isHome, navigate],
+  );
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 40);
@@ -58,6 +83,7 @@ export function SiteNav() {
   }, []);
 
   useEffect(() => {
+    if (!isHome) return;
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((e) => {
@@ -71,7 +97,7 @@ export function SiteNav() {
       if (el) observer.observe(el);
     });
     return () => observer.disconnect();
-  }, []);
+  }, [isHome]);
 
   return (
     <header className="fixed top-0 left-0 right-0 z-50 px-4 pt-3.5">
@@ -83,7 +109,10 @@ export function SiteNav() {
         }`}
       >
         {/* Logo */}
-        <a href="#top" className="flex items-center gap-2.5 group overflow-visible">
+        <a
+          href={isHome ? "#top" : "/"}
+          className="flex items-center gap-2.5 group overflow-visible"
+        >
           <div className="relative">
             <img
               src="/icon.png"
@@ -98,11 +127,13 @@ export function SiteNav() {
         {/* Desktop links */}
         <ul className="hidden md:flex items-center gap-1 text-sm">
           {links.map((l) => {
-            const isActive = active === l.href.slice(1);
+            const isActive = isHome && active === l.href.slice(1);
+            const href = isHome ? l.href : `/${l.href}`;
             return (
               <li key={l.href}>
                 <a
-                  href={l.href}
+                  href={href}
+                  onClick={(e) => handleAnchorClick(e, l.href)}
                   className={`relative px-3.5 py-1.5 rounded-lg font-medium transition-all duration-200 ${
                     isActive
                       ? "text-primary bg-primary/8"
@@ -114,11 +145,23 @@ export function SiteNav() {
               </li>
             );
           })}
+          <li>
+            <Link
+              to="/permits"
+              className={`relative px-3.5 py-1.5 rounded-lg font-medium transition-all duration-200 ${
+                isPermits
+                  ? "text-primary bg-primary/8"
+                  : "text-foreground/65 hover:text-foreground hover:bg-black/5"
+              }`}
+            >
+              Permits Guide
+            </Link>
+          </li>
         </ul>
 
         {/* CTA */}
         <a
-          href="#contact"
+          href={isHome ? "#contact" : "/#contact"}
           className="group relative overflow-hidden rounded-xl bg-primary px-4 py-1.5 text-xs font-semibold text-primary-foreground shadow-[0_2px_12px_-2px_oklch(0.42_0.12_155/0.4)] transition-all duration-200 hover:shadow-[0_4px_20px_-2px_oklch(0.42_0.12_155/0.55)] hover:-translate-y-px active:translate-y-0"
         >
           <span className="relative z-10">Plan a Trek</span>
