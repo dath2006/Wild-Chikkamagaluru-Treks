@@ -11,8 +11,9 @@ import {
   TrendingUp,
   Calendar,
 } from "lucide-react";
-import { useState, useEffect, useMemo } from "react";
+import { useState, useEffect, useMemo, useCallback } from "react";
 import { createPortal } from "react-dom";
+import { useLocation, useNavigate } from "@tanstack/react-router";
 import type { Trek } from "@/lib/treks";
 import { getTrekMedia } from "@/lib/media";
 
@@ -23,6 +24,9 @@ interface TrekModalProps {
 
 export function TrekModal({ trek, onClose }: TrekModalProps) {
   const [activeIdx, setActiveIdx] = useState(0);
+  const location = useLocation();
+  const navigate = useNavigate();
+  const isHome = location.pathname === "/";
 
   // Get all media from trek folder (including subfolders)
   const allMedia = useMemo(() => {
@@ -283,8 +287,22 @@ export function TrekModal({ trek, onClose }: TrekModalProps) {
               {/* CTA */}
               <div className="px-5 py-4 md:px-6 md:py-5 border-t border-gray-100 bg-gray-50/50">
                 <a
-                  href="#contact"
-                  onClick={onClose}
+                  href={isHome ? "#contact" : "/#contact"}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    onClose();
+                    if (isHome) {
+                      const el = document.getElementById("contact");
+                      if (el) el.scrollIntoView({ behavior: "smooth" });
+                    } else {
+                      navigate({ to: "/" }).then(() => {
+                        setTimeout(() => {
+                          const el = document.getElementById("contact");
+                          if (el) el.scrollIntoView({ behavior: "smooth" });
+                        }, 100);
+                      });
+                    }
+                  }}
                   className="inline-flex w-full items-center justify-center gap-2 rounded-full bg-primary px-6 py-3.5 text-sm font-semibold text-primary-foreground shadow-xl shadow-primary/20 hover:shadow-primary/40 hover:scale-[1.02] active:scale-[0.98] transition-all"
                 >
                   <Calendar className="h-4 w-4" />

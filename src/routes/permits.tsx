@@ -1,4 +1,4 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { motion, useReducedMotion } from "motion/react";
 import {
   ArrowLeft,
@@ -270,6 +270,7 @@ function DistrictTable() {
 
 function PermitsPage() {
   const reduce = useReducedMotion();
+  const navigate = useNavigate();
 
   return (
     <main className="relative min-h-screen overflow-x-clip">
@@ -514,13 +515,22 @@ function PermitsPage() {
                     >
                       WhatsApp Us
                     </a>
-                    <Link
-                      to="/"
-                      className="inline-flex items-center gap-2 rounded-full border border-white/30 bg-white/10 px-6 py-3 text-sm font-medium text-white backdrop-blur hover:bg-white/20 transition whitespace-nowrap"
+                    <a
+                      href="/#treks"
+                      onClick={(e) => {
+                        e.preventDefault();
+                        navigate({ to: "/" }).then(() => {
+                          setTimeout(() => {
+                            const el = document.getElementById("treks");
+                            if (el) el.scrollIntoView({ behavior: "smooth" });
+                          }, 100);
+                        });
+                      }}
+                      className="inline-flex items-center gap-2 rounded-full border border-white/30 bg-white/10 px-6 py-3 text-sm font-medium text-white backdrop-blur hover:bg-white/20 transition whitespace-nowrap cursor-pointer"
                     >
                       <ArrowLeft className="h-4 w-4" />
                       Explore Treks
-                    </Link>
+                    </a>
                   </div>
                 </div>
               </div>

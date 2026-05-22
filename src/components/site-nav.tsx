@@ -58,19 +58,27 @@ export function SiteNav() {
 
   const handleAnchorClick = useCallback(
     (e: React.MouseEvent<HTMLAnchorElement>, hash: string) => {
+      console.log("[DEBUG] handleAnchorClick called:", {
+        hash,
+        isHome,
+        pathname: location.pathname,
+      });
       if (isHome) {
         e.preventDefault();
         // Handle smooth scroll on home page
         const id = hash.slice(1);
+        console.log("[DEBUG] On home page, scrolling to id:", id);
         if (id === "top") {
           window.scrollTo({ top: 0, behavior: "smooth" });
         } else {
           const el = document.getElementById(id);
+          console.log("[DEBUG] Found element:", el);
           if (el) el.scrollIntoView({ behavior: "smooth" });
         }
         return;
       }
       e.preventDefault();
+      console.log("[DEBUG] Navigating to / then scrolling to:", hash);
       navigate({ to: "/" }).then(() => {
         const id = hash.slice(1);
         const attempt = (tries: number) => {
@@ -79,6 +87,7 @@ export function SiteNav() {
             return;
           }
           const el = document.getElementById(id);
+          console.log("[DEBUG] Post-nav attempt, found element:", el, "tries left:", tries);
           if (el) {
             el.scrollIntoView({ behavior: "smooth" });
           } else if (tries > 0) {
@@ -88,7 +97,7 @@ export function SiteNav() {
         setTimeout(() => attempt(8), 80);
       });
     },
-    [isHome, navigate],
+    [isHome, navigate, location.pathname],
   );
 
   useEffect(() => {
@@ -102,15 +111,7 @@ export function SiteNav() {
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((e) => {
-          if (e.isIntersecting) {
-            const newId = e.target.id;
-            setActive(newId);
-            // Update URL hash without triggering scroll
-            const newHash = newId === "top" ? "" : `#${newId}`;
-            if (window.location.hash !== newHash) {
-              window.history.replaceState(null, "", newHash || window.location.pathname);
-            }
-          }
+          if (e.isIntersecting) setActive(e.target.id);
         });
       },
       { rootMargin: "-40% 0px -50% 0px", threshold: 0 },
@@ -119,9 +120,6 @@ export function SiteNav() {
       const el = document.querySelector(href);
       if (el) observer.observe(el);
     });
-    // Also observe the top section
-    const topEl = document.querySelector("#top");
-    if (topEl) observer.observe(topEl);
     return () => observer.disconnect();
   }, [isHome]);
 
@@ -185,6 +183,7 @@ export function SiteNav() {
         {/* CTA */}
         <a
           href={isHome ? "#contact" : "/#contact"}
+          onClick={(e) => handleAnchorClick(e, "#contact")}
           className="group relative overflow-hidden rounded-xl bg-primary px-4 py-1.5 text-xs font-semibold text-primary-foreground shadow-[0_2px_12px_-2px_oklch(0.42_0.12_155/0.4)] transition-all duration-200 hover:shadow-[0_4px_20px_-2px_oklch(0.42_0.12_155/0.55)] hover:-translate-y-px active:translate-y-0"
         >
           <span className="relative z-10">Plan a Trek</span>
