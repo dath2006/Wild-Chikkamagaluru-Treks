@@ -26,6 +26,7 @@ import {
   Check,
   Info,
 } from "lucide-react";
+import { FaInstagram, FaWhatsapp } from "react-icons/fa6";
 
 import { SiteNav, LogoTitle } from "@/components/site-nav";
 import { MediaPlaceholder } from "@/components/media-placeholder";
@@ -640,25 +641,32 @@ function About() {
         <div className="mt-14 grid gap-10 md:grid-cols-2 md:gap-16 items-center">
           <RevealBlock className="space-y-5 text-foreground/80 leading-relaxed" delay={0.1}>
             <p>
-              Wild Chikkamagaluru Treks is a journey into the{" "}
-              <span className="highlight">heart of the Western Ghats</span>, where misty mountains,
-              lush green forests, and hidden waterfalls await those who seek{" "}
+              Chikkamagaluru Mountain Trek is not just another trekking experience—it's a journey
+              into the <span className="highlight">heart of the Western Ghats</span>, where the
+              misty mountains, lush green forests, and hidden waterfalls await those who seek{" "}
               <span className="highlight-accent">real adventure and inner peace</span>. Whether you
               are an experienced trekker or a nature-loving beginner, this is the perfect escape
               from the noise of city life.
             </p>
             <p>
-              Unlike commercial operators who focus only on profits, our mission is to{" "}
-              <span className="highlight">connect people with nature</span> — through{" "}
-              <span className="highlight-accent">soulful experiences</span> offered at a minimal
-              cost. We believe nature should be accessible to everyone, and that time in the wild
-              can heal, refresh, and inspire your life.
+              Unlike other commercial websites that focus only on profits, our primary mission is to{" "}
+              <span className="highlight">connect people with nature</span> and offer{" "}
+              <span className="highlight-accent">soulful trekking experiences</span> at a minimal
+              cost. We believe that nature should be accessible to everyone, and that spending time
+              in the wild can heal, refresh, and inspire your life.
             </p>
             <p>
-              Every trek is <span className="highlight">carefully planned and guided</span> — from
-              the mighty peaks of Kudremukh and Netravati to{" "}
+              Our treks are specially curated to explore the untouched beauty of Chikkamagaluru's
+              landscape—from the mighty peaks of{" "}
+              <span className="highlight">Kudremukha and Nethravathi</span> to the{" "}
               <span className="highlight-accent">serene forests and secret trails</span> known only
-              to locals.
+              to locals. Every trek is carefully planned and guided to ensure your safety,
+              enjoyment, and a deep connection with nature.
+            </p>
+            <p>
+              🌿 <span className="highlight">Explore. Trek. Discover. Feel Alive.</span>
+              Welcome to Chikkamagaluru Mountain Trek – where nature is not just a destination, it's
+              a way of life.
             </p>
           </RevealBlock>
 
@@ -735,7 +743,7 @@ function Founder() {
             gradient
           />
           <RevealBlock delay={0.1}>
-            <p className="mt-2 text-sm text-muted-foreground">Founder & Trek Lead</p>
+            <p className="mt-2 text-sm text-muted-foreground">Founder & Trek Lead Chikkamagaluru</p>
             <a
               href="https://www.instagram.com/sushanth_ckm"
               target="_blank"
@@ -746,11 +754,22 @@ function Founder() {
               @sushanth_ckm
             </a>
             <p className="mt-6 text-foreground/80 leading-relaxed">
-              A passionate trekker with <span className="highlight">years of experience</span> in
-              the Chikkamagaluru region, Sushanth personally leads most treks. His goal isn't only
-              to guide — it's to{" "}
-              <span className="highlight-accent">build a community of nature lovers</span> who
-              respect and preserve our forests and mountains.
+              The founder of this initiative, <span className="highlight">Sushanth Gowda</span>, is
+              a <span className="highlight-accent">passionate trekker and the lead guide</span> of
+              Chikkamagaluru Mountain Trek. With years of experience and a heart for adventure,
+              Sushanth personally ensures that every visitor experiences the true beauty and spirit
+              of the land.
+            </p>
+            <p className="mt-4 text-foreground/80 leading-relaxed">
+              His goal is not just to guide treks, but to{" "}
+              <span className="highlight">build a community of nature lovers</span> who respect and
+              preserve our forests and mountains. He believes that every trek should leave you
+              transformed—more connected to nature and more alive than when you started.
+            </p>
+            <p className="mt-4 text-foreground/80 leading-relaxed">
+              So, if you're looking to{" "}
+              <span className="highlight-accent">escape into the wilderness</span>, recharge your
+              soul, and explore Chikkamagaluru like never before, this is your call to adventure.
             </p>
             <p className="mt-4 text-foreground/80 leading-relaxed">
               Every visitor leaves with more than photographs — they leave with a{" "}
@@ -1065,120 +1084,34 @@ function Stay() {
   );
 }
 
-function CertifiedSticker() {
-  return (
-    <motion.div
-      initial={{ opacity: 0, scale: 0.6, rotate: -25 }}
-      whileInView={{ opacity: 1, scale: 1, rotate: -12 }}
-      viewport={{ once: true, margin: "-80px" }}
-      transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
-      className="absolute -top-6 -left-4 sm:-top-8 sm:-left-8 z-20 h-24 w-24 sm:h-32 sm:w-32 pointer-events-none"
-    >
-      {/* Static text design */}
-      <svg
-        viewBox="0 0 200 200"
-        className="absolute inset-0 h-full w-full drop-shadow-[0_6px_18px_oklch(0.35_0.08_155/0.45)]"
-      >
-        <defs>
-          {/* Top arc for CERTIFIED - proper semi-circle */}
-          <path id="top-arc" d="M 32,100 A 68,68 0 0,1 168,100" fill="none" />
-          {/* Bottom arc for LEAD GUIDE - proper semi-circle */}
-          <path id="bottom-arc" d="M 18,100 A 82,82 0 0,0 182,100" fill="none" />
-        </defs>
-
-        {/* Background circle */}
-        <circle cx="100" cy="100" r="92" fill="oklch(0.96 0.02 155)" />
-
-        {/* Decorative border */}
-        <circle
-          cx="100"
-          cy="100"
-          r="88"
-          fill="none"
-          stroke="oklch(0.42 0.08 155)"
-          strokeWidth="1.5"
-          strokeDasharray="2 4"
-        />
-
-        {/* CERTIFIED text at top - using circular path */}
-        <text
-          fill="oklch(0.35 0.08 155)"
-          fontSize="17"
-          fontWeight="800"
-          letterSpacing="2.6"
-          fontFamily="ui-sans-serif, system-ui"
-        >
-          <textPath href="#top-arc" startOffset="50%" textAnchor="middle">
-            CERTIFIED
-          </textPath>
-        </text>
-
-        {/* LEAD GUIDE text at bottom - using circular path */}
-        <text
-          fill="oklch(0.35 0.08 155)"
-          fontSize="17"
-          fontWeight="800"
-          letterSpacing="2.6"
-          fontFamily="ui-sans-serif, system-ui"
-        >
-          <textPath href="#bottom-arc" startOffset="50%" textAnchor="middle">
-            LEAD GUIDE
-          </textPath>
-        </text>
-      </svg>
-
-      {/* Large center tick mark */}
-      <div className="absolute inset-0 flex items-center justify-center">
-        {/* Extracted box-shadow to ::before pseudo-element for GPU layer rendering */}
-        <div className="relative h-14 w-14 sm:h-16 sm:w-16 rounded-full bg-linear-to-br from-white via-[oklch(0.98_0.015_155)] to-[oklch(0.88_0.035_155)] p-1.5 before:absolute before:inset-0 before:rounded-full before:shadow-[inset_0_1px_0_white,0_12px_28px_-14px_oklch(0.18_0.08_155/0.85)] before:content-['']">
-          <div className="absolute inset-1 rounded-full border border-[oklch(0.78_0.06_155/0.65)]" />
-          <div className="relative h-full w-full rounded-full bg-linear-to-br from-[oklch(0.68_0.15_155)] via-[oklch(0.50_0.12_158)] to-[oklch(0.32_0.08_168)] flex items-center justify-center shadow-[inset_0_1px_2px_oklch(1_0_0/0.35),inset_0_-6px_12px_oklch(0.18_0.06_165/0.28)]">
-            <div className="absolute inset-1.5 rounded-full bg-linear-to-br from-white/22 to-transparent" />
-            <Check className="relative h-9 w-9 sm:h-10 sm:w-10 text-white drop-shadow-[0_2px_2px_oklch(0.18_0.06_165/0.45)]" />
-          </div>
-        </div>
-      </div>
-    </motion.div>
-  );
-}
-
 function Contact() {
   return (
     <SectionReveal id="contact" className="relative py-16 md:py-28 px-4">
       <div className="mx-auto max-w-5xl">
         <div className="relative">
-          <CertifiedSticker />
           <RevealBlock className="relative overflow-hidden rounded-[2.5rem]">
             <div className="absolute inset-0 -z-10 bg-linear-to-br from-[oklch(0.42_0.08_155)] via-[oklch(0.44_0.08_130)] to-[oklch(0.48_0.12_48)]" />
             <div className="absolute inset-0 -z-10 opacity-30 bg-[radial-gradient(circle_at_20%_20%,white,transparent_40%),radial-gradient(circle_at_80%_80%,white,transparent_40%)]" />
 
             <div className="relative p-10 sm:p-14 text-center md:text-left md:pr-96">
-              <div className="absolute right-10 top-1/2 hidden -translate-y-1/2 md:block">
+              {/* Logo - rounded TiltedCard, above Sushanth Gowda on mobile, right side on desktop */}
+              <div className="flex justify-center md:absolute md:right-24 md:top-1/2 md:-translate-y-1/2 mb-6 md:mb-0">
                 <TiltedCard
-                  imageSrc="https://pub-18631e686c464661a4c7ffbf0ced64ef.r2.dev/sushanth/10001%20(1).jpg"
-                  altText="Mountain guide on a Chikkamagaluru trail"
-                  captionText="Guided by local trail experts"
-                  containerHeight="310px"
-                  containerWidth="250px"
-                  imageHeight="310px"
-                  imageWidth="250px"
-                  rotateAmplitude={9}
-                  scaleOnHover={1.04}
-                  showTooltip={false}
-                  displayOverlayContent
-                  overlayContent={
-                    <div className="flex h-full w-full flex-col justify-end rounded-[15px] bg-linear-to-t from-black/65 via-black/10 to-transparent p-5 text-left">
-                      <span className="text-[10px] uppercase tracking-[0.24em] text-white/75">
-                        Local expertise
-                      </span>
-                      <span className="mt-1 font-serif text-2xl leading-tight text-white">
-                        Trails made safer.
-                      </span>
-                    </div>
-                  }
+                  imageSrc="/icon.png"
+                  altText="Wild Chikkamagaluru Treks"
+                  captionText="Wild Chikkamagaluru Treks"
+                  containerHeight="220px"
+                  containerWidth="220px"
+                  imageHeight="220px"
+                  imageWidth="220px"
+                  rotateAmplitude={12}
+                  scaleOnHover={1.08}
+                  showTooltip={true}
+                  className="rounded-full"
                 />
               </div>
-              <div className="flex flex-wrap items-center justify-center md:justify-start gap-3 md:ml-5 lg:ml-10">
+
+              <div className="flex flex-wrap items-center justify-center md:justify-start gap-3 ">
                 {/* Lead guide pill with circular avatar + name */}
                 <div className="inline-flex items-center gap-3 rounded-full bg-white/15 backdrop-blur border border-white/25 pl-1.5 pr-5 py-1.5 shadow-lg">
                   <span className="relative inline-block h-10 w-10 rounded-full overflow-hidden ring-2 ring-white/60">
@@ -1189,15 +1122,15 @@ function Contact() {
                     />
                   </span>
                   <span className="flex flex-col leading-tight text-left">
-                    <span className="font-serif text-white text-sm">Sushanth Gowda</span>
+                    <span className="font-serif text-white text-sm">SHUSHANTH GOWDA</span>
                     <span className="text-[10px] uppercase tracking-[0.18em] text-white/70">
-                      Trek Lead
+                      Trek Lead Chikkamagaluru
                     </span>
                   </span>
                 </div>
               </div>
 
-              <span className="mt-8 inline-block text-xs uppercase tracking-[0.25em] text-white/70">
+              <span className="mt-6 inline-block text-xs uppercase tracking-[0.25em] text-white/70">
                 Your call to adventure
               </span>
               <RevealText
@@ -1217,7 +1150,7 @@ function Contact() {
                   rel="noreferrer"
                   className="inline-flex items-center gap-2 rounded-full bg-white px-6 py-3 text-sm font-medium text-primary shadow-lg hover:shadow-xl transition"
                 >
-                  <Phone className="h-4 w-4" /> 94488 17562
+                  <FaWhatsapp className="h-5 w-5" /> 94488 17562
                 </a>
                 <a
                   href="https://instagram.com/sushanth_ckm"
@@ -1225,7 +1158,7 @@ function Contact() {
                   rel="noreferrer"
                   className="inline-flex items-center gap-2 rounded-full border border-white/30 bg-white/10 px-6 py-3 text-sm font-medium text-white backdrop-blur hover:bg-white/20 transition"
                 >
-                  <Instagram className="h-4 w-4" /> @sushanth_ckm
+                  <FaInstagram className="h-5 w-5" /> @sushanth_ckm
                 </a>
               </div>
 
