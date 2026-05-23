@@ -1586,7 +1586,7 @@ function ShareButton() {
 🌿 Experience soulful treks through the forests of Chikkamagaluru — Netravathi, Kudremukha, Bandaje Falls and more. Guided by Sushanth Gowda. Affordable, authentic, unforgettable.
 
 📞 Contact: +91 94488 17562
-📸 Instagram: https://instagram.com/sushanth_ckm
+📷 Instagram: sushanth_ckm
 
 
 Book your adventure today! 👇`;
