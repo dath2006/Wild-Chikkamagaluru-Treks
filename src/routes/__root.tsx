@@ -257,14 +257,16 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       // Images
       {
         property: "og:image",
-        content: "https://media.wildchikkamagalurutreks.com/chikkamagaluru%20treks/poster.jpeg",
+        content:
+          "https://pub-82baea7992204ad89ae78742e41d0791.r2.dev/chikkamagaluru%20treks/poster.jpeg",
       },
       { property: "og:image:width", content: "1200" },
       { property: "og:image:height", content: "630" },
       { property: "og:image:alt", content: "Chikkamagaluru Western Ghats trekking landscape" },
       {
         name: "twitter:image",
-        content: "https://media.wildchikkamagalurutreks.com/chikkamagaluru%20treks/poster.jpeg",
+        content:
+          "https://pub-82baea7992204ad89ae78742e41d0791.r2.dev/chikkamagaluru%20treks/poster.jpeg",
       },
       { name: "twitter:image:alt", content: "Chikkamagaluru Western Ghats trekking landscape" },
       // Geo Tags for Local SEO
