@@ -1576,24 +1576,47 @@ function ShareButton() {
   const [copied, setCopied] = useState(false);
 
   const handleShare = async () => {
-    const title = "Wild Chikkamagaluru Treks";
-    const text =
-      "🌿 Experience soulful treks through the forests of Chikkamagaluru — Netravathi, Kudremukha, Bandaje Falls and more. Guided by Sushanth Gowda. Affordable, authentic, unforgettable.\n\nContact: +91 94488 17562 | @sushanth_ckm";
+    const title = "Wild Chikkamagaluru Treks | Guided Trekking in Chikkamagaluru";
     const url = window.location.origin;
+
+    // Structured, good-looking description with Instagram link
+    const text = `🏔️ Wild Chikkamagaluru Treks
+
+Explore the untouched beauty of the Western Ghats with expert local guide Sushanth Gowda.
+
+🥾 Popular Treks:
+• Mullayanagiri – Karnataka's highest peak (6,330 ft)
+• Kudremukh – Iconic horse-face mountain trek
+• Netravati Peak – Hidden gem in the ghats
+• Bandaje Falls – Waterfall through the forest
+• Kurinjal, Ettina Bhuja & more
+
+📞 Contact: +91 94488 17562
+📸 Instagram: https://instagram.com/sushanth_ckm
+✉️ Email: sushanthgowda44@gmail.com
+
+Book your adventure today! 👇
+${url}`;
+
+    // Detect iOS/iPhone - sharing with files on iOS often skips the text
+    const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
 
     if (navigator.share) {
       try {
-        // Attempt to attach the poster image
+        // On iOS, share without files to ensure text is included
+        // On other platforms, try to include the image
         let files: File[] | undefined;
-        try {
-          const res = await fetch("/poster.jpeg");
-          const blob = await res.blob();
-          const file = new File([blob], "wild-chikkamagaluru-treks.jpeg", { type: blob.type });
-          if (navigator.canShare?.({ files: [file] })) {
-            files = [file];
+        if (!isIOS) {
+          try {
+            const res = await fetch("/poster.jpeg");
+            const blob = await res.blob();
+            const file = new File([blob], "wild-chikkamagaluru-treks.jpeg", { type: blob.type });
+            if (navigator.canShare?.({ files: [file] })) {
+              files = [file];
+            }
+          } catch {
+            // poster unavailable — share without image
           }
-        } catch {
-          // poster unavailable — share without image
         }
         await navigator.share(files ? { title, text, url, files } : { title, text, url });
       } catch {
@@ -1601,7 +1624,7 @@ function ShareButton() {
       }
     } else {
       // Fallback: copy text + link to clipboard
-      await navigator.clipboard.writeText(`${text}\n\n${url}`);
+      await navigator.clipboard.writeText(`${text}`);
       setCopied(true);
       setTimeout(() => setCopied(false), 2000);
     }
