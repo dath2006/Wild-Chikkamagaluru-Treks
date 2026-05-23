@@ -278,6 +278,20 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
         type: "application/ld+json",
         children: JSON.stringify(structuredData),
       },
+      // Google Analytics 4
+      {
+        src: "https://www.googletagmanager.com/gtag/js?id=G-SF2XKD2BXY",
+        async: true,
+      },
+      {
+        type: "text/javascript",
+        children: `
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+          gtag('config', 'G-SF2XKD2BXY');
+        `,
+      },
     ],
     links: [
       { rel: "stylesheet", href: appCss },
