@@ -1591,37 +1591,30 @@ function ShareButton() {
 
 Book your adventure today! 👇`;
 
-    // Detect iOS/iPhone - iOS drops text/url when files are present in share payload
+    // Detect iOS/iPhone - iOS cannot share files + text together properly
     const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
 
     if (navigator.share) {
       try {
-        let files: File[] | undefined;
-        try {
-          const res = await fetch("/poster.jpeg");
-          const blob = await res.blob();
-
-          if (isIOS) {
-            // iOS: Embed text/URL into filename since iOS drops text/url fields when files present
-            // Format: "Description - URL - wild-chikkamagaluru-treks.jpeg"
-            const descriptiveFileName = `${text.replace(/\n/g, " ").substring(0, 80)}... - ${url} - wild-chikkamagaluru-treks.jpeg`;
-            const file = new File([blob], descriptiveFileName, { type: blob.type });
-            if (navigator.canShare?.({ files: [file] })) {
-              files = [file];
-            }
-            // On iOS, only share files (text is embedded in filename)
-            await navigator.share({ files });
-          } else {
-            // Android/Desktop: Share with all fields normally
+        if (isIOS) {
+          // iOS: Share text + URL only - URL has Open Graph meta tags
+          // which creates a rich preview card with image automatically
+          await navigator.share({ title, text, url });
+        } else {
+          // Android/Desktop: Share with image attached
+          let files: File[] | undefined;
+          try {
+            const res = await fetch("/poster.jpeg");
+            const blob = await res.blob();
             const file = new File([blob], "wild-chikkamagaluru-treks.jpeg", { type: blob.type });
             if (navigator.canShare?.({ files: [file] })) {
               files = [file];
             }
             await navigator.share({ title, text, url, files });
+          } catch {
+            // Fallback: share without image
+            await navigator.share({ title, text, url });
           }
-        } catch {
-          // Fallback: share without image
-          await navigator.share({ title, text, url });
         }
       } catch {
         // user cancelled — do nothing
