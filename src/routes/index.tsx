@@ -1580,23 +1580,16 @@ function ShareButton() {
     const url = window.location.origin;
 
     // Structured, good-looking description with Instagram link
+    // NOTE: URL is passed separately to navigator.share(), don't include it here
     const text = `🏔️ Wild Chikkamagaluru Treks
 
-Explore the untouched beauty of the Western Ghats with expert local guide Sushanth Gowda.
-
-🥾 Popular Treks:
-• Mullayanagiri – Karnataka's highest peak (6,330 ft)
-• Kudremukh – Iconic horse-face mountain trek
-• Netravati Peak – Hidden gem in the ghats
-• Bandaje Falls – Waterfall through the forest
-• Kurinjal, Ettina Bhuja & more
+🌿 Experience soulful treks through the forests of Chikkamagaluru — Netravathi, Kudremukha, Bandaje Falls and more. Guided by Sushanth Gowda. Affordable, authentic, unforgettable.
 
 📞 Contact: +91 94488 17562
 📸 Instagram: https://instagram.com/sushanth_ckm
 ✉️ Email: sushanthgowda44@gmail.com
 
-Book your adventure today! 👇
-${url}`;
+Book your adventure today! 👇`;
 
     // Detect iOS/iPhone - sharing with files on iOS often skips the text
     const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
