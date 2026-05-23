@@ -1,0 +1,12 @@
+User-agent: *
+Allow: /
+
+# Sitemap location
+Sitemap: https://wildchikkamagalurutreks.com/sitemap.xml
+
+# Crawl-delay for respectful crawling
+Crawl-delay: 1
+
+# Disallow patterns (if any private sections exist in future)
+# Disallow: /admin/
+# Disallow: /private/

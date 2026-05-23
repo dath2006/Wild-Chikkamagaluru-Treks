@@ -237,10 +237,9 @@ const steps = [
 const districtTable = [
   { trek: "Netravathi Peak", district: "Chikkamagaluru" },
   { trek: "Kudremukha", district: "Chikkamagaluru" },
-  { trek: "Bandaje Falls", district: "Dakshina Kannada" },
+  { trek: "Bandaje Falls", district: "Chikkamagaluru" },
   { trek: "Ballalarayana Durga", district: "Chikkamagaluru" },
   { trek: "Gangadikala Gudda", district: "Chikkamagaluru" },
-  { trek: "Bisle Ghat", district: "Hassan" },
 ];
 
 function DistrictTable() {

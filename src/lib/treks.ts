@@ -211,7 +211,7 @@ export const treks: Trek[] = [
     media: [
       { type: "image", label: "Viewpoint vista", seed: 160 },
       { type: "image", label: "Trail approach", seed: 161 },
-      { type: "image", label: "Wiki viewpoint", seed: 162 },
+      { type: "image", label: "Valley viewpoint", seed: 162 },
       { type: "video", label: "Valley breeze", seed: 163 },
       { type: "video", label: "Clouds rolling", seed: 164 },
     ],

@@ -83,32 +83,102 @@ type Tile = {
 };
 
 // Pool of media captions the tiles cycle through (includes photos + short video clips)
-const mediaPool: { label: string; variant: "image" | "video" }[] = [
-  // Images
-  { label: "Mullayanagiri sunrise", variant: "image" },
-  { label: "Kudremukh ridge", variant: "image" },
-  { label: "Hebbe falls", variant: "image" },
-  { label: "Jari falls", variant: "image" },
-  { label: "Netravati ridge", variant: "image" },
-  { label: "Kurinjal vista", variant: "image" },
-  { label: "Ettina Bhuja rock", variant: "image" },
-  { label: "Gangadikkal view", variant: "image" },
-  { label: "Bandaje cascade", variant: "image" },
-  { label: "Ballalrayan fort", variant: "image" },
-  { label: "Kyatanamakki sunset", variant: "image" },
-  { label: "Rani Jheri viewpoint", variant: "image" },
-  { label: "Charmudi mist", variant: "image" },
-  { label: "Forest deep", variant: "image" },
-  { label: "Karnataka wilds", variant: "image" },
-  { label: "Misty cascade", variant: "image" },
-  { label: "Road adventure", variant: "image" },
-  // Short video clips (mixed in intelligently)
-  { label: "Mullayanagiri clip", variant: "video" },
-  { label: "Kudremukh clip", variant: "video" },
-  { label: "Kurinjal clip", variant: "video" },
-  { label: "Bandaje clip", variant: "video" },
-  { label: "Hebbe clip", variant: "video" },
-  { label: "Hidden Falls clip", variant: "video" },
+// label = lookup key in HERO_TILE_IMAGES/HERO_TILE_VIDEOS
+// title = short display text shown on the tile
+const mediaPool: { label: string; title: string; variant: "image" | "video" }[] = [
+  // Images - label matches HERO_TILE_IMAGES keys, title is short display text
+  {
+    label: "Mullayanagiri sunrise view at 6330ft highest peak Karnataka",
+    title: "Mullayanagiri Sunrise",
+    variant: "image",
+  },
+  {
+    label: "Kudremukh peak trek Western Ghats monsoon trail Karnataka",
+    title: "Kudremukh Peak",
+    variant: "image",
+  },
+  {
+    label: "Hebbe waterfalls Chikkamagaluru Western Ghats scenic view",
+    title: "Hebbe Falls",
+    variant: "image",
+  },
+  {
+    label: "Jhari Falls Chikkamagaluru Karnataka waterfall trek view",
+    title: "Jhari Falls",
+    variant: "image",
+  },
+  {
+    label: "Netravati Peak ridge trek view Kudremukh National Park",
+    title: "Netravati Peak",
+    variant: "image",
+  },
+  {
+    label: "Kurinjal Peak scenic vista offbeat trek Chikkamagaluru",
+    title: "Kurinjal Peak",
+    variant: "image",
+  },
+  {
+    label: "Ettina Bhuja rock formation summit trek Western Ghats",
+    title: "Ettina Bhuja",
+    variant: "image",
+  },
+  {
+    label: "Gangadikkal Peak panoramic mountain views Chikkamagaluru",
+    title: "Gangadikkal Peak",
+    variant: "image",
+  },
+  {
+    label: "Bandaje Falls Arbi waterfall trek Chikkamagaluru Karnataka",
+    title: "Bandaje Falls",
+    variant: "image",
+  },
+  {
+    label: "Ballalarayana Durga fort ruins ancient trek Chikkamagaluru",
+    title: "Ballalarayana Durga",
+    variant: "image",
+  },
+  {
+    label: "Kyatanamakki Hills sunset grassland trek Western Ghats view",
+    title: "Kyatanamakki Hills",
+    variant: "image",
+  },
+  {
+    label: "Rani Jheri viewpoint valley vista Chikkamagaluru trek",
+    title: "Rani Jheri",
+    variant: "image",
+  },
+  {
+    label: "Charmudi Falls waterfall misty Chikkamagaluru Karnataka Western Ghats",
+    title: "Charmudi Falls",
+    variant: "image",
+  },
+  {
+    label: "Dense Western Ghats forest trail Chikkamagaluru trek",
+    title: "Forest Trail",
+    variant: "image",
+  },
+  {
+    label: "Karnataka Western Ghats forest wilderness trekking view",
+    title: "Karnataka Forest",
+    variant: "image",
+  },
+  {
+    label: "Misty waterfall cascade Chikkamagaluru monsoon trek",
+    title: "Misty Falls",
+    variant: "image",
+  },
+  {
+    label: "Scenic road trip to Chikkamagaluru Karnataka mountains",
+    title: "Road to Chikkamagaluru",
+    variant: "image",
+  },
+  // Short video clips (mixed in intelligently) - verified in R2
+  { label: "Mullayanagiri clip", title: "Mullayanagiri", variant: "video" },
+  { label: "Kurinjal clip", title: "Kurinjal", variant: "video" },
+  { label: "Bandaje clip", title: "Bandaje", variant: "video" },
+  { label: "Hidden Falls clip", title: "Hidden Falls", variant: "video" },
+  // Kudremukh video (only video available in kudremuka folder is back_waters/lakhya_dam.mp4)
+  { label: "Kudremukh back waters clip", title: "Kudremukh Back Waters", variant: "video" },
 ];
 
 const heroTiles: Tile[] = [
@@ -279,7 +349,7 @@ function TileContent({
   }, [seed, reduce, visible, idx]);
 
   useEffect(() => {
-    onLabelChange?.(mediaPool[idx].label);
+    onLabelChange?.(mediaPool[idx].title);
   }, [idx, onLabelChange]);
 
   const item = mediaPool[idx];
@@ -800,9 +870,9 @@ function About() {
         <div className="mt-14 grid gap-10 md:grid-cols-2 md:gap-16 items-center">
           <RevealBlock className="space-y-5 text-foreground/80 leading-relaxed" delay={0.1}>
             <p>
-              Chikkamagaluru Mountain Trek is not just another trekking experience—it's a journey
-              into the <span className="highlight">heart of the Western Ghats</span>, where the
-              misty mountains, lush green forests, and hidden waterfalls await those who seek{" "}
+              Wild Chikkamagaluru Treks is not just another trekking experience—it's a journey into
+              the <span className="highlight">heart of the Western Ghats</span>, where the misty
+              mountains, lush green forests, and hidden waterfalls await those who seek{" "}
               <span className="highlight-accent">real adventure and inner peace</span>. Whether you
               are an experienced trekker or a nature-loving beginner, this is the perfect escape
               from the noise of city life.
@@ -824,8 +894,8 @@ function About() {
             </p>
             <p>
               🌿 <span className="highlight">Explore. Trek. Discover. Feel Alive.</span>
-              Welcome to Chikkamagaluru Mountain Trek – where nature is not just a destination, it's
-              a way of life.
+              Welcome to Wild Chikkamagaluru Treks – where nature is not just a destination, it's a
+              way of life.
             </p>
           </RevealBlock>
 
@@ -915,7 +985,7 @@ function Founder() {
             <p className="mt-6 text-foreground/80 leading-relaxed">
               The founder of this initiative, <span className="highlight">Sushanth Gowda</span>, is
               a <span className="highlight-accent">passionate trekker and the lead guide</span> of
-              Chikkamagaluru Mountain Trek. With years of experience and a heart for adventure,
+              Wild Chikkamagaluru Treks. With years of experience and a heart for adventure,
               Sushanth personally ensures that every visitor experiences the true beauty and spirit
               of the land.
             </p>
