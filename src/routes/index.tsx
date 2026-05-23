@@ -972,7 +972,9 @@ function Founder() {
             gradient
           />
           <RevealBlock delay={0.1}>
-            <p className="mt-2 text-sm text-muted-foreground">Founder & Trek Lead Chikkamagaluru</p>
+            <p className="mt-2 text-sm text-muted-foreground">
+              Founder & Trek Lead, Wild Chikkamagaluru Treks
+            </p>
             <a
               href="https://www.instagram.com/sushanth_ckm"
               target="_blank"
@@ -983,26 +985,40 @@ function Founder() {
               @sushanth_ckm
             </a>
             <p className="mt-6 text-foreground/80 leading-relaxed">
-              The founder of this initiative, <span className="highlight">Sushanth Gowda</span>, is
-              a <span className="highlight-accent">passionate trekker and the lead guide</span> of
-              Wild Chikkamagaluru Treks. With years of experience and a heart for adventure,
-              Sushanth personally ensures that every visitor experiences the true beauty and spirit
-              of the land.
+              Born and raised in the misty highlands of Chikkamagaluru,{" "}
+              <span className="highlight">Sushanth Gowda</span> has always had an unshakeable love
+              for the mountains. A lead engineer by profession — working remotely from the very
+              hills he calls home — Sushanth has spent years exploring every hidden trail, secret
+              viewpoint, and untouched corner of this breathtaking region.
             </p>
             <p className="mt-4 text-foreground/80 leading-relaxed">
-              His goal is not just to guide treks, but to{" "}
-              <span className="highlight">build a community of nature lovers</span> who respect and
-              preserve our forests and mountains. He believes that every trek should leave you
-              transformed—more connected to nature and more alive than when you started.
+              What began as a personal passion gradually became a calling. He started taking small,
+              handpicked groups on occasional treks, and over time, he realized something powerful:
+              people weren't just leaving with photographs — they were leaving{" "}
+              <span className="highlight-accent">transformed</span>. That realization became the
+              foundation of <span className="highlight">Wild Chikkamagaluru Treks</span>.
             </p>
             <p className="mt-4 text-foreground/80 leading-relaxed">
-              So, if you're looking to{" "}
-              <span className="highlight-accent">escape into the wilderness</span>, recharge your
-              soul, and explore Chikkamagaluru like never before, this is your call to adventure.
+              Unlike commercial trekking ventures driven purely by profit, Wild Chikkamagaluru Treks
+              is built on a simple but powerful belief —{" "}
+              <span className="highlight">nature should be accessible to everyone</span>. Every
+              experience is offered at a minimal cost, because Sushanth believes that the healing
+              power of the wilderness shouldn't come with a heavy price tag.
             </p>
             <p className="mt-4 text-foreground/80 leading-relaxed">
-              Every visitor leaves with more than photographs — they leave with a{" "}
-              <span className="highlight">deeper connection to the land</span>.
+              His vision goes beyond guiding treks. He is building a{" "}
+              <span className="highlight-accent">community of mindful nature lovers</span> — people
+              who don't just visit the forest, but respect, protect, and preserve it for generations
+              to come.
+            </p>
+            <p className="mt-4 text-foreground/80 leading-relaxed">
+              When you trek with Sushanth, you're not just following a guide through the mountains.
+              You're being welcomed into his world — one where every sunrise, every forest trail,
+              and every summit tells a story worth remembering.
+            </p>
+            <p className="mt-4 text-foreground/80 leading-relaxed">
+              <span className="highlight">This is your call to adventure.</span> Come as a visitor.
+              Leave as someone forever connected to the land.
             </p>
             <div className="mt-6 flex items-center gap-2 text-sm text-primary">
               <Sparkles className="h-4 w-4" />
