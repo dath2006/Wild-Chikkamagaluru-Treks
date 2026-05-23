@@ -589,12 +589,6 @@ function MobileHero() {
             Explore Treks
             <ArrowRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-0.5" />
           </a>
-          <a
-            href="#gallery"
-            className="inline-flex items-center gap-1.5 rounded-full border border-primary/25 bg-white/50 backdrop-blur-sm px-5 py-2.5 text-xs font-medium text-primary transition-all active:scale-95"
-          >
-            Gallery
-          </a>
         </div>
 
         {/* Scroll cue */}

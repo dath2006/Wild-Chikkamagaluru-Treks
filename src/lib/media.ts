@@ -14,7 +14,7 @@
  *   7. ALL_GALLERY_MEDIA   — unified collection for intelligent gallery
  *
  * Subfolder handling:
- *   - kudremuka/back_waters → merged into Kudremukh Peak
+ *   - kudremuka/back_waters → merged into Kudremukha Peak
  *   - kurinjal/movements → merged into Kurinjal Peak
  * ────────────────────────────────────────────────────────────────────────────
  */
@@ -26,17 +26,17 @@ const BASE_URL = "https://media.wildchikkamagalurutreks.com";
 export const HERO_TILE_IMAGES: Record<string, string> = {
   // Trek highlights - SEO-friendly descriptive labels for alt text
   "Mullayanagiri sunrise view at 6330ft highest peak Karnataka": `${BASE_URL}/chikkamagaluru%20treks/mullaynagiri/hero.webp`,
-  "Kudremukh peak trek Western Ghats monsoon trail Karnataka": `${BASE_URL}/chikkamagaluru%20treks/kudremuka/hero.jpeg`,
+  "Kudremukha peak trek Western Ghats monsoon trail Karnataka": `${BASE_URL}/chikkamagaluru%20treks/kudremuka/hero.jpeg`,
   "Hebbe waterfalls Chikkamagaluru Western Ghats scenic view": `${BASE_URL}/chikkamagaluru%20treks/hebbe%20falls/hero.jpg`,
   "Jhari Falls Chikkamagaluru Karnataka waterfall trek view": `${BASE_URL}/chikkamagaluru%20treks/jhari%20falls/hero.jpg`,
-  "Netravati Peak ridge trek view Kudremukh National Park": `${BASE_URL}/chikkamagaluru%20treks/netravathi/hero.png`,
+  "Netravati Peak ridge trek view Kudremukha National Park": `${BASE_URL}/chikkamagaluru%20treks/netravathi/hero.png`,
   "Kurinjal Peak scenic vista offbeat trek Chikkamagaluru": `${BASE_URL}/chikkamagaluru%20treks/kurinjal/hero.jpeg`,
   "Ettina Bhuja rock formation summit trek Western Ghats": `${BASE_URL}/chikkamagaluru%20treks/ethin%20bhuja/hero_1.jpeg`,
   "Gangadikkal Peak panoramic mountain views Chikkamagaluru": `${BASE_URL}/chikkamagaluru%20treks/gangadikal/hero.jpeg`,
   "Bandaje Falls Arbi waterfall trek Chikkamagaluru Karnataka": `${BASE_URL}/chikkamagaluru%20treks/bandaje%20falls%20trek/hero.jpeg`,
   "Ballalarayana Durga fort ruins ancient trek Chikkamagaluru": `${BASE_URL}/chikkamagaluru%20treks/ballalrayan%20durga%20trek/hero.jpg`,
   "Kyatanamakki Hills sunset grassland trek Western Ghats view": `${BASE_URL}/chikkamagaluru%20treks/Kyatanamakki%20hills/hero.jpeg`,
-  "Rani Jheri viewpoint valley vista Chikkamagaluru trek": `${BASE_URL}/chikkamagaluru%20treks/rani%20jheri/hero_1.jpg`,
+  "Rani Jhari viewpoint valley vista Chikkamagaluru trek": `${BASE_URL}/chikkamagaluru%20treks/rani%20jheri/hero_1.jpg`,
   // Bits & pieces mixed in
   "Charmudi Falls waterfall misty Chikkamagaluru Karnataka Western Ghats": `${BASE_URL}/chikkamagaluru%20treks/bits_and_pieces/Charmudi%20Falls.jpeg`,
   "Dense Western Ghats forest trail Chikkamagaluru trek": `${BASE_URL}/chikkamagaluru%20treks/bits_and_pieces/FOREST.jpeg`,
@@ -56,14 +56,14 @@ export const HERO_TILE_VIDEOS: Record<string, string> = {
   "Bandaje clip": `${BASE_URL}/chikkamagaluru%20treks/bandaje%20falls%20trek/WhatsApp%20Video%202026-05-21%20at%208.23.05%20PM.mp4`,
   "Hidden Falls clip": `${BASE_URL}/chikkamagaluru%20treks/hidden%20water%20falls/WhatsApp%20Video%202026-05-21%20at%208.39.59%20PM.mp4`,
   // Kudremukh back waters video (lakhya_dam.mp4 is the only video in kudremuka folder)
-  "Kudremukh back waters clip": `${BASE_URL}/chikkamagaluru%20treks/kudremuka/back_waters/lakhya_dam.mp4`,
+  "Kudremukha back waters clip": `${BASE_URL}/chikkamagaluru%20treks/kudremuka/back_waters/lakhya_dam.mp4`,
 };
 
 // ─── 2. CIRCULAR GALLERY (WebGL carousel - uses hero files) ──────────────────
 // Key = trek name (must match treks.ts exactly)
 export const TREK_COVER_IMAGES: Record<string, string> = {
   Mullayanagiri: `${BASE_URL}/chikkamagaluru%20treks/mullaynagiri/hero.webp`,
-  "Kudremukh Peak": `${BASE_URL}/chikkamagaluru%20treks/kudremuka/hero.jpeg`,
+  "Kudremukha Peak": `${BASE_URL}/chikkamagaluru%20treks/kudremuka/hero.jpeg`,
   "Netravati Peak": `${BASE_URL}/chikkamagaluru%20treks/netravathi/hero.png`,
   "Kurinjal Peak": `${BASE_URL}/chikkamagaluru%20treks/kurinjal/hero.jpeg`,
   "Ettina Bhuja": `${BASE_URL}/chikkamagaluru%20treks/ethin%20bhuja/hero_1.jpeg`,
@@ -75,12 +75,12 @@ export const TREK_COVER_IMAGES: Record<string, string> = {
   "Jari Falls": `${BASE_URL}/chikkamagaluru%20treks/jhari%20falls/hero.jpg`,
   Bandekallu: "", // No media available
   // New treks
-  "Ballalrayan Durga": `${BASE_URL}/chikkamagaluru%20treks/ballalrayan%20durga%20trek/hero.jpg`,
+  "Ballalarayana Durga": `${BASE_URL}/chikkamagaluru%20treks/ballalrayan%20durga%20trek/hero.jpg`,
   "Hanumana Gudi Falls": "", // Video only trek
   "Hidden Water Falls": `${BASE_URL}/chikkamagaluru%20treks/hidden%20water%20falls/hero.jpeg`,
   "Kodige Falls": "", // Video only trek
   "Kyatanamakki Hills": `${BASE_URL}/chikkamagaluru%20treks/Kyatanamakki%20hills/hero.jpeg`,
-  "Rani Jheri": `${BASE_URL}/chikkamagaluru%20treks/rani%20jheri/hero_1.jpg`,
+  "Rani Jhari": `${BASE_URL}/chikkamagaluru%20treks/rani%20jheri/hero_1.jpg`,
 };
 
 // ─── 3. TREK MEDIA IMAGES (masonry gallery + lightbox) ────────────────────────
@@ -91,19 +91,19 @@ export const TREK_MEDIA_IMAGES: Record<string, string> = {
   "Mullayanagiri peak scaled view highest Karnataka trek": `${BASE_URL}/chikkamagaluru%20treks/mullaynagiri/Mullayanagiri-scaled.webp`,
   "Mullayanagiri evening sunset Western Ghats Chikkamagaluru": `${BASE_URL}/chikkamagaluru%20treks/mullaynagiri/WhatsApp%20Image%202026-05-21%20at%208.18.18%20PM.jpeg`,
 
-  // ─── Kudremukh Peak (includes back_waters subfolder) ───
-  "Kudremukh peak trek evening view Western Ghats Karnataka": `${BASE_URL}/chikkamagaluru%20treks/kudremuka/WhatsApp%20Image%202026-05-21%20at%2019.59.49.jpeg`,
-  "Kudremukh monsoon trek sunset view 6207ft peak Karnataka": `${BASE_URL}/chikkamagaluru%20treks/kudremuka/WhatsApp%20Image%202026-05-21%20at%2019.59.50.jpeg`,
+  // ─── Kudremukha Peak (includes back_waters subfolder) ───
+  "Kudremukha peak trek evening view Western Ghats Karnataka": `${BASE_URL}/chikkamagaluru%20treks/kudremuka/WhatsApp%20Image%202026-05-21%20at%2019.59.49.jpeg`,
+  "Kudremukha monsoon trek sunset view 6207ft peak Karnataka": `${BASE_URL}/chikkamagaluru%20treks/kudremuka/WhatsApp%20Image%202026-05-21%20at%2019.59.50.jpeg`,
   // Back waters subfolder - Lakya Dam area
-  "Kudremukh Lakya Dam back waters scenic view 1": `${BASE_URL}/chikkamagaluru%20treks/kudremuka/back_waters/WhatsApp%20Image%202026-05-21%20at%207.54.28%20PM%20(1).jpeg`,
-  "Kudremukh Lakya Dam back waters mountain reflection 2": `${BASE_URL}/chikkamagaluru%20treks/kudremuka/back_waters/WhatsApp%20Image%202026-05-21%20at%207.54.28%20PM.jpeg`,
-  "Kudremukh back waters panoramic lake view 3": `${BASE_URL}/chikkamagaluru%20treks/kudremuka/back_waters/WhatsApp%20Image%202026-05-21%20at%207.54.31%20PM.jpeg`,
-  "Kudremukh Lakya Dam reservoir scenic landscape 4": `${BASE_URL}/chikkamagaluru%20treks/kudremuka/back_waters/WhatsApp%20Image%202026-05-21%20at%207.54.32%20PM.jpeg`,
-  "Kudremukh back waters peaceful evening view 5": `${BASE_URL}/chikkamagaluru%20treks/kudremuka/back_waters/WhatsApp%20Image%202026-05-21%20at%207.54.34%20PM.jpeg`,
+  "Kudremukha Lakya Dam back waters scenic view 1": `${BASE_URL}/chikkamagaluru%20treks/kudremuka/back_waters/WhatsApp%20Image%202026-05-21%20at%207.54.28%20PM%20(1).jpeg`,
+  "Kudremukha Lakya Dam back waters mountain reflection 2": `${BASE_URL}/chikkamagaluru%20treks/kudremuka/back_waters/WhatsApp%20Image%202026-05-21%20at%207.54.28%20PM.jpeg`,
+  "Kudremukha back waters panoramic lake view 3": `${BASE_URL}/chikkamagaluru%20treks/kudremuka/back_waters/WhatsApp%20Image%202026-05-21%20at%207.54.31%20PM.jpeg`,
+  "Kudremukha Lakya Dam reservoir scenic landscape 4": `${BASE_URL}/chikkamagaluru%20treks/kudremuka/back_waters/WhatsApp%20Image%202026-05-21%20at%207.54.32%20PM.jpeg`,
+  "Kudremukha back waters peaceful evening view 5": `${BASE_URL}/chikkamagaluru%20treks/kudremuka/back_waters/WhatsApp%20Image%202026-05-21%20at%207.54.34%20PM.jpeg`,
 
   // ─── Netravati Peak ───
   "Netravati Peak dawn sunrise view Western Ghats trek": `${BASE_URL}/chikkamagaluru%20treks/netravathi/WhatsApp%20Image%202026-05-21%20at%2019.57.33.jpeg`,
-  "Netravati Peak evening golden hour Kudremukh National Park": `${BASE_URL}/chikkamagaluru%20treks/netravathi/WhatsApp%20Image%202026-05-21%20at%208.37.50%20PM.jpeg`,
+  "Netravati Peak evening golden hour Kudremukha National Park": `${BASE_URL}/chikkamagaluru%20treks/netravathi/WhatsApp%20Image%202026-05-21%20at%208.37.50%20PM.jpeg`,
 
   // ─── Kurinjal Peak (includes movements subfolder) ───
   "Kurinjal Peak offbeat trek scenic mountain view 1 Chikkamagaluru": `${BASE_URL}/chikkamagaluru%20treks/kurinjal/WhatsApp%20Image%202026-05-21%20at%2020.01.53%20(1).jpeg`,
@@ -144,7 +144,7 @@ export const TREK_MEDIA_IMAGES: Record<string, string> = {
   // ─── Bandekallu ───
   // No media available
 
-  // ─── Ballalrayan Durga ───
+  // ─── Ballalarayana Durga ───
   "Ballalarayana Durga fort ruins ancient structure view 1": `${BASE_URL}/chikkamagaluru%20treks/ballalrayan%20durga%20trek/WhatsApp%20Image%202026-05-21%20at%208.02.30%20PM.jpeg`,
   "Ballalarayana Durga historic fort trek Kalasa Chikkamagaluru 2": `${BASE_URL}/chikkamagaluru%20treks/ballalrayan%20durga%20trek/WhatsApp%20Image%202026-05-21%20at%208.02.31%20PM%20(1).jpeg`,
   "Ballalarayana Durga fort trekking destination Karnataka 3": `${BASE_URL}/chikkamagaluru%20treks/ballalrayan%20durga%20trek/WhatsApp%20Image%202026-05-21%20at%208.02.31%20PM.jpeg`,
