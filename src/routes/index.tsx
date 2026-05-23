@@ -93,8 +93,8 @@ const mediaPool: { label: string; title: string; variant: "image" | "video" }[] 
     variant: "image",
   },
   {
-    label: "Kudremukh peak trek Western Ghats monsoon trail Karnataka",
-    title: "Kudremukh Peak",
+    label: "Kudremukha peak trek Western Ghats monsoon trail Karnataka",
+    title: "Kudremukha Peak",
     variant: "image",
   },
   {
@@ -108,7 +108,7 @@ const mediaPool: { label: string; title: string; variant: "image" | "video" }[] 
     variant: "image",
   },
   {
-    label: "Netravati Peak ridge trek view Kudremukh National Park",
+    label: "Netravati Peak ridge trek view Kudremukha National Park",
     title: "Netravati Peak",
     variant: "image",
   },
@@ -143,8 +143,8 @@ const mediaPool: { label: string; title: string; variant: "image" | "video" }[] 
     variant: "image",
   },
   {
-    label: "Rani Jheri viewpoint valley vista Chikkamagaluru trek",
-    title: "Rani Jheri",
+    label: "Rani Jhari viewpoint valley vista Chikkamagaluru trek",
+    title: "Rani Jhari",
     variant: "image",
   },
   {
@@ -177,8 +177,8 @@ const mediaPool: { label: string; title: string; variant: "image" | "video" }[] 
   { label: "Kurinjal clip", title: "Kurinjal", variant: "video" },
   { label: "Bandaje clip", title: "Bandaje", variant: "video" },
   { label: "Hidden Falls clip", title: "Hidden Falls", variant: "video" },
-  // Kudremukh video (only video available in kudremuka folder is back_waters/lakhya_dam.mp4)
-  { label: "Kudremukh back waters clip", title: "Kudremukh Back Waters", variant: "video" },
+  // Kudremukha video (only video available in kudremuka folder is back_waters/lakhya_dam.mp4)
+  { label: "Kudremukha back waters clip", title: "Kudremukha Back Waters", variant: "video" },
 ];
 
 const heroTiles: Tile[] = [
@@ -197,7 +197,7 @@ const heroTiles: Tile[] = [
     z: 1,
   },
   {
-    label: "Kudremukh ridge",
+    label: "Kudremukha ridge",
     variant: "image",
     top: "12%",
     left: "72%",
@@ -692,7 +692,7 @@ function WordMarquee() {
   const reduce = useReducedMotion();
   const words = [
     "Mullayanagiri",
-    "Kudremukh",
+    "Kudremukha",
     "Netravati",
     "Kurinjal",
     "Ettina Bhuja",
@@ -700,9 +700,9 @@ function WordMarquee() {
     "Bandaje Falls",
     "Hebbe Falls",
     "Jari Falls",
-    "Ballalrayan Durga",
+    "Ballalarayana Durga",
     "Kyatanamakki",
-    "Rani Jheri",
+    "Rani Jhari",
   ];
   // Duplicate once for seamless infinite scroll (2x total)
   const loop = [...words, ...words];

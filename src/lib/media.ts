@@ -55,7 +55,7 @@ export const HERO_TILE_VIDEOS: Record<string, string> = {
   "Kurinjal clip": `${BASE_URL}/chikkamagaluru%20treks/kurinjal/movements/WhatsApp%20Video%202026-05-21%20at%208.07.20%20PM.mp4`,
   "Bandaje clip": `${BASE_URL}/chikkamagaluru%20treks/bandaje%20falls%20trek/WhatsApp%20Video%202026-05-21%20at%208.23.05%20PM.mp4`,
   "Hidden Falls clip": `${BASE_URL}/chikkamagaluru%20treks/hidden%20water%20falls/WhatsApp%20Video%202026-05-21%20at%208.39.59%20PM.mp4`,
-  // Kudremukh back waters video (lakhya_dam.mp4 is the only video in kudremuka folder)
+  // Kudremukha back waters video (lakhya_dam.mp4 is the only video in kudremuka folder)
   "Kudremukha back waters clip": `${BASE_URL}/chikkamagaluru%20treks/kudremuka/back_waters/lakhya_dam.mp4`,
 };
 
@@ -162,11 +162,11 @@ export const TREK_MEDIA_IMAGES: Record<string, string> = {
   "Kyatanamakki Hills grassland vista rolling hills landscape": `${BASE_URL}/chikkamagaluru%20treks/Kyatanamakki%20hills/hero.jpeg`,
   "Kyatanamakki Hills sunset horizon panoramic trek view": `${BASE_URL}/chikkamagaluru%20treks/Kyatanamakki%20hills/WhatsApp%20Image%202026-05-21%20at%208.28.35%20PM.jpeg`,
 
-  // ─── Rani Jheri ───
-  "Rani Jheri hero viewpoint scenic landscape Chikkamagaluru": `${BASE_URL}/chikkamagaluru%20treks/rani%20jheri/hero.webp`,
-  "Rani Jheri hero 1 valley vista trek destination Karnataka": `${BASE_URL}/chikkamagaluru%20treks/rani%20jheri/hero_1.jpg`,
-  "Rani Jheri viewpoint beautiful valley vista Western Ghats": `${BASE_URL}/chikkamagaluru%20treks/rani%20jheri/hero_1.jpg`,
-  "Rani Jheri viewpoint famous trek destination Kalasa Chikkamagaluru": `${BASE_URL}/chikkamagaluru%20treks/rani%20jheri/rani-jhari-view-point-wiki.jpg`,
+  // ─── Rani Jhari ───
+  "Rani Jhari hero viewpoint scenic landscape Chikkamagaluru": `${BASE_URL}/chikkamagaluru%20treks/rani%20jheri/hero.webp`,
+  "Rani Jhari hero 1 valley vista trek destination Karnataka": `${BASE_URL}/chikkamagaluru%20treks/rani%20jheri/hero_1.jpg`,
+  "Rani Jhari viewpoint beautiful valley vista Western Ghats": `${BASE_URL}/chikkamagaluru%20treks/rani%20jheri/hero_1.jpg`,
+  "Rani Jhari viewpoint famous trek destination Kalasa Chikkamagaluru": `${BASE_URL}/chikkamagaluru%20treks/rani%20jheri/rani-jhari-view-point-wiki.jpg`,
 
   // ─── BITS_AND_PIECES (Mixed into general gallery) ───
   "Charmudi Falls misty waterfall Chikkamagaluru Karnataka Western Ghats": `${BASE_URL}/chikkamagaluru%20treks/bits_and_pieces/Charmudi%20Falls.jpeg`,
@@ -204,14 +204,14 @@ export const TREK_MEDIA_VIDEOS: Record<string, string> = {
   // ─── Bandaje Falls ───
   "Bandaje video": `${BASE_URL}/chikkamagaluru%20treks/bandaje%20falls%20trek/WhatsApp%20Video%202026-05-21%20at%208.23.05%20PM.mp4`,
 
-  // ─── Kudremukh Back Waters ───
+  // ─── Kudremukha Back Waters ───
   "Back waters video": `${BASE_URL}/chikkamagaluru%20treks/kudremuka/back_waters/lakhya_dam.mp4`,
 
   // ─── Kyatanamakki Hills ───
   "Rolling hills video": `${BASE_URL}/chikkamagaluru%20treks/Kyatanamakki%20hills/WhatsApp%20Video%202026-05-21%20at%208.28.47%20PM.mp4`,
   "Panoramic sweep": `${BASE_URL}/chikkamagaluru%20treks/Kyatanamakki%20hills/kyatanamakki_hills.mp4`,
 
-  // ─── Rani Jheri ───
+  // ─── Rani Jhari ───
   "Valley breeze": `${BASE_URL}/chikkamagaluru%20treks/rani%20jheri/WhatsApp%20Video%202026-05-21%20at%209.06.51%20PM.mp4`,
   "Clouds rolling": `${BASE_URL}/chikkamagaluru%20treks/rani%20jheri/WhatsApp%20Video%202026-05-21%20at%209.06.56%20PM.mp4`,
 
@@ -239,7 +239,7 @@ export const TREK_JOURNEY_VIDEOS = [
 // ─── 6. MOBILE CAROUSEL IMAGES ───────────────────────────────────────────────
 export const MOBILE_CAROUSEL_IMAGES: Record<string, string> = {
   Mullayanagiri: `${BASE_URL}/chikkamagaluru%20treks/mullaynagiri/hero.webp`,
-  "Kudremukh Peak": `${BASE_URL}/chikkamagaluru%20treks/kudremuka/hero.jpeg`,
+  "Kudremukha Peak": `${BASE_URL}/chikkamagaluru%20treks/kudremuka/hero.jpeg`,
   "Netravati Peak": `${BASE_URL}/chikkamagaluru%20treks/netravathi/hero.png`,
   "Kurinjal Peak": `${BASE_URL}/chikkamagaluru%20treks/kurinjal/hero.jpeg`,
   "Ettina Bhuja": `${BASE_URL}/chikkamagaluru%20treks/ethin%20bhuja/hero_1.jpeg`,
@@ -251,12 +251,12 @@ export const MOBILE_CAROUSEL_IMAGES: Record<string, string> = {
   "Jari Falls": `${BASE_URL}/chikkamagaluru%20treks/jhari%20falls/hero.jpg`,
   Bandekallu: "",
   // New treks
-  "Ballalrayan Durga": `${BASE_URL}/chikkamagaluru%20treks/ballalrayan%20durga%20trek/hero.jpg`,
+  "Ballalarayana Durga": `${BASE_URL}/chikkamagaluru%20treks/ballalrayan%20durga%20trek/hero.jpg`,
   "Hanumana Gudi Falls": "",
   "Hidden Water Falls": `${BASE_URL}/chikkamagaluru%20treks/hidden%20water%20falls/hero.jpeg`,
   "Kodige Falls": "",
   "Kyatanamakki Hills": `${BASE_URL}/chikkamagaluru%20treks/Kyatanamakki%20hills/hero.jpeg`,
-  "Rani Jheri": `${BASE_URL}/chikkamagaluru%20treks/rani%20jheri/hero_1.jpg`,
+  "Rani Jhari": `${BASE_URL}/chikkamagaluru%20treks/rani%20jheri/hero_1.jpg`,
 };
 
 // ─── 7. BITS_AND_PIECES (General gallery items) ─────────────────────────────
@@ -343,22 +343,22 @@ export const getTrekMedia = (trekName: string): { images: string[]; videos: stri
       ].filter(Boolean),
       videos: [TREK_MEDIA_VIDEOS["Mullayanagiri video"]].filter(Boolean),
     },
-    "Kudremukh Peak": {
+    "Kudremukha Peak": {
       images: [
-        TREK_MEDIA_IMAGES["Kudremukh peak trek evening view Western Ghats Karnataka"],
-        TREK_MEDIA_IMAGES["Kudremukh monsoon trek sunset view 6207ft peak Karnataka"],
-        TREK_MEDIA_IMAGES["Kudremukh Lakya Dam back waters scenic view 1"],
-        TREK_MEDIA_IMAGES["Kudremukh Lakya Dam back waters mountain reflection 2"],
-        TREK_MEDIA_IMAGES["Kudremukh back waters panoramic lake view 3"],
-        TREK_MEDIA_IMAGES["Kudremukh Lakya Dam reservoir scenic landscape 4"],
-        TREK_MEDIA_IMAGES["Kudremukh back waters peaceful evening view 5"],
+        TREK_MEDIA_IMAGES["Kudremukha peak trek evening view Western Ghats Karnataka"],
+        TREK_MEDIA_IMAGES["Kudremukha monsoon trek sunset view 6207ft peak Karnataka"],
+        TREK_MEDIA_IMAGES["Kudremukha Lakya Dam back waters scenic view 1"],
+        TREK_MEDIA_IMAGES["Kudremukha Lakya Dam back waters mountain reflection 2"],
+        TREK_MEDIA_IMAGES["Kudremukha back waters panoramic lake view 3"],
+        TREK_MEDIA_IMAGES["Kudremukha Lakya Dam reservoir scenic landscape 4"],
+        TREK_MEDIA_IMAGES["Kudremukha back waters peaceful evening view 5"],
       ].filter(Boolean),
       videos: [TREK_MEDIA_VIDEOS["Back waters video"]].filter(Boolean),
     },
     "Netravati Peak": {
       images: [
         TREK_MEDIA_IMAGES["Netravati Peak dawn sunrise view Western Ghats trek"],
-        TREK_MEDIA_IMAGES["Netravati Peak evening golden hour Kudremukh National Park"],
+        TREK_MEDIA_IMAGES["Netravati Peak evening golden hour Kudremukha National Park"],
       ].filter(Boolean),
       videos: [TREK_MEDIA_VIDEOS["Netravati video"]].filter(Boolean),
     },
@@ -416,7 +416,7 @@ export const getTrekMedia = (trekName: string): { images: string[]; videos: stri
       videos: [],
     },
     Bandekallu: { images: [], videos: [] },
-    "Ballalrayan Durga": {
+    "Ballalarayana Durga": {
       images: [
         TREK_MEDIA_IMAGES["Ballalarayana Durga fort ruins ancient structure view 1"],
         TREK_MEDIA_IMAGES["Ballalarayana Durga historic fort trek Kalasa Chikkamagaluru 2"],
@@ -450,7 +450,7 @@ export const getTrekMedia = (trekName: string): { images: string[]; videos: stri
     "Kyatanamakki Hills": {
       images: [
         TREK_MEDIA_IMAGES["Kyatanamakki Hills evening trek sunset view grassland"],
-        TREK_MEDIA_IMAGES["Kyatanamakki Hills hero grassland sunset Western Ghats"],
+        TREK_MEDIA_IMAGES["Kyatanamakki Hills grassland sunset Western Ghats"],
         TREK_MEDIA_IMAGES["Kyatanamakki Hills grassland vista rolling hills landscape"],
         TREK_MEDIA_IMAGES["Kyatanamakki Hills sunset horizon panoramic trek view"],
       ].filter(Boolean),
@@ -459,12 +459,12 @@ export const getTrekMedia = (trekName: string): { images: string[]; videos: stri
         TREK_MEDIA_VIDEOS["Panoramic sweep"],
       ].filter(Boolean),
     },
-    "Rani Jheri": {
+    "Rani Jhari": {
       images: [
-        TREK_MEDIA_IMAGES["Rani Jheri hero viewpoint scenic landscape Chikkamagaluru"],
-        TREK_MEDIA_IMAGES["Rani Jheri hero 1 valley vista trek destination Karnataka"],
-        TREK_MEDIA_IMAGES["Rani Jheri viewpoint beautiful valley vista Western Ghats"],
-        TREK_MEDIA_IMAGES["Rani Jheri viewpoint famous trek destination Kalasa Chikkamagaluru"],
+        TREK_MEDIA_IMAGES["Rani Jhari viewpoint scenic landscape Chikkamagaluru"],
+        TREK_MEDIA_IMAGES["Rani Jhari valley vista trek destination Karnataka"],
+        TREK_MEDIA_IMAGES["Rani Jhari viewpoint beautiful valley vista Western Ghats"],
+        TREK_MEDIA_IMAGES["Rani Jhari viewpoint famous trek destination Kalasa Chikkamagaluru"],
       ].filter(Boolean),
       videos: [TREK_MEDIA_VIDEOS["Valley breeze"], TREK_MEDIA_VIDEOS["Clouds rolling"]].filter(
         Boolean,

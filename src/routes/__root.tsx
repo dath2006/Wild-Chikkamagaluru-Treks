@@ -81,7 +81,7 @@ const structuredData = {
       "@id": "https://wildchikkamagalurutreks.com/#business",
       name: "Wild Chikkamagaluru Treks",
       description:
-        "Guided trekking tours across Chikkamagaluru's Western Ghats — Mullayanagiri, Kudremukh, Netravati and more.",
+        "Guided trekking tours across Chikkamagaluru's Western Ghats — Mullayanagiri, Kudremukha, Netravati and more.",
       url: "https://wildchikkamagalurutreks.com",
       telephone: "+919448817562",
       email: "sushanthgowda44@gmail.com",
@@ -119,7 +119,7 @@ const structuredData = {
       "@type": "TouristDestination",
       name: "Chikkamagaluru Western Ghats Treks",
       description:
-        "Trekking in Chikkamagaluru, Karnataka — home to Karnataka's highest peaks including Mullayanagiri (6330 ft) and Kudremukh (6207 ft).",
+        "Trekking in Chikkamagaluru, Karnataka — home to Karnataka's highest peaks including Mullayanagiri (6330 ft) and Kudremukha (6207 ft).",
       touristType: ["Hikers", "NatureLovers", "AdventureEnthusiasts"],
       geo: {
         "@type": "GeoCoordinates",
@@ -143,7 +143,7 @@ const structuredData = {
           name: "Which treks are available in Chikkamagaluru?",
           acceptedAnswer: {
             "@type": "Answer",
-            text: "Wild Chikkamagaluru Treks offers guided treks to Mullayanagiri, Kudremukh Peak, Netravati Peak, Kurinjal Peak, Ettina Bhuja, Gangadikkal Peak, Narasimha Parvatha, Bandaje Falls, and more.",
+            text: "Wild Chikkamagaluru Treks offers guided treks to Mullayanagiri, Kudremukha Peak, Netravati Peak, Kurinjal Peak, Ettina Bhuja, Gangadikkal Peak, Narasimha Parvatha, Bandaje Falls, and more.",
           },
         },
         {
@@ -156,10 +156,10 @@ const structuredData = {
         },
         {
           "@type": "Question",
-          name: "Is Kudremukh open for trekking?",
+          name: "Is Kudremukha open for trekking?",
           acceptedAnswer: {
             "@type": "Answer",
-            text: "Yes, Kudremukh is open for guided trekking. It's the second-highest peak in Karnataka at 6,207 ft, best experienced during the monsoon season. Permits are required and our guides handle all arrangements.",
+            text: "Yes, Kudremukha is open for guided trekking. It's the second-highest peak in Karnataka at 6,207 ft, best experienced during the monsoon season. Permits are required and our guides handle all arrangements.",
           },
         },
       ],
@@ -178,7 +178,7 @@ const structuredData = {
         {
           "@type": "ListItem",
           position: 2,
-          name: "Kudremukh Peak Trek",
+          name: "Kudremukha Peak Trek",
           url: "https://wildchikkamagalurutreks.com/#treks",
         },
         {
@@ -217,17 +217,17 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { name: "viewport", content: "width=device-width, initial-scale=1" },
       // Primary SEO Tags
       {
-        title: "Trekking in Chikkamagaluru | Mullayanagiri, Kudremukh — Wild Chikkamagaluru Treks",
+        title: "Trekking in Chikkamagaluru | Mullayanagiri, Kudremukha — Wild Chikkamagaluru Treks",
       },
       {
         name: "description",
         content:
-          "Guided treks in Chikkamagaluru, Karnataka. Mullayanagiri (6330ft), Kudremukh, Netravati Peak, Bandaje Falls & more. Book with local expert Sushanth Gowda. ☎ +91 94488 17562",
+          "Guided treks in Chikkamagaluru, Karnataka. Mullayanagiri (6330ft), Kudremukha, Netravati Peak, Bandaje Falls & more. Book with local expert Sushanth Gowda. ☎ +91 94488 17562",
       },
       {
         name: "keywords",
         content:
-          "trekking in Chikkamagaluru, Mullayanagiri trek, Kudremukh peak trek, Western Ghats trekking Karnataka, best treks near Chikkamagaluru, guided trek Karnataka, Netravati peak, Ettina Bhuja trek, Kurinjal Peak, Bandaje Falls",
+          "trekking in Chikkamagaluru, Mullayanagiri trek, Kudremukha peak trek, Western Ghats trekking Karnataka, best treks near Chikkamagaluru, guided trek Karnataka, Netravati peak, Ettina Bhuja trek, Kurinjal Peak, Bandaje Falls",
       },
       { name: "author", content: "Wild Chikkamagaluru Treks" },
       { name: "robots", content: "index, follow" },
@@ -251,7 +251,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       {
         name: "twitter:description",
         content:
-          "Guided treks in Chikkamagaluru, Karnataka. Mullayanagiri, Kudremukh, Netravati Peak & more. Book with local expert Sushanth Gowda.",
+          "Guided treks in Chikkamagaluru, Karnataka. Mullayanagiri, Kudremukha, Netravati Peak & more. Book with local expert Sushanth Gowda.",
       },
       { name: "twitter:creator", content: "@sushanth_ckm" },
       // Images

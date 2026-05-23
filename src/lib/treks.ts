@@ -30,7 +30,7 @@ export const treks: Trek[] = [
     ],
   },
   {
-    name: "Kudremukh Peak",
+    name: "Kudremukha Peak",
     altitude: "6,207 ft",
     start: "Mullodi",
     blurb:
@@ -48,7 +48,7 @@ export const treks: Trek[] = [
     name: "Netravati Peak",
     altitude: "4,900 ft",
     start: "Samse",
-    blurb: "Lush landscapes and quiet forest trails inside Kudremukh National Park.",
+    blurb: "Lush landscapes and quiet forest trails inside Kudremukha National Park.",
     coverSeed: 30,
     media: [
       { type: "image", label: "Forest path", seed: 30 },
@@ -84,7 +84,7 @@ export const treks: Trek[] = [
   {
     name: "Gangadikkal Peak",
     altitude: "4,797 ft",
-    start: "Kudremukh Town",
+    start: "Kudremukha Town",
     blurb: "Challenging terrain rewarded with wide, soul-stirring views.",
     coverSeed: 60,
     media: [
@@ -144,7 +144,7 @@ export const treks: Trek[] = [
     ],
   },
   {
-    name: "Ballalrayan Durga",
+    name: "Ballalarayana Durga",
     altitude: "5,200 ft",
     start: "Kalasa",
     blurb: "Ancient fort ruins with panoramic valley views and historic temple ruins.",
@@ -202,7 +202,7 @@ export const treks: Trek[] = [
     ],
   },
   {
-    name: "Rani Jheri",
+    name: "Rani Jhari",
     altitude: "3,800 ft",
     start: "Kalasa",
     blurb: "A lesser-known viewpoint offering spectacular valley vistas and gentle trails.",
