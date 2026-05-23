@@ -75,7 +75,7 @@ export const TREK_COVER_IMAGES: Record<string, string> = {
   "Jari Falls": `${BASE_URL}/chikkamagaluru%20treks/jhari%20falls/hero.jpg`,
   Bandekallu: "", // No media available
   // New treks
-  "Ballalarayana Durga": `${BASE_URL}/chikkamagaluru%20treks/ballalrayan%20durga%20trek/hero.jpg`,
+  "Ballalarayana Durga": `${BASE_URL}/chikkamagaluru%20treks/ballalrayan%20durga%20trek/WhatsApp%20Image%202026-05-21%20at%208.02.30%20PM.jpeg`,
   "Hanumana Gudi Falls": "", // Video only trek
   "Hidden Water Falls": `${BASE_URL}/chikkamagaluru%20treks/hidden%20water%20falls/hero.jpeg`,
   "Kodige Falls": "", // Video only trek
@@ -251,7 +251,7 @@ export const MOBILE_CAROUSEL_IMAGES: Record<string, string> = {
   "Jari Falls": `${BASE_URL}/chikkamagaluru%20treks/jhari%20falls/hero.jpg`,
   Bandekallu: "",
   // New treks
-  "Ballalarayana Durga": `${BASE_URL}/chikkamagaluru%20treks/ballalrayan%20durga%20trek/hero.jpg`,
+  "Ballalarayana Durga": `${BASE_URL}/chikkamagaluru%20treks/ballalrayan%20durga%20trek/WhatsApp%20Image%202026-05-21%20at%208.02.30%20PM.jpeg`,
   "Hanumana Gudi Falls": "",
   "Hidden Water Falls": `${BASE_URL}/chikkamagaluru%20treks/hidden%20water%20falls/hero.jpeg`,
   "Kodige Falls": "",
