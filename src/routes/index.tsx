@@ -431,7 +431,7 @@ function FloatingTile({
   const cssVars = {
     "--tile-y": tile.yRange,
     "--tile-x": tile.xRange,
-    "tile-rotate": `${tile.rotate}deg`,
+    "--tile-rotate": `${tile.rotate}deg`,
     "--tile-dur": `${tile.duration}s`,
     "--tile-delay": `${tile.delay}s`,
   } as React.CSSProperties;

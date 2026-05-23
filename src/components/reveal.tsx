@@ -80,7 +80,7 @@ export function RevealText({
       transition: { duration: 1.1, ease: [0.16, 1, 0.3, 1] },
     },
   };
-  const MotionTag = motion(Tag as React.ElementType);
+  const MotionTag = motion.create(Tag as React.ElementType);
   return (
     <MotionTag
       className={className}
