@@ -1587,37 +1587,48 @@ function ShareButton() {
 
 📞 Contact: +91 94488 17562
 📸 Instagram: https://instagram.com/sushanth_ckm
-✉️ Email: sushanthgowda44@gmail.com
+====
 
 Book your adventure today! 👇`;
 
-    // Detect iOS/iPhone - sharing with files on iOS often skips the text
+    // Detect iOS/iPhone - iOS drops text/url when files are present in share payload
     const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
 
     if (navigator.share) {
       try {
-        // On iOS, share without files to ensure text is included
-        // On other platforms, try to include the image
         let files: File[] | undefined;
-        if (!isIOS) {
-          try {
-            const res = await fetch("/poster.jpeg");
-            const blob = await res.blob();
+        try {
+          const res = await fetch("/poster.jpeg");
+          const blob = await res.blob();
+
+          if (isIOS) {
+            // iOS: Embed text/URL into filename since iOS drops text/url fields when files present
+            // Format: "Description - URL - wild-chikkamagaluru-treks.jpeg"
+            const descriptiveFileName = `${text.replace(/\n/g, " ").substring(0, 80)}... - ${url} - wild-chikkamagaluru-treks.jpeg`;
+            const file = new File([blob], descriptiveFileName, { type: blob.type });
+            if (navigator.canShare?.({ files: [file] })) {
+              files = [file];
+            }
+            // On iOS, only share files (text is embedded in filename)
+            await navigator.share({ files });
+          } else {
+            // Android/Desktop: Share with all fields normally
             const file = new File([blob], "wild-chikkamagaluru-treks.jpeg", { type: blob.type });
             if (navigator.canShare?.({ files: [file] })) {
               files = [file];
             }
-          } catch {
-            // poster unavailable — share without image
+            await navigator.share({ title, text, url, files });
           }
+        } catch {
+          // Fallback: share without image
+          await navigator.share({ title, text, url });
         }
-        await navigator.share(files ? { title, text, url, files } : { title, text, url });
       } catch {
         // user cancelled — do nothing
       }
     } else {
       // Fallback: copy text + link to clipboard
-      await navigator.clipboard.writeText(`${text}`);
+      await navigator.clipboard.writeText(`${text}\n\n${url}`);
       setCopied(true);
       setTimeout(() => setCopied(false), 2000);
     }
