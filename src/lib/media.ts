@@ -297,9 +297,9 @@ export const BITS_AND_PIECES = {
 
 // ─── 8. SITE IMAGES ───────────────────────────────────────────────────────────
 export const SITE_IMAGES = {
-  founderPortrait: `${BASE_URL}/chikkamagaluru%20treks/sushanth/sushanth_image.jpeg`,
+  founderPortrait: `${BASE_URL}/chikkamagaluru%20treks/sushanth/sushanth_new.jpeg`,
   founderAvatar: `${BASE_URL}/chikkamagaluru%20treks/sushanth/sushanth_profile.jpg`,
-  contactCard: `${BASE_URL}/chikkamagaluru%20treks/sushanth/sushanth_image.jpeg`,
+  contactCard: `${BASE_URL}/chikkamagaluru%20treks/sushanth/sushanth_new.jpeg`,
   stayHero: `${BASE_URL}/chikkamagaluru%20treks/poster.jpeg`,
   aboutHero: `${BASE_URL}/chikkamagaluru%20treks/bits_and_pieces/Road%20Trip.jpeg`,
 } as const;
