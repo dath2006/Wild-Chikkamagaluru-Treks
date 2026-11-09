@@ -83,7 +83,7 @@ const structuredData = {
       description:
         "Guided trekking tours across Chikkamagaluru's Western Ghats — Mullayanagiri, Kudremukha, Netravati and more.",
       url: "https://wildchikkamagalurutreks.com",
-      telephone: "+919448817562",
+      telephone: "+919480819942",
       email: "sushanthgowda44@gmail.com",
       founder: {
         "@type": "Person",

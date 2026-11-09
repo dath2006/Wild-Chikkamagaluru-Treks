@@ -507,7 +507,7 @@ function PermitsPage() {
                   </div>
                   <div className="flex flex-col sm:flex-row gap-3 shrink-0">
                     <a
-                      href="https://wa.me/919448817562"
+                      href="https://wa.me/919480819942"
                       target="_blank"
                       rel="noreferrer"
                       className="inline-flex items-center gap-2 rounded-full bg-white px-6 py-3 text-sm font-medium text-primary shadow-lg hover:shadow-xl transition whitespace-nowrap"
