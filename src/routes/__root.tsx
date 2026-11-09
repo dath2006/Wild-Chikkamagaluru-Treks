@@ -151,7 +151,7 @@ const structuredData = {
           name: "How to contact Wild Chikkamagaluru Treks?",
           acceptedAnswer: {
             "@type": "Answer",
-            text: "Contact Sushanth Gowda on WhatsApp at +91 94488 17562 or on Instagram @sushanth_ckm to book a guided trek in Chikkamagaluru.",
+            text: "Contact Sushanth Gowda on WhatsApp at +91 94808 19942 or on Instagram @sushanth_ckm to book a guided trek in Chikkamagaluru.",
           },
         },
         {
@@ -222,7 +222,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       {
         name: "description",
         content:
-          "Guided treks in Chikkamagaluru, Karnataka. Mullayanagiri (6330ft), Kudremukha, Netravati Peak, Bandaje Falls & more. Book with local expert Sushanth Gowda. ☎ +91 94488 17562",
+          "Guided treks in Chikkamagaluru, Karnataka. Mullayanagiri (6330ft), Kudremukha, Netravati Peak, Bandaje Falls & more. Book with local expert Sushanth Gowda. ☎ +91 94808 19942",
       },
       {
         name: "keywords",
